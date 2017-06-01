@@ -99,7 +99,7 @@ namespace EreborPhoenixExtension
 
             UO.PrintInformation("Loading done");
             new Thread(setEQ).Start();
-
+           // Instance.Settings = new XmlSerializeHelper<Settings>().Deserialize(World.Player.Name);
 
             World.Player.Changed += Player_Changed;
             Instance.Settings.Ev.hiddenChange += Ev_hiddenChange;
@@ -246,12 +246,13 @@ namespace EreborPhoenixExtension
         {
             if(Instance.Settings.Mining ==null)
             {
-                Instance.Settings.Mining = (new Mine().Deserialize());
+                //Instance.Settings.Mining = (new Mine().Deserialize());
 
             }
 
             Instance.Settings.Mining.AddMap(name);
-            Instance.Settings.Mining.Serialize();
+            new XmlSerializeHelper<Mine>().Serialize("Mining", Instance.Settings.Mining);
+            //Instance.Settings.Mining.Serialize();
 
 
         }
@@ -260,7 +261,7 @@ namespace EreborPhoenixExtension
         {
             if (Instance.Settings.Mining == null)
             {
-                Instance.Settings.Mining = (new Mine().Deserialize());
+               // Instance.Settings.Mining = (new Mine().Deserialize());
 
             }
            // Instance.Settings.Mining.SelectMap();// TODO odstranit 

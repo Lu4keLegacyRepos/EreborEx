@@ -1,4 +1,5 @@
-﻿using EreborPhoenixExtension.Libs;
+﻿using EreborPhoenixExtension;
+using EreborPhoenixExtension.Libs;
 using EreborPhoenixExtension.Libs.Abilites;
 using EreborPhoenixExtension.Libs.EquipSet;
 using EreborPhoenixExtension.Libs.Events;
@@ -16,7 +17,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml.Serialization;
@@ -187,7 +187,10 @@ namespace EreborPhoenixExtension
         public Settings()
         {
             Debug.WriteLine("SETTINGS !!");
-            Mining = (new Mine().Deserialize());
+
+            Mining = new Mine();
+            XmlSerializeHelper<Mine> h = new XmlSerializeHelper<Mine>();
+            Mining = h.Deserialize("Mining");
             Provocation = new Provocation();
             HotKeys = new SwitchabeHotkeys();
             Casting = new Casting();

@@ -1,6 +1,4 @@
 ﻿using Phoenix;
-using Phoenix.Communication;
-using Phoenix.Communication.Packets;
 using Phoenix.WorldData;
 using System;
 using System.Collections.Generic;

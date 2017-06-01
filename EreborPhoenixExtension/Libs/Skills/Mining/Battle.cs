@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Phoenix;
+﻿using Phoenix;
 using Phoenix.WorldData;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 
 namespace EreborPhoenixExtension.Libs.Skills.Mining
 {
@@ -51,7 +45,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
             {
                 UO.Attack(ch);
                 Mace.Equip();
-                MoveTo(ch.X, ch.Y);
+                if(ch.Distance>1) MoveTo(ch.X, ch.Y);
                 if (Journal.Contains("Vysavas zivoty!"))
                 {
                     Journal.SetLineText(Journal.Find("Vysavas zivoty!"), " ");

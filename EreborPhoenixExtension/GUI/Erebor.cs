@@ -1,5 +1,4 @@
-﻿using EreborPhoenixExtension;
-using EreborPhoenixExtension.Libs.Runes;
+﻿using EreborPhoenixExtension.Libs.Runes;
 using Phoenix;
 using Phoenix.WorldData;
 using System;

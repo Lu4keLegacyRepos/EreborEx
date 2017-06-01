@@ -1,14 +1,10 @@
 ﻿using Phoenix;
 using Phoenix.Communication;
 using Phoenix.WorldData;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace EreborPhoenixExtension.Libs.Extensions
 {
-     public class MoneyCash
+    public class MoneyCash
     {
 
         [Command, BlockMultipleExecutions]

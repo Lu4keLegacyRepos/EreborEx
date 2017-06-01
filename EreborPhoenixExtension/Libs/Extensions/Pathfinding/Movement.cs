@@ -153,13 +153,13 @@ namespace EreborPhoenixExtension.Libs.Extensions.Pathfinding
             if (dir == direction)
             {
                 UO.Press(direction);
-                UO.Wait(200);
+                UO.Wait(100);
             }
             else
             {
                 UO.Press(direction);
                 UO.Press(direction);
-                UO.Wait(200);
+                UO.Wait(100);
             }
             if (px == World.Player.X && py == World.Player.Y)
             {

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
@@ -223,7 +223,6 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
         {
             mov = new Movement();
             searchParams = new SearchParameters(new Point(), new Point(), null);
-           // pathFinder = new PathFinder(searchParams);
             // Defaultne Skalni
             ActualMapIndex = 0;
         }
@@ -248,6 +247,8 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
             }
         }
 
+        public uint doorLeft { get;  set; }
+        public uint doorRight { get;  set; }
 
         public void AddMap(string Name)
         {
@@ -280,6 +281,8 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
             {
                 if (ch.Notoriety > Notoriety.Criminal)
                 {
+                    System.Media.SoundPlayer my_wave_file = new System.Media.SoundPlayer(AlarmPath);
+                    my_wave_file.Play();
                     Battle b = new Battle(MoveTo,MoveToFarestField,ch,mace);
                     b.Kill();
                 }
@@ -382,15 +385,12 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 
             while (true)
             {// TODO
-                if (MapIndex < 0)
+               /* if (Maps.Count < 1)
                 {
-                    UO.Print("Neni vybrána mapa!!");
-                    SelectMap();
-                    if (MapIndex < 0)
-                    {
-                        throw new InvalidProgramException("Neni vybrana mapa");
-                    }
-                }
+                    UO.Print("Nejsou nahrány mapy!  KONEC");
+                    new InvalidProgramException("Neni vybrana mapa");
+                    
+                }*/
                 Mace = Mace;
                 PickAxe = PickAxe;
                 MineHere(MoveToClosestExploitable(), 0);
@@ -403,7 +403,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 
         }
 
-
+        #region Move
 
         private MineField MoveToClosestExploitable()
         {
@@ -461,10 +461,11 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
                 UO.PrintError("Nenalezen tezitelbne pole");
             }
         }
-
+        #endregion 
         public void Unload()
         {
             Point ActualPosition = new Point(World.Player.X, World.Player.Y);
+            int tmpMapIndex = ActualMapIndex;
             Recall(0);
             StockUp();
             //Recall(1) -1== dul ve kterem kopem? podle nastavene mapy?
@@ -472,15 +473,30 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 
         private void Recall(int v)
         {
-            UO.Say(".recallhome");
-            /*
-            0-home  pridat doly ?   
-            */
+
+            int x = World.Player.X;
+            int y = World.Player.Y;
+            while (World.Player.X == x || World.Player.Y == y)
+            {
+                while (World.Player.Mana < 20)
+                {
+                    UO.UseSkill(StandardSkill.Meditation);
+                    UO.Wait(1500);
+                }
+
+                UO.Say(".recallhome");
+                Journal.ClearAll();
+                UO.Wait(500);
+                Journal.WaitForText(true, 11000, "Kouzlo se nezdarilo.");
+            }
+            StockUp();
         }
 
         public void StockUp()
         {
-            // TODO vykladani
+            ActualMapIndex = 0;
+            //new UOItem(doorLeft).Use(); // dvere
+           // new UOItem(doorRight).Use();
         }
 
         public void MineHere(MineField mf, int Try)
@@ -506,7 +522,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
                 UO.WaitTargetTile(World.Player.X, World.Player.Y, World.Player.Z, 0);
                 (pickAxe).Use();
                 StartMine = DateTime.Now;
-                Journal.WaitForText(true, 2000, "Nasla jsi lepsi material!", "Nasel jsi lepsi material!");
+                Journal.WaitForText(true, 1500, "Nasla jsi lepsi material!", "Nasel jsi lepsi material!");
                 UO.Say(".vigour");
                 MineHere(mf, Try + 1);
             }
@@ -531,49 +547,6 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
         }
 
 
-        #region Serializable & Deserializable 
-        public void Serialize()
-        {
-            try
-            {
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-                var serializer = new XmlSerializer(GetType());
-                if (File.Exists(path + "Mining")) File.Delete(path + "Mining");
-                using (var stream = File.OpenWrite(path + "Mining"))
-                {
-                    serializer.Serialize(stream, this);
-                }
-            }
-            catch (Exception ex) { MessageBox.Show(ex.InnerException.ToString()); }
 
-        }
-
-        public Mine Deserialize()
-        {
-            Mine XMLOBJ = null;
-            try
-            {
-                var serializer = new XmlSerializer(GetType());
-                using (var stream = File.OpenRead(path + "Mining"))
-                {
-                    XMLOBJ = (Mine)serializer.Deserialize(stream);
-                }
-
-            }
-            catch //(Exception ex)
-            {
-
-                UO.PrintError("Seznam Map neexistuje");
-                // MessageBox.Show(ex.InnerException.ToString());
-                return new Mine();
-            }
-            return XMLOBJ;
-
-        }
-
-        #endregion
     }
 }

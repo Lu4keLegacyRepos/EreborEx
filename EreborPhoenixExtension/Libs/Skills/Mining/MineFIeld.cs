@@ -1,11 +1,6 @@
-﻿
-
-using EreborPhoenixExtension.Libs.Extensions.Pathfinding;
-using Phoenix.WorldData;
+﻿using Phoenix.WorldData;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Xml.Serialization;
 
 namespace EreborPhoenixExtension.Libs.Skills.Mining
 {
@@ -81,6 +76,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
         {
             get
             {
+                MineFieldState s= State;
                 return isExploitable;
             }
             set
