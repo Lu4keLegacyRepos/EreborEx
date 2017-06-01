@@ -64,10 +64,10 @@
     <Compile Include="Libs\Abilites\QueueEx.cs" />
     <Compile Include="Libs\Abilites\Targeting.cs" />
     <Compile Include="Libs\Abilites\Voodoo.cs" />
-    <Compile Include="Libs\AddDIalog.cs">
+    <Compile Include="GUI\AddDIalog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Libs\AddDIalog.Designer.cs">
+    <Compile Include="GUI\AddDIalog.Designer.cs">
       <DependentUpon>AddDIalog.cs</DependentUpon>
     </Compile>
     <Compile Include="Libs\Character.cs" />
