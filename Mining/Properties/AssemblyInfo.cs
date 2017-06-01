@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("EreborPhoenixExtension")]
+[assembly: AssemblyTitle("Mining")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("EreborPhoenixExtension")]
+[assembly: AssemblyProduct("Mining")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("a833af73-3904-49c3-b514-6770470ebf5d")]
+[assembly: Guid("2b43940d-3fbb-45f1-8172-12d72043e5a4")]
 
 // Version information for an assembly consists of the following four values:
 //

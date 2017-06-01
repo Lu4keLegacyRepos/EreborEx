@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>a833af73-3904-49c3-b514-6770470ebf5d</ProjectGuid>
+    <ProjectGuid>{A833AF73-3904-49C3-B514-6770470EBF5D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EreborPhoenixExtension</RootNamespace>
@@ -20,6 +20,10 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <DocumentationFile>
+    </DocumentationFile>
+    <RegisterForComInterop>false</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,20 +34,87 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System"/>
-    
-    <Reference Include="System.Core"/>
-    <Reference Include="System.Xml.Linq"/>
-    <Reference Include="System.Data.DataSetExtensions"/>
-    
-    
-    <Reference Include="System.Data"/>
-    
-    <Reference Include="System.Xml"/>
+    <Reference Include="MulLib">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Erebor\Phoenix\MulLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Phoenix">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Erebor\Phoenix\Phoenix.dll</HintPath>
+    </Reference>
+    <Reference Include="PhoenixShared">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Erebor\Phoenix\PhoenixShared.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="GUI\Erebor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Erebor.Designer.cs">
+      <DependentUpon>Erebor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Libs\Abilites\AutoMorf.cs" />
+    <Compile Include="Libs\Abilites\Other.cs" />
+    <Compile Include="Libs\Abilites\QueueEx.cs" />
+    <Compile Include="Libs\Abilites\Targeting.cs" />
+    <Compile Include="Libs\Abilites\Voodoo.cs" />
+    <Compile Include="Libs\AddDIalog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Libs\AddDIalog.Designer.cs">
+      <DependentUpon>AddDIalog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Libs\Character.cs" />
+    <Compile Include="Libs\EquipSet\EqSet.cs" />
+    <Compile Include="Libs\EquipSet\EquipSet.cs" />
+    <Compile Include="Libs\Events\Handler.cs" />
+    <Compile Include="Libs\Events\HiddenChangeArgs.cs" />
+    <Compile Include="Libs\Events\HitsChangedArgs.cs" />
+    <Compile Include="Libs\Extensions\GameWindowSize.cs" />
+    <Compile Include="Libs\Extensions\MoneyCash.cs" />
+    <Compile Include="Libs\Extensions\ScreeenCapture.cs" />
+    <Compile Include="Libs\Extensions\TreasureMap.cs" />
+    <Compile Include="Libs\Extensions\UOAM.cs" />
+    <Compile Include="Libs\Healing\AutoHeal.cs" />
+    <Compile Include="Libs\Healing\HurtedPatientArgs.cs" />
+    <Compile Include="Libs\Healing\Patient.cs" />
+    <Compile Include="Libs\Lot.cs" />
+    <Compile Include="Libs\Magic\Casting.cs" />
+    <Compile Include="Libs\Magic\Spells.cs" />
+    <Compile Include="Libs\Runes\Rune.cs" />
+    <Compile Include="Libs\Runes\RuneTree.cs" />
+    <Compile Include="Libs\Skills\Hiding.cs" />
+    <Compile Include="Libs\Skills\Mining.cs" />
+    <Compile Include="Libs\Skills\Peacemaking_Enticement.cs" />
+    <Compile Include="Libs\Skills\Poisoning.cs" />
+    <Compile Include="Libs\Skills\Provocation.cs" />
+    <Compile Include="Libs\Skills\Tracking.cs" />
+    <Compile Include="Libs\Skills\Veterinary.cs" />
+    <Compile Include="Libs\SwitcheableHotkeys.cs" />
+    <Compile Include="Libs\WallCounter.cs" />
+    <Compile Include="Libs\WallInfo.cs" />
+    <Compile Include="Libs\Weapons\WeaponSet.cs" />
+    <Compile Include="Libs\Weapons\WeaponsHandle.cs" />
+    <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mining\Mining.csproj">
+      <Project>{2b43940d-3fbb-45f1-8172-12d72043e5a4}</Project>
+      <Name>Mining</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="GUI\Erebor.resx">
+      <DependentUpon>Erebor.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -53,5 +124,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-
- </Project>
+</Project>
