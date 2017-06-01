@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 using Phoenix;
 using Phoenix.WorldData;
-using System.Windows.Forms;
+using System;
+
 using System.Drawing;
+using System.Windows.Forms;
 
 // made by Leny-m
 
-namespace EreborPhoenixExtension.Libs.Skills.Mining
+
+namespace EreborPhoenixExtension.Libs.Extensions.Pathfinding
 {
     public class Movement
     {
@@ -135,7 +136,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
             int px = World.Player.X;
             int py = World.Player.Y;
             //if (px > x + 1 || py > y + 1 || px < x - 1 || py < y - 1)
-            if(px!=x||py!=y)
+            if (px != x || py != y)
             {
                 if (DateTime.Now - start > TimeSpan.FromSeconds(5)) return true;
                 return false;
@@ -152,13 +153,13 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
             if (dir == direction)
             {
                 UO.Press(direction);
-                UO.Wait(150);
+                UO.Wait(200);
             }
             else
             {
                 UO.Press(direction);
                 UO.Press(direction);
-                UO.Wait(150);
+                UO.Wait(200);
             }
             if (px == World.Player.X && py == World.Player.Y)
             {

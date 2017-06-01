@@ -1,7 +1,8 @@
-﻿using System.Drawing;
+﻿using EreborPhoenixExtension.Libs.Skills.Mining;
+using System.Drawing;
 
 
-namespace Mining.Pathfinding
+namespace EreborPhoenixExtension.Libs.Extensions.Pathfinding
 {
     /// <summary>
     /// Defines the parameters which will be used to find a path across a section of the map

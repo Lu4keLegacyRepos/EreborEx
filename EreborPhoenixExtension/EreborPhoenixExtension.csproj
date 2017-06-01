@@ -78,6 +78,11 @@
     <Compile Include="Libs\Events\HitsChangedArgs.cs" />
     <Compile Include="Libs\Extensions\GameWindowSize.cs" />
     <Compile Include="Libs\Extensions\MoneyCash.cs" />
+    <Compile Include="Libs\Extensions\Pathfinding\Movement.cs" />
+    <Compile Include="Libs\Extensions\Pathfinding\Node.cs" />
+    <Compile Include="Libs\Extensions\Pathfinding\NodeState.cs" />
+    <Compile Include="Libs\Extensions\Pathfinding\PathFinder.cs" />
+    <Compile Include="Libs\Extensions\Pathfinding\SearchParameters.cs" />
     <Compile Include="Libs\Extensions\ScreeenCapture.cs" />
     <Compile Include="Libs\Extensions\TreasureMap.cs" />
     <Compile Include="Libs\Extensions\UOAM.cs" />
@@ -90,7 +95,11 @@
     <Compile Include="Libs\Runes\Rune.cs" />
     <Compile Include="Libs\Runes\RuneTree.cs" />
     <Compile Include="Libs\Skills\Hiding.cs" />
-    <Compile Include="Libs\Skills\Mining.cs" />
+    <Compile Include="Libs\Skills\Mining\Battle.cs" />
+    <Compile Include="Libs\Skills\Mining\Map.cs" />
+    <Compile Include="Libs\Skills\Mining\Mine.cs" />
+    <Compile Include="Libs\Skills\Mining\MineFIeld.cs" />
+    <Compile Include="Libs\Skills\Mining\MineFieldState.cs" />
     <Compile Include="Libs\Skills\Peacemaking_Enticement.cs" />
     <Compile Include="Libs\Skills\Poisoning.cs" />
     <Compile Include="Libs\Skills\Provocation.cs" />
@@ -104,12 +113,6 @@
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Mining\Mining.csproj">
-      <Project>{2b43940d-3fbb-45f1-8172-12d72043e5a4}</Project>
-      <Name>Mining</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GUI\Erebor.resx">

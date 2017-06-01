@@ -1,4 +1,4 @@
-﻿namespace EreborPhoenixExtension.Libs.Skills.Mining.PathFinding
+﻿namespace EreborPhoenixExtension.Libs.Extensions.Pathfinding
 {
     /// <summary>
     /// Represents the search state of a Node

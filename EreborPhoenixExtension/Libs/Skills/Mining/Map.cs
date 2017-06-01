@@ -1,4 +1,4 @@
-﻿using Mining.Pathfinding;
+﻿using EreborPhoenixExtension.Libs.Extensions.Pathfinding;
 using Phoenix;
 using Phoenix.WorldData;
 using System;
@@ -6,64 +6,47 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Xml.Serialization;
 
-namespace Mining
+namespace EreborPhoenixExtension.Libs.Skills.Mining
 {
-    public class Map : IEnumerable
+    [Serializable]
+    
+    public class Map
     {
-        public List<MineField> Fields { get; set; }
+
+        private List<MineField> fields;
+        public int Index { get; set; }
         public string Name { get; set; }
+
+        [XmlArray]
+        public List<MineField> Fields
+        {
+            get
+            {
+                if (fields == null) fields = new List<MineField>();
+                return fields;
+            }
+
+            set
+            {
+                fields = value;
+            }
+        }
+
+        // zavaly
         private readonly List<Graphic> Obsatcles = new List<Graphic>() { 0x1363, 0x1364, 0x1365, 0x1366, 0x1367, 0x1368, 0x1369, 0x136A, 0x136B, 0x136C, 0x136D };
 
-        public Map()
-        {
-            Fields = new List<MineField>();
-        }
-        public IEnumerator GetEnumerator()
-        {
-            return ((IEnumerable)Fields).GetEnumerator();
-        }
 
-        public void MoveTo(int X,int Y)
-        {
-            Movement.Movement mov = new Movement.Movement();
-            foreach (Point p in GetWay(new Point(World.Player.X, World.Player.Y), new Point(X,Y)))
-            {
-                mov.moveToPosition(p);
-            }
-        }
-
-        private List<Point> GetWay(Point StartPosition, Point EndPosition)
-        {
-            SearchParameters sp = new SearchParameters(StartPosition, EndPosition, this);
-            PathFinder pf = new PathFinder(sp);
-            return pf.FindPath();
-        }
-
-        public MineField MoveToClosestExploitable()
-        {
-            FindObstacles();
-            Fields.Sort((a, b) =>a.Distance.CompareTo(b.Distance));
-            MineField tmp;
-            try
-            {
-                tmp = Fields.First(x => x.IsExploitable);
-                tmp.MoveHere(new System.Drawing.Point(World.Player.X, World.Player.Y));
-            }
-            catch
-            {
-                tmp = null;
-                UO.PrintError("Nenalezen tezitelbne pole");
-            }
-            return tmp;
-        }
 
         public void FindObstacles()
         {
             World.FindDistance = 15;
-            foreach(UOItem it in World.Ground.Where(x=>Obsatcles.Any(a=>x.Graphic.Equals(a))))
+            foreach (UOItem it in World.Ground.Where(x => Obsatcles.Any(a => x.Graphic.Equals(a))))
             {
-                Fields.Find(x => x.Location.X == it.X && x.Location.Y == it.Y).IsObstacle = true;
+                MineField tmp = Fields.Find(x => x.Location.X == it.X && x.Location.Y == it.Y);
+                if (tmp == null) continue;
+                Fields[Fields.IndexOf(tmp)].IsObstacle = true;
             }
         }
 
@@ -76,7 +59,7 @@ namespace Mining
             }
         }
 
-        public static Map Record(string Name)
+        public void Record(string Name, int index)
         {
             UO.PrintInformation("Projdi vsechna pole, po kterych lze chodit/kopat");
             UO.PrintWarning("STOP pro ukonceni");
@@ -86,7 +69,8 @@ namespace Mining
             int X = World.Player.X;
             int Y = World.Player.Y;
             var RecordRun = true;
-            var map = new Map() { Name = Name };
+            this.Name = Name;
+            this.Index = index;
 
             Journal.ClearAll();
             while (RecordRun)
@@ -107,32 +91,32 @@ namespace Mining
                 {
                     UO.PrintInformation("Nasledujici pole budou oznaceny pro TEZBU");
                     Journal.Clear();
-                    RecordState = true; 
+                    RecordState = true;
                 }
                 if (Journal.Contains("STOP"))
                     RecordRun = false;
-                if (map.Fields.Contains(new MineField() { Location = new System.Drawing.Point(X, Y) })) continue;
-                if(RecordState)//mine
+                if (this.Fields.Contains(new MineField() { Location = new System.Drawing.Point(X, Y) })) continue;
+                if (RecordState)//mine
                 {
-                    map.Fields.Add(new MineField()
+                    this.Fields.Add(new MineField()
                     {
                         IsExploitable = true,
                         IsObstacle = false,
                         IsWalkable = true,
                         Location = new System.Drawing.Point(X, Y),
-                        Map = map,
+                        MapIndex = index,
                         State = MineFieldState.Unknown
                     });
                 }
                 else// only walk
                 {
-                    map.Fields.Add(new MineField()
+                    this.Fields.Add(new MineField()
                     {
                         IsExploitable = false,
                         IsObstacle = false,
                         IsWalkable = true,
                         Location = new System.Drawing.Point(X, Y),
-                        Map = map,
+                        MapIndex = index,
                         State = MineFieldState.Unknown
                     });
                 }
@@ -141,7 +125,9 @@ namespace Mining
 
 
             UO.PrintInformation(".Record Done");
-            return map;
+
         }
+
+
     }
 }

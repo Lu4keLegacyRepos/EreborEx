@@ -1,7 +1,7 @@
 ﻿using EreborPhoenixExtension.GUI;
 using EreborPhoenixExtension.Libs;
 using EreborPhoenixExtension.Libs.Extensions;
-using Mining;
+using EreborPhoenixExtension.Libs.Skills.Mining;
 using Phoenix;
 using Phoenix.WorldData;
 using System;
@@ -24,7 +24,7 @@ namespace EreborPhoenixExtension
         private int GWWidth;
         public Settings Settings;
         private readonly GameWindowSize patch;
-        private Mine m;
+
 
         [DllImport("user32.dll")]
         private static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
@@ -244,15 +244,27 @@ namespace EreborPhoenixExtension
         [Command]
         public void Record(string name)
         {
-            m = new Mine();
-            m.Maps.Add(Map.Record(name));
-            m.SelectMap();
+            if(Instance.Settings.Mining ==null)
+            {
+                Instance.Settings.Mining = (new Mine().Deserialize());
+
+            }
+
+            Instance.Settings.Mining.AddMap(name);
+            Instance.Settings.Mining.Serialize();
+
 
         }
         [Command]
         public void mine()
         {
-            m.Work();
+            if (Instance.Settings.Mining == null)
+            {
+                Instance.Settings.Mining = (new Mine().Deserialize());
+
+            }
+           // Instance.Settings.Mining.SelectMap();// TODO odstranit 
+            Instance.Settings.Mining.Work();
         }
 
 

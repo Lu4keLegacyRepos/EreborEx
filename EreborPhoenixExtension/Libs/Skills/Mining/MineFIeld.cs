@@ -1,19 +1,22 @@
-﻿using Mining.Pathfinding;
+﻿
+
+using EreborPhoenixExtension.Libs.Extensions.Pathfinding;
 using Phoenix.WorldData;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Xml.Serialization;
 
-namespace Mining
+namespace EreborPhoenixExtension.Libs.Skills.Mining
 {
     [Serializable]
     public class MineField : IEquatable<MineField>
     {
-        private bool isWalkable=false;
+        private bool isWalkable = false;
         private bool isExploitable = false;
         private bool isObstacle = false;
-        private MineFieldState state=MineFieldState.Empty;
+        private MineFieldState state = MineFieldState.Empty;
+
 
         public Point Location { get; set; }
 
@@ -45,10 +48,8 @@ namespace Mining
             }
         }
 
-        [XmlIgnore]
-        public Map Map { get; set; }
+        public int MapIndex { get; set; }
 
-        [XmlIgnore]
         public bool IsWalkable
         {
             get
@@ -65,7 +66,7 @@ namespace Mining
         {
             get
             {
-                return isWalkable==true?'Y':'N';
+                return isWalkable == true ? 'Y' : 'N';
             }
             set
             {
@@ -136,23 +137,6 @@ namespace Mining
             {
                 return Math.Sqrt(Math.Pow((Location.X - (World.Player.X)), 2) + Math.Pow((Location.Y - (World.Player.Y)), 2));
             }
-        }
-
-
-        public void MoveHere(Point StartPosition)
-        {
-            Movement.Movement mov = new Movement.Movement();
-            foreach(Point p in GetWay(StartPosition))
-            {
-                mov.moveToPosition(p);
-            }
-        }
-
-        private List<Point> GetWay(Point StartPosition)
-        {
-            SearchParameters sp = new SearchParameters(StartPosition, Location, Map);
-            PathFinder pf = new PathFinder(sp);
-            return pf.FindPath();
         }
 
         public bool Equals(MineField other)

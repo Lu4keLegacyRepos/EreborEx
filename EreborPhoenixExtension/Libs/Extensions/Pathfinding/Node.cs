@@ -2,7 +2,7 @@
 using System.Drawing;
 
 
-namespace Mining.Pathfinding
+namespace EreborPhoenixExtension.Libs.Extensions.Pathfinding
 {
     /// <summary>
     /// Represents a single node on a grid that is being searched for a path between two points

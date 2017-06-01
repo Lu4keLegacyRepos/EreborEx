@@ -6,6 +6,7 @@ using EreborPhoenixExtension.Libs.Healing;
 using EreborPhoenixExtension.Libs.Magic;
 using EreborPhoenixExtension.Libs.Runes;
 using EreborPhoenixExtension.Libs.Skills;
+using EreborPhoenixExtension.Libs.Skills.Mining;
 using EreborPhoenixExtension.Libs.Weapons;
 using Phoenix;
 using Phoenix.Communication;
@@ -71,7 +72,7 @@ namespace EreborPhoenixExtension
         [XmlIgnore]
         public Handler Ev;
         [XmlIgnore]
-        //public Mining Mining;
+        public Mine Mining;
 
 
         public Poisoning Poisoning { get; set; }
@@ -186,6 +187,7 @@ namespace EreborPhoenixExtension
         public Settings()
         {
             Debug.WriteLine("SETTINGS !!");
+            Mining = (new Mine().Deserialize());
             Provocation = new Provocation();
             HotKeys = new SwitchabeHotkeys();
             Casting = new Casting();
@@ -250,7 +252,7 @@ namespace EreborPhoenixExtension
                     Directory.CreateDirectory(path);
                 }
                 var serializer = new XmlSerializer(this.GetType());
-                File.Delete(path + filename);
+                if(File.Exists(path + filename))File.Delete(path + filename);
                 using (var stream = File.OpenWrite(path + filename))
                 {
                     serializer.Serialize(stream, this);

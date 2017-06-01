@@ -1,18 +1,17 @@
-﻿
-using System;
+﻿using EreborPhoenixExtension.Libs.Skills.Mining;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 
 
-namespace EreborPhoenixExtension.Libs.Skills.Mining.PathFinding
+namespace EreborPhoenixExtension.Libs.Extensions.Pathfinding
 {
     public class PathFinder
     {
-        private int width;
-        private int height;
-        private Node[,] nodes;
+
+        //private int width;
+       // private int height;
+        // private Node[,] nodes;
+        private List<Node> nodes;
         private Node startNode;
         private Node endNode;
         private SearchParameters searchParameters;
@@ -25,28 +24,9 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining.PathFinding
         {
             this.searchParameters = searchParameters;
             InitializeNodes(searchParameters.Map);
-            this.startNode = this.nodes[searchParameters.StartLocation.X, searchParameters.StartLocation.Y];
+            this.startNode = nodes.Find(a=>a.Location.Equals(searchParameters.StartLocation));
             this.startNode.State = NodeState.Open;
-            this.endNode = this.nodes[searchParameters.EndLocation.X, searchParameters.EndLocation.Y];
-        }
-
-
-        public void InitNodes(bool[,] map)
-        {
-            InitializeNodes(map);
-        }
-        public List<Point> GetAllWalkablePoints()
-        {
-
-            List<Point> tmp = new List<Point>();
-            foreach(Node n in nodes)
-            {
-                if(n.IsWalkable)
-                {
-                    tmp.Add(new Point(n.Location.X,n.Location.Y));
-                }
-            }
-            return tmp;
+            this.endNode = nodes.Find(a => a.Location.Equals(searchParameters.EndLocation));
         }
 
         /// <summary>
@@ -79,9 +59,16 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining.PathFinding
         /// Builds the node grid from a simple grid of booleans indicating areas which are and aren't walkable
         /// </summary>
         /// <param name="map">A boolean representation of a grid in which true = walkable and false = not walkable</param>
-        private void InitializeNodes(bool[,] map)
+        private void InitializeNodes(Map map)
         {
-            this.width = map.GetLength(0);
+
+            nodes = new List<Node>();
+            foreach(MineField f in map.Fields)
+            {
+                nodes.Add(new Node(f.Location, f.IsWalkable && !f.IsObstacle, searchParameters.EndLocation));
+            }
+
+           /* this.width = map.GetLength(0);
             this.height = map.GetLength(1);
             this.nodes = new Node[this.width, this.height];
             for (int y = 0; y < this.height; y++)
@@ -90,7 +77,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining.PathFinding
                 {
                     this.nodes[x, y] = new Node(x, y, map[x, y], this.searchParameters.EndLocation);
                 }
-            }
+            }*/
         }
 
         /// <summary>
@@ -137,14 +124,15 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining.PathFinding
 
             foreach (var location in nextLocations)
             {
-                int x = location.X;
-                int y = location.Y;
+               // int x = location.X;
+               // int y = location.Y;
 
                 // Stay within the grid's boundaries
-                if (x < 0 || x >= this.width || y < 0 || y >= this.height)
-                    continue;
+                // if (x < 0 || x >= this.width || y < 0 || y >= this.height)
+                //    continue;
 
-                Node node = this.nodes[x, y];
+                Node node = nodes.Find(xx=>xx.Location.Equals(location));// this.nodes[x, y];
+                if (node == null) continue;
                 // Ignore non-walkable nodes
                 if (!node.IsWalkable)
                     continue;
