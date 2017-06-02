@@ -53,12 +53,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands.cs" />
     <Compile Include="GUI\Erebor.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\Erebor.Designer.cs">
       <DependentUpon>Erebor.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\EventChangedArgs.cs" />
     <Compile Include="Libs\Abilites\AutoMorf.cs" />
     <Compile Include="Libs\Abilites\Other.cs" />
     <Compile Include="Libs\Abilites\QueueEx.cs" />
@@ -110,6 +112,7 @@
     <Compile Include="Libs\WallInfo.cs" />
     <Compile Include="Libs\Weapons\WeaponSet.cs" />
     <Compile Include="Libs\Weapons\WeaponsHandle.cs" />
+    <Compile Include="Main3.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XmlSerializeHelper.cs" />

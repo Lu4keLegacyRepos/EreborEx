@@ -28,72 +28,72 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
-            this.checkBox5 = new System.Windows.Forms.CheckBox();
-            this.checkBox6 = new System.Windows.Forms.CheckBox();
-            this.checkBox7 = new System.Windows.Forms.CheckBox();
-            this.checkBox8 = new System.Windows.Forms.CheckBox();
-            this.checkBox9 = new System.Windows.Forms.CheckBox();
-            this.chbAutoArrow = new System.Windows.Forms.CheckBox();
-            this.checkBox11 = new System.Windows.Forms.CheckBox();
-            this.checkBox12 = new System.Windows.Forms.CheckBox();
-            this.checkBox13 = new System.Windows.Forms.CheckBox();
+            this.chb_Automorf = new System.Windows.Forms.CheckBox();
+            this.chb_CorpseHide = new System.Windows.Forms.CheckBox();
+            this.chb_lot = new System.Windows.Forms.CheckBox();
+            this.chb_Leather = new System.Windows.Forms.CheckBox();
+            this.chb_Food = new System.Windows.Forms.CheckBox();
+            this.chb_HitBandage = new System.Windows.Forms.CheckBox();
+            this.chb_regeants = new System.Windows.Forms.CheckBox();
+            this.chb_gems = new System.Windows.Forms.CheckBox();
+            this.chb_feathers = new System.Windows.Forms.CheckBox();
+            this.chb_AutoArrow = new System.Windows.Forms.CheckBox();
+            this.chb_Extend2 = new System.Windows.Forms.CheckBox();
+            this.chb_Extend1 = new System.Windows.Forms.CheckBox();
+            this.chb_Bolts = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.button11 = new System.Windows.Forms.Button();
-            this.button10 = new System.Windows.Forms.Button();
+            this.btn_SetBag = new System.Windows.Forms.Button();
+            this.btn_SetCarv = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btn_Extend2 = new System.Windows.Forms.Button();
+            this.btn_Extend1 = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btn_ClearHotkeys = new System.Windows.Forms.Button();
+            this.btn_AddHotkeys = new System.Windows.Forms.Button();
             this.panel3 = new System.Windows.Forms.Panel();
             this.tabControl2 = new System.Windows.Forms.TabControl();
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.checkBox14 = new System.Windows.Forms.CheckBox();
-            this.checkBox10 = new System.Windows.Forms.CheckBox();
-            this.chbAutodrink = new System.Windows.Forms.CheckBox();
+            this.chb_HitTrack = new System.Windows.Forms.CheckBox();
+            this.chb_StoodUps = new System.Windows.Forms.CheckBox();
+            this.chb_AutoDrink = new System.Windows.Forms.CheckBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.label9 = new System.Windows.Forms.Label();
-            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.tb_GwHeight = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.tb_GwWidth = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.tb_HidDelay = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.tb_MinHpBandage = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.tb_Hits2Pot = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tb_GoldLimit = new System.Windows.Forms.TextBox();
             this.tabPage8 = new System.Windows.Forms.TabPage();
-            this.button5 = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.tb_Obet = new System.Windows.Forms.TextBox();
+            this.btn_Pois = new System.Windows.Forms.Button();
+            this.lbl_pois = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.TabC = new System.Windows.Forms.TabControl();
             this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.Runes = new System.Windows.Forms.TreeView();
+            this.tw_Runes = new System.Windows.Forms.TreeView();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.lb_Equips = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.listBox2 = new System.Windows.Forms.ListBox();
+            this.lb_Weapons = new System.Windows.Forms.ListBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.listBox3 = new System.Windows.Forms.ListBox();
+            this.lb_Healing = new System.Windows.Forms.ListBox();
             this.tabPage7 = new System.Windows.Forms.TabPage();
-            this.listBox4 = new System.Windows.Forms.ListBox();
+            this.lb_TrackIgnore = new System.Windows.Forms.ListBox();
             this.tabPage9 = new System.Windows.Forms.TabPage();
             this.listView1 = new System.Windows.Forms.ListView();
-            this.btn_Refrash = new System.Windows.Forms.Button();
-            this.btn_Load = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
-            this.label11 = new System.Windows.Forms.Label();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.btn_4 = new System.Windows.Forms.Button();
+            this.btn_3 = new System.Windows.Forms.Button();
+            this.btn_2 = new System.Windows.Forms.Button();
+            this.btn_1 = new System.Windows.Forms.Button();
+            this.btn_0 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -101,7 +101,7 @@
             this.tabPage5.SuspendLayout();
             this.tabPage6.SuspendLayout();
             this.tabPage8.SuspendLayout();
-            this.tabControl1.SuspendLayout();
+            this.TabC.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -110,191 +110,176 @@
             this.tabPage9.SuspendLayout();
             this.SuspendLayout();
             // 
-            // checkBox1
+            // chb_Automorf
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(26, 26);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(142, 21);
-            this.checkBox1.TabIndex = 0;
-            this.checkBox1.Text = "Demons automorf";
-            this.checkBox1.UseVisualStyleBackColor = true;
-            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            this.chb_Automorf.AutoSize = true;
+            this.chb_Automorf.Location = new System.Drawing.Point(26, 26);
+            this.chb_Automorf.Name = "chb_Automorf";
+            this.chb_Automorf.Size = new System.Drawing.Size(142, 21);
+            this.chb_Automorf.TabIndex = 0;
+            this.chb_Automorf.Text = "Demons automorf";
+            this.chb_Automorf.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
+            // chb_CorpseHide
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(26, 6);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(113, 21);
-            this.checkBox2.TabIndex = 1;
-            this.checkBox2.Text = "Corpses hide";
-            this.checkBox2.UseVisualStyleBackColor = true;
-            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+            this.chb_CorpseHide.AutoSize = true;
+            this.chb_CorpseHide.Location = new System.Drawing.Point(26, 6);
+            this.chb_CorpseHide.Name = "chb_CorpseHide";
+            this.chb_CorpseHide.Size = new System.Drawing.Size(113, 21);
+            this.chb_CorpseHide.TabIndex = 1;
+            this.chb_CorpseHide.Text = "Corpses hide";
+            this.chb_CorpseHide.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // chb_lot
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(120, 7);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(50, 21);
-            this.checkBox3.TabIndex = 2;
-            this.checkBox3.Text = "Lot";
-            this.checkBox3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.checkBox3.UseVisualStyleBackColor = true;
-            this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
+            this.chb_lot.AutoSize = true;
+            this.chb_lot.Location = new System.Drawing.Point(120, 7);
+            this.chb_lot.Name = "chb_lot";
+            this.chb_lot.Size = new System.Drawing.Size(50, 21);
+            this.chb_lot.TabIndex = 2;
+            this.chb_lot.Text = "Lot";
+            this.chb_lot.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chb_lot.UseVisualStyleBackColor = true;
             // 
-            // checkBox4
+            // chb_Leather
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(33, 48);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(79, 21);
-            this.checkBox4.TabIndex = 5;
-            this.checkBox4.Text = "Leather";
-            this.checkBox4.UseVisualStyleBackColor = true;
-            this.checkBox4.CheckedChanged += new System.EventHandler(this.checkBox4_CheckedChanged);
+            this.chb_Leather.AutoSize = true;
+            this.chb_Leather.Location = new System.Drawing.Point(33, 48);
+            this.chb_Leather.Name = "chb_Leather";
+            this.chb_Leather.Size = new System.Drawing.Size(79, 21);
+            this.chb_Leather.TabIndex = 5;
+            this.chb_Leather.Text = "Leather";
+            this.chb_Leather.UseVisualStyleBackColor = true;
             // 
-            // checkBox5
+            // chb_Food
             // 
-            this.checkBox5.AutoSize = true;
-            this.checkBox5.Location = new System.Drawing.Point(33, 28);
-            this.checkBox5.Name = "checkBox5";
-            this.checkBox5.Size = new System.Drawing.Size(62, 21);
-            this.checkBox5.TabIndex = 4;
-            this.checkBox5.Text = "Food";
-            this.checkBox5.UseVisualStyleBackColor = true;
-            this.checkBox5.CheckedChanged += new System.EventHandler(this.checkBox5_CheckedChanged);
+            this.chb_Food.AutoSize = true;
+            this.chb_Food.Location = new System.Drawing.Point(33, 28);
+            this.chb_Food.Name = "chb_Food";
+            this.chb_Food.Size = new System.Drawing.Size(62, 21);
+            this.chb_Food.TabIndex = 4;
+            this.chb_Food.Text = "Food";
+            this.chb_Food.UseVisualStyleBackColor = true;
             // 
-            // checkBox6
+            // chb_HitBandage
             // 
-            this.checkBox6.AutoSize = true;
-            this.checkBox6.Location = new System.Drawing.Point(26, 46);
-            this.checkBox6.Name = "checkBox6";
-            this.checkBox6.Size = new System.Drawing.Size(142, 21);
-            this.checkBox6.TabIndex = 3;
-            this.checkBox6.Text = "After Hit Bandage";
-            this.checkBox6.UseVisualStyleBackColor = true;
-            this.checkBox6.CheckedChanged += new System.EventHandler(this.checkBox6_CheckedChanged);
+            this.chb_HitBandage.AutoSize = true;
+            this.chb_HitBandage.Location = new System.Drawing.Point(26, 46);
+            this.chb_HitBandage.Name = "chb_HitBandage";
+            this.chb_HitBandage.Size = new System.Drawing.Size(142, 21);
+            this.chb_HitBandage.TabIndex = 3;
+            this.chb_HitBandage.Text = "After Hit Bandage";
+            this.chb_HitBandage.UseVisualStyleBackColor = true;
             // 
-            // checkBox7
+            // chb_regeants
             // 
-            this.checkBox7.AutoSize = true;
-            this.checkBox7.Location = new System.Drawing.Point(120, 69);
-            this.checkBox7.Name = "checkBox7";
-            this.checkBox7.Size = new System.Drawing.Size(91, 21);
-            this.checkBox7.TabIndex = 8;
-            this.checkBox7.Text = "Regeants";
-            this.checkBox7.UseVisualStyleBackColor = true;
-            this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged);
+            this.chb_regeants.AutoSize = true;
+            this.chb_regeants.Location = new System.Drawing.Point(120, 69);
+            this.chb_regeants.Name = "chb_regeants";
+            this.chb_regeants.Size = new System.Drawing.Size(91, 21);
+            this.chb_regeants.TabIndex = 8;
+            this.chb_regeants.Text = "Regeants";
+            this.chb_regeants.UseVisualStyleBackColor = true;
             // 
-            // checkBox8
+            // chb_gems
             // 
-            this.checkBox8.AutoSize = true;
-            this.checkBox8.Location = new System.Drawing.Point(120, 48);
-            this.checkBox8.Name = "checkBox8";
-            this.checkBox8.Size = new System.Drawing.Size(67, 21);
-            this.checkBox8.TabIndex = 7;
-            this.checkBox8.Text = "Gems";
-            this.checkBox8.UseVisualStyleBackColor = true;
-            this.checkBox8.CheckedChanged += new System.EventHandler(this.checkBox8_CheckedChanged);
+            this.chb_gems.AutoSize = true;
+            this.chb_gems.Location = new System.Drawing.Point(120, 48);
+            this.chb_gems.Name = "chb_gems";
+            this.chb_gems.Size = new System.Drawing.Size(67, 21);
+            this.chb_gems.TabIndex = 7;
+            this.chb_gems.Text = "Gems";
+            this.chb_gems.UseVisualStyleBackColor = true;
             // 
-            // checkBox9
+            // chb_feathers
             // 
-            this.checkBox9.AutoSize = true;
-            this.checkBox9.Location = new System.Drawing.Point(120, 28);
-            this.checkBox9.Name = "checkBox9";
-            this.checkBox9.Size = new System.Drawing.Size(86, 21);
-            this.checkBox9.TabIndex = 6;
-            this.checkBox9.Text = "Feathers";
-            this.checkBox9.UseVisualStyleBackColor = true;
-            this.checkBox9.CheckedChanged += new System.EventHandler(this.checkBox9_CheckedChanged);
+            this.chb_feathers.AutoSize = true;
+            this.chb_feathers.Location = new System.Drawing.Point(120, 28);
+            this.chb_feathers.Name = "chb_feathers";
+            this.chb_feathers.Size = new System.Drawing.Size(86, 21);
+            this.chb_feathers.TabIndex = 6;
+            this.chb_feathers.Text = "Feathers";
+            this.chb_feathers.UseVisualStyleBackColor = true;
             // 
-            // chbAutoArrow
+            // chb_AutoArrow
             // 
-            this.chbAutoArrow.AutoSize = true;
-            this.chbAutoArrow.Location = new System.Drawing.Point(26, 88);
-            this.chbAutoArrow.Name = "chbAutoArrow";
-            this.chbAutoArrow.Size = new System.Drawing.Size(121, 21);
-            this.chbAutoArrow.TabIndex = 12;
-            this.chbAutoArrow.Text = "Auto self harm";
-            this.chbAutoArrow.UseVisualStyleBackColor = true;
-            this.chbAutoArrow.CheckedChanged += new System.EventHandler(this.chbAutoArrow_CheckedChanged);
+            this.chb_AutoArrow.AutoSize = true;
+            this.chb_AutoArrow.Location = new System.Drawing.Point(26, 88);
+            this.chb_AutoArrow.Name = "chb_AutoArrow";
+            this.chb_AutoArrow.Size = new System.Drawing.Size(121, 21);
+            this.chb_AutoArrow.TabIndex = 12;
+            this.chb_AutoArrow.Text = "Auto self harm";
+            this.chb_AutoArrow.UseVisualStyleBackColor = true;
             // 
-            // checkBox11
+            // chb_Extend2
             // 
-            this.checkBox11.AutoSize = true;
-            this.checkBox11.Location = new System.Drawing.Point(33, 119);
-            this.checkBox11.Name = "checkBox11";
-            this.checkBox11.Size = new System.Drawing.Size(81, 21);
-            this.checkBox11.TabIndex = 11;
-            this.checkBox11.Text = "Extend2";
-            this.checkBox11.UseVisualStyleBackColor = true;
-            this.checkBox11.CheckedChanged += new System.EventHandler(this.checkBox11_CheckedChanged);
+            this.chb_Extend2.AutoSize = true;
+            this.chb_Extend2.Location = new System.Drawing.Point(33, 119);
+            this.chb_Extend2.Name = "chb_Extend2";
+            this.chb_Extend2.Size = new System.Drawing.Size(81, 21);
+            this.chb_Extend2.TabIndex = 11;
+            this.chb_Extend2.Text = "Extend2";
+            this.chb_Extend2.UseVisualStyleBackColor = true;
             // 
-            // checkBox12
+            // chb_Extend1
             // 
-            this.checkBox12.AutoSize = true;
-            this.checkBox12.Location = new System.Drawing.Point(33, 96);
-            this.checkBox12.Name = "checkBox12";
-            this.checkBox12.Size = new System.Drawing.Size(81, 21);
-            this.checkBox12.TabIndex = 10;
-            this.checkBox12.Text = "Extend1";
-            this.checkBox12.UseVisualStyleBackColor = true;
-            this.checkBox12.CheckedChanged += new System.EventHandler(this.checkBox12_CheckedChanged);
+            this.chb_Extend1.AutoSize = true;
+            this.chb_Extend1.Location = new System.Drawing.Point(33, 96);
+            this.chb_Extend1.Name = "chb_Extend1";
+            this.chb_Extend1.Size = new System.Drawing.Size(81, 21);
+            this.chb_Extend1.TabIndex = 10;
+            this.chb_Extend1.Text = "Extend1";
+            this.chb_Extend1.UseVisualStyleBackColor = true;
             // 
-            // checkBox13
+            // chb_Bolts
             // 
-            this.checkBox13.AutoSize = true;
-            this.checkBox13.Location = new System.Drawing.Point(33, 69);
-            this.checkBox13.Name = "checkBox13";
-            this.checkBox13.Size = new System.Drawing.Size(61, 21);
-            this.checkBox13.TabIndex = 9;
-            this.checkBox13.Text = "Bolts";
-            this.checkBox13.UseVisualStyleBackColor = true;
-            this.checkBox13.CheckedChanged += new System.EventHandler(this.checkBox13_CheckedChanged);
+            this.chb_Bolts.AutoSize = true;
+            this.chb_Bolts.Location = new System.Drawing.Point(33, 69);
+            this.chb_Bolts.Name = "chb_Bolts";
+            this.chb_Bolts.Size = new System.Drawing.Size(61, 21);
+            this.chb_Bolts.TabIndex = 9;
+            this.chb_Bolts.Text = "Bolts";
+            this.chb_Bolts.UseVisualStyleBackColor = true;
             // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.button11);
-            this.panel1.Controls.Add(this.button10);
+            this.panel1.Controls.Add(this.btn_SetBag);
+            this.panel1.Controls.Add(this.btn_SetCarv);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.button2);
-            this.panel1.Controls.Add(this.button1);
-            this.panel1.Controls.Add(this.checkBox3);
-            this.panel1.Controls.Add(this.checkBox7);
-            this.panel1.Controls.Add(this.checkBox4);
-            this.panel1.Controls.Add(this.checkBox11);
-            this.panel1.Controls.Add(this.checkBox9);
-            this.panel1.Controls.Add(this.checkBox5);
-            this.panel1.Controls.Add(this.checkBox12);
-            this.panel1.Controls.Add(this.checkBox8);
-            this.panel1.Controls.Add(this.checkBox13);
+            this.panel1.Controls.Add(this.btn_Extend2);
+            this.panel1.Controls.Add(this.btn_Extend1);
+            this.panel1.Controls.Add(this.chb_lot);
+            this.panel1.Controls.Add(this.chb_regeants);
+            this.panel1.Controls.Add(this.chb_Leather);
+            this.panel1.Controls.Add(this.chb_Extend2);
+            this.panel1.Controls.Add(this.chb_feathers);
+            this.panel1.Controls.Add(this.chb_Food);
+            this.panel1.Controls.Add(this.chb_Extend1);
+            this.panel1.Controls.Add(this.chb_gems);
+            this.panel1.Controls.Add(this.chb_Bolts);
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(226, 184);
             this.panel1.TabIndex = 13;
             // 
-            // button11
+            // btn_SetBag
             // 
-            this.button11.Location = new System.Drawing.Point(120, 146);
-            this.button11.Name = "button11";
-            this.button11.Size = new System.Drawing.Size(75, 23);
-            this.button11.TabIndex = 16;
-            this.button11.Text = "Set Bag";
-            this.button11.UseVisualStyleBackColor = true;
-            this.button11.Click += new System.EventHandler(this.button11_Click);
+            this.btn_SetBag.Location = new System.Drawing.Point(120, 146);
+            this.btn_SetBag.Name = "btn_SetBag";
+            this.btn_SetBag.Size = new System.Drawing.Size(75, 23);
+            this.btn_SetBag.TabIndex = 16;
+            this.btn_SetBag.Text = "Set Bag";
+            this.btn_SetBag.UseVisualStyleBackColor = true;
             // 
-            // button10
+            // btn_SetCarv
             // 
-            this.button10.Location = new System.Drawing.Point(33, 146);
-            this.button10.Name = "button10";
-            this.button10.Size = new System.Drawing.Size(75, 23);
-            this.button10.TabIndex = 15;
-            this.button10.Text = "Set Carv";
-            this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.button10_Click);
+            this.btn_SetCarv.Location = new System.Drawing.Point(33, 146);
+            this.btn_SetCarv.Name = "btn_SetCarv";
+            this.btn_SetCarv.Size = new System.Drawing.Size(75, 23);
+            this.btn_SetCarv.TabIndex = 15;
+            this.btn_SetCarv.Text = "Set Carv";
+            this.btn_SetCarv.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -305,32 +290,30 @@
             this.label1.TabIndex = 14;
             this.label1.Text = "Autolot";
             // 
-            // button2
+            // btn_Extend2
             // 
-            this.button2.Location = new System.Drawing.Point(120, 118);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 13;
-            this.button2.Text = "0x0000";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.btn_Extend2.Location = new System.Drawing.Point(120, 118);
+            this.btn_Extend2.Name = "btn_Extend2";
+            this.btn_Extend2.Size = new System.Drawing.Size(75, 23);
+            this.btn_Extend2.TabIndex = 13;
+            this.btn_Extend2.Text = "0x0000";
+            this.btn_Extend2.UseVisualStyleBackColor = true;
             // 
-            // button1
+            // btn_Extend1
             // 
-            this.button1.Location = new System.Drawing.Point(120, 95);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 12;
-            this.button1.Text = "0x0000";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btn_Extend1.Location = new System.Drawing.Point(120, 95);
+            this.btn_Extend1.Name = "btn_Extend1";
+            this.btn_Extend1.Size = new System.Drawing.Size(75, 23);
+            this.btn_Extend1.TabIndex = 12;
+            this.btn_Extend1.Text = "0x0000";
+            this.btn_Extend1.UseVisualStyleBackColor = true;
             // 
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.label3);
-            this.panel2.Controls.Add(this.button4);
-            this.panel2.Controls.Add(this.button3);
+            this.panel2.Controls.Add(this.btn_ClearHotkeys);
+            this.panel2.Controls.Add(this.btn_AddHotkeys);
             this.panel2.Location = new System.Drawing.Point(3, 424);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(226, 89);
@@ -345,25 +328,23 @@
             this.label3.TabIndex = 16;
             this.label3.Text = "Switcheable Hotkeys";
             // 
-            // button4
+            // btn_ClearHotkeys
             // 
-            this.button4.Location = new System.Drawing.Point(120, 42);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 23);
-            this.button4.TabIndex = 1;
-            this.button4.Text = "Clear all";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.btn_ClearHotkeys.Location = new System.Drawing.Point(120, 42);
+            this.btn_ClearHotkeys.Name = "btn_ClearHotkeys";
+            this.btn_ClearHotkeys.Size = new System.Drawing.Size(75, 23);
+            this.btn_ClearHotkeys.TabIndex = 1;
+            this.btn_ClearHotkeys.Text = "Clear all";
+            this.btn_ClearHotkeys.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // btn_AddHotkeys
             // 
-            this.button3.Location = new System.Drawing.Point(34, 42);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 0;
-            this.button3.Text = "Add";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.btn_AddHotkeys.Location = new System.Drawing.Point(34, 42);
+            this.btn_AddHotkeys.Name = "btn_AddHotkeys";
+            this.btn_AddHotkeys.Size = new System.Drawing.Size(75, 23);
+            this.btn_AddHotkeys.TabIndex = 0;
+            this.btn_AddHotkeys.Text = "Add";
+            this.btn_AddHotkeys.UseVisualStyleBackColor = true;
             // 
             // panel3
             // 
@@ -388,13 +369,13 @@
             // tabPage5
             // 
             this.tabPage5.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage5.Controls.Add(this.checkBox14);
-            this.tabPage5.Controls.Add(this.checkBox10);
-            this.tabPage5.Controls.Add(this.chbAutodrink);
-            this.tabPage5.Controls.Add(this.checkBox2);
-            this.tabPage5.Controls.Add(this.checkBox1);
-            this.tabPage5.Controls.Add(this.chbAutoArrow);
-            this.tabPage5.Controls.Add(this.checkBox6);
+            this.tabPage5.Controls.Add(this.chb_HitTrack);
+            this.tabPage5.Controls.Add(this.chb_StoodUps);
+            this.tabPage5.Controls.Add(this.chb_AutoDrink);
+            this.tabPage5.Controls.Add(this.chb_CorpseHide);
+            this.tabPage5.Controls.Add(this.chb_Automorf);
+            this.tabPage5.Controls.Add(this.chb_AutoArrow);
+            this.tabPage5.Controls.Add(this.chb_HitBandage);
             this.tabPage5.Location = new System.Drawing.Point(4, 25);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
@@ -402,54 +383,51 @@
             this.tabPage5.TabIndex = 0;
             this.tabPage5.Text = "Settings";
             // 
-            // checkBox14
+            // chb_HitTrack
             // 
-            this.checkBox14.AutoSize = true;
-            this.checkBox14.Location = new System.Drawing.Point(26, 67);
-            this.checkBox14.Name = "checkBox14";
-            this.checkBox14.Size = new System.Drawing.Size(121, 21);
-            this.checkBox14.TabIndex = 15;
-            this.checkBox14.Text = "After Hit Track";
-            this.checkBox14.UseVisualStyleBackColor = true;
-            this.checkBox14.CheckedChanged += new System.EventHandler(this.checkBox14_CheckedChanged);
+            this.chb_HitTrack.AutoSize = true;
+            this.chb_HitTrack.Location = new System.Drawing.Point(26, 67);
+            this.chb_HitTrack.Name = "chb_HitTrack";
+            this.chb_HitTrack.Size = new System.Drawing.Size(121, 21);
+            this.chb_HitTrack.TabIndex = 15;
+            this.chb_HitTrack.Text = "After Hit Track";
+            this.chb_HitTrack.UseVisualStyleBackColor = true;
             // 
-            // checkBox10
+            // chb_StoodUps
             // 
-            this.checkBox10.AutoSize = true;
-            this.checkBox10.Location = new System.Drawing.Point(26, 130);
-            this.checkBox10.Name = "checkBox10";
-            this.checkBox10.Size = new System.Drawing.Size(127, 21);
-            this.checkBox10.TabIndex = 14;
-            this.checkBox10.Text = "Print Stood ups";
-            this.checkBox10.UseVisualStyleBackColor = true;
-            this.checkBox10.CheckedChanged += new System.EventHandler(this.checkBox10_CheckedChanged);
+            this.chb_StoodUps.AutoSize = true;
+            this.chb_StoodUps.Location = new System.Drawing.Point(26, 130);
+            this.chb_StoodUps.Name = "chb_StoodUps";
+            this.chb_StoodUps.Size = new System.Drawing.Size(127, 21);
+            this.chb_StoodUps.TabIndex = 14;
+            this.chb_StoodUps.Text = "Print Stood ups";
+            this.chb_StoodUps.UseVisualStyleBackColor = true;
             // 
-            // chbAutodrink
+            // chb_AutoDrink
             // 
-            this.chbAutodrink.AutoSize = true;
-            this.chbAutodrink.Location = new System.Drawing.Point(26, 109);
-            this.chbAutodrink.Name = "chbAutodrink";
-            this.chbAutodrink.Size = new System.Drawing.Size(96, 21);
-            this.chbAutodrink.TabIndex = 13;
-            this.chbAutodrink.Text = "Auto Drink";
-            this.chbAutodrink.UseVisualStyleBackColor = true;
-            this.chbAutodrink.CheckedChanged += new System.EventHandler(this.chbAutodrink_CheckedChanged);
+            this.chb_AutoDrink.AutoSize = true;
+            this.chb_AutoDrink.Location = new System.Drawing.Point(26, 109);
+            this.chb_AutoDrink.Name = "chb_AutoDrink";
+            this.chb_AutoDrink.Size = new System.Drawing.Size(96, 21);
+            this.chb_AutoDrink.TabIndex = 13;
+            this.chb_AutoDrink.Text = "Auto Drink";
+            this.chb_AutoDrink.UseVisualStyleBackColor = true;
             // 
             // tabPage6
             // 
             this.tabPage6.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage6.Controls.Add(this.label9);
-            this.tabPage6.Controls.Add(this.textBox7);
+            this.tabPage6.Controls.Add(this.tb_GwHeight);
             this.tabPage6.Controls.Add(this.label7);
-            this.tabPage6.Controls.Add(this.textBox5);
+            this.tabPage6.Controls.Add(this.tb_GwWidth);
             this.tabPage6.Controls.Add(this.label6);
-            this.tabPage6.Controls.Add(this.textBox4);
+            this.tabPage6.Controls.Add(this.tb_HidDelay);
             this.tabPage6.Controls.Add(this.label5);
-            this.tabPage6.Controls.Add(this.textBox3);
+            this.tabPage6.Controls.Add(this.tb_MinHpBandage);
             this.tabPage6.Controls.Add(this.label4);
-            this.tabPage6.Controls.Add(this.textBox2);
+            this.tabPage6.Controls.Add(this.tb_Hits2Pot);
             this.tabPage6.Controls.Add(this.label2);
-            this.tabPage6.Controls.Add(this.textBox1);
+            this.tabPage6.Controls.Add(this.tb_GoldLimit);
             this.tabPage6.Location = new System.Drawing.Point(4, 25);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
@@ -466,14 +444,12 @@
             this.label9.TabIndex = 13;
             this.label9.Text = "Height";
             // 
-            // textBox7
+            // tb_GwHeight
             // 
-            this.textBox7.Location = new System.Drawing.Point(113, 156);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(92, 22);
-            this.textBox7.TabIndex = 12;
-            this.textBox7.TextChanged += new System.EventHandler(this.textBox7_TextChanged);
-            this.textBox7.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
+            this.tb_GwHeight.Location = new System.Drawing.Point(113, 156);
+            this.tb_GwHeight.Name = "tb_GwHeight";
+            this.tb_GwHeight.Size = new System.Drawing.Size(92, 22);
+            this.tb_GwHeight.TabIndex = 12;
             // 
             // label7
             // 
@@ -484,14 +460,12 @@
             this.label7.TabIndex = 9;
             this.label7.Text = "Width";
             // 
-            // textBox5
+            // tb_GwWidth
             // 
-            this.textBox5.Location = new System.Drawing.Point(113, 131);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(92, 22);
-            this.textBox5.TabIndex = 8;
-            this.textBox5.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
-            this.textBox5.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox5_KeyPress);
+            this.tb_GwWidth.Location = new System.Drawing.Point(113, 131);
+            this.tb_GwWidth.Name = "tb_GwWidth";
+            this.tb_GwWidth.Size = new System.Drawing.Size(92, 22);
+            this.tb_GwWidth.TabIndex = 8;
             // 
             // label6
             // 
@@ -502,14 +476,12 @@
             this.label6.TabIndex = 7;
             this.label6.Text = "Hid Delay";
             // 
-            // textBox4
+            // tb_HidDelay
             // 
-            this.textBox4.Location = new System.Drawing.Point(113, 81);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(92, 22);
-            this.textBox4.TabIndex = 6;
-            this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
-            this.textBox4.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox4_KeyPress);
+            this.tb_HidDelay.Location = new System.Drawing.Point(113, 81);
+            this.tb_HidDelay.Name = "tb_HidDelay";
+            this.tb_HidDelay.Size = new System.Drawing.Size(92, 22);
+            this.tb_HidDelay.TabIndex = 6;
             // 
             // label5
             // 
@@ -520,14 +492,12 @@
             this.label5.TabIndex = 5;
             this.label5.Text = "Klerik minHP";
             // 
-            // textBox3
+            // tb_MinHpBandage
             // 
-            this.textBox3.Location = new System.Drawing.Point(113, 56);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(92, 22);
-            this.textBox3.TabIndex = 4;
-            this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
-            this.textBox3.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox3_KeyPress);
+            this.tb_MinHpBandage.Location = new System.Drawing.Point(113, 56);
+            this.tb_MinHpBandage.Name = "tb_MinHpBandage";
+            this.tb_MinHpBandage.Size = new System.Drawing.Size(92, 22);
+            this.tb_MinHpBandage.TabIndex = 4;
             // 
             // label4
             // 
@@ -538,14 +508,12 @@
             this.label4.TabIndex = 3;
             this.label4.Text = "Hits 2 Potion";
             // 
-            // textBox2
+            // tb_Hits2Pot
             // 
-            this.textBox2.Location = new System.Drawing.Point(113, 31);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(92, 22);
-            this.textBox2.TabIndex = 2;
-            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
-            this.textBox2.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox2_KeyPress);
+            this.tb_Hits2Pot.Location = new System.Drawing.Point(113, 31);
+            this.tb_Hits2Pot.Name = "tb_Hits2Pot";
+            this.tb_Hits2Pot.Size = new System.Drawing.Size(92, 22);
+            this.tb_Hits2Pot.TabIndex = 2;
             // 
             // label2
             // 
@@ -556,22 +524,20 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "Gold Limit:";
             // 
-            // textBox1
+            // tb_GoldLimit
             // 
-            this.textBox1.Location = new System.Drawing.Point(113, 6);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(92, 22);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
+            this.tb_GoldLimit.Location = new System.Drawing.Point(113, 6);
+            this.tb_GoldLimit.Name = "tb_GoldLimit";
+            this.tb_GoldLimit.Size = new System.Drawing.Size(92, 22);
+            this.tb_GoldLimit.TabIndex = 0;
             // 
             // tabPage8
             // 
             this.tabPage8.BackColor = System.Drawing.SystemColors.Control;
             this.tabPage8.Controls.Add(this.label11);
-            this.tabPage8.Controls.Add(this.textBox6);
-            this.tabPage8.Controls.Add(this.button5);
-            this.tabPage8.Controls.Add(this.label10);
+            this.tabPage8.Controls.Add(this.tb_Obet);
+            this.tabPage8.Controls.Add(this.btn_Pois);
+            this.tabPage8.Controls.Add(this.lbl_pois);
             this.tabPage8.Controls.Add(this.label8);
             this.tabPage8.Location = new System.Drawing.Point(4, 25);
             this.tabPage8.Name = "tabPage8";
@@ -580,24 +546,39 @@
             this.tabPage8.TabIndex = 2;
             this.tabPage8.Text = "...";
             // 
-            // button5
+            // label11
             // 
-            this.button5.Location = new System.Drawing.Point(113, 15);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(75, 23);
-            this.button5.TabIndex = 18;
-            this.button5.Text = "Target";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 65);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(87, 17);
+            this.label11.TabIndex = 21;
+            this.label11.Text = "Obet - Mana";
             // 
-            // label10
+            // tb_Obet
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(16, 32);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(112, 17);
-            this.label10.TabIndex = 19;
-            this.label10.Text = "_____________";
+            this.tb_Obet.Location = new System.Drawing.Point(96, 62);
+            this.tb_Obet.Name = "tb_Obet";
+            this.tb_Obet.Size = new System.Drawing.Size(92, 22);
+            this.tb_Obet.TabIndex = 20;
+            // 
+            // btn_Pois
+            // 
+            this.btn_Pois.Location = new System.Drawing.Point(113, 15);
+            this.btn_Pois.Name = "btn_Pois";
+            this.btn_Pois.Size = new System.Drawing.Size(75, 23);
+            this.btn_Pois.TabIndex = 18;
+            this.btn_Pois.Text = "Target";
+            this.btn_Pois.UseVisualStyleBackColor = true;
+            // 
+            // lbl_pois
+            // 
+            this.lbl_pois.AutoSize = true;
+            this.lbl_pois.Location = new System.Drawing.Point(16, 32);
+            this.lbl_pois.Name = "lbl_pois";
+            this.lbl_pois.Size = new System.Drawing.Size(112, 17);
+            this.lbl_pois.TabIndex = 19;
+            this.lbl_pois.Text = "_____________";
             // 
             // label8
             // 
@@ -608,26 +589,26 @@
             this.label8.TabIndex = 17;
             this.label8.Text = "Poison Bottle";
             // 
-            // tabControl1
+            // TabC
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.TabC.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Controls.Add(this.tabPage7);
-            this.tabControl1.Controls.Add(this.tabPage9);
-            this.tabControl1.Location = new System.Drawing.Point(247, 3);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(449, 469);
-            this.tabControl1.TabIndex = 16;
+            this.TabC.Controls.Add(this.tabPage4);
+            this.TabC.Controls.Add(this.tabPage1);
+            this.TabC.Controls.Add(this.tabPage2);
+            this.TabC.Controls.Add(this.tabPage3);
+            this.TabC.Controls.Add(this.tabPage7);
+            this.TabC.Controls.Add(this.tabPage9);
+            this.TabC.Location = new System.Drawing.Point(247, 3);
+            this.TabC.Name = "TabC";
+            this.TabC.SelectedIndex = 0;
+            this.TabC.Size = new System.Drawing.Size(449, 469);
+            this.TabC.TabIndex = 16;
             // 
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.SystemColors.Menu;
-            this.tabPage4.Controls.Add(this.Runes);
+            this.tabPage4.Controls.Add(this.tw_Runes);
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
@@ -635,17 +616,17 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Runes";
             // 
-            // Runes
+            // tw_Runes
             // 
-            this.Runes.Location = new System.Drawing.Point(3, 3);
-            this.Runes.Name = "Runes";
-            this.Runes.Size = new System.Drawing.Size(435, 437);
-            this.Runes.TabIndex = 0;
+            this.tw_Runes.Location = new System.Drawing.Point(3, 3);
+            this.tw_Runes.Name = "tw_Runes";
+            this.tw_Runes.Size = new System.Drawing.Size(435, 437);
+            this.tw_Runes.TabIndex = 0;
             // 
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.Menu;
-            this.tabPage1.Controls.Add(this.listBox1);
+            this.tabPage1.Controls.Add(this.lb_Equips);
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -653,19 +634,19 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Equip sets";
             // 
-            // listBox1
+            // lb_Equips
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 16;
-            this.listBox1.Location = new System.Drawing.Point(3, 3);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(435, 436);
-            this.listBox1.TabIndex = 0;
+            this.lb_Equips.FormattingEnabled = true;
+            this.lb_Equips.ItemHeight = 16;
+            this.lb_Equips.Location = new System.Drawing.Point(3, 3);
+            this.lb_Equips.Name = "lb_Equips";
+            this.lb_Equips.Size = new System.Drawing.Size(435, 436);
+            this.lb_Equips.TabIndex = 0;
             // 
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.SystemColors.Menu;
-            this.tabPage2.Controls.Add(this.listBox2);
+            this.tabPage2.Controls.Add(this.lb_Weapons);
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -673,19 +654,19 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Weapons";
             // 
-            // listBox2
+            // lb_Weapons
             // 
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.ItemHeight = 16;
-            this.listBox2.Location = new System.Drawing.Point(3, 3);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(435, 436);
-            this.listBox2.TabIndex = 1;
+            this.lb_Weapons.FormattingEnabled = true;
+            this.lb_Weapons.ItemHeight = 16;
+            this.lb_Weapons.Location = new System.Drawing.Point(3, 3);
+            this.lb_Weapons.Name = "lb_Weapons";
+            this.lb_Weapons.Size = new System.Drawing.Size(435, 436);
+            this.lb_Weapons.TabIndex = 1;
             // 
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.SystemColors.Menu;
-            this.tabPage3.Controls.Add(this.listBox3);
+            this.tabPage3.Controls.Add(this.lb_Healing);
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -693,18 +674,18 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Healed Players";
             // 
-            // listBox3
+            // lb_Healing
             // 
-            this.listBox3.FormattingEnabled = true;
-            this.listBox3.ItemHeight = 16;
-            this.listBox3.Location = new System.Drawing.Point(3, 3);
-            this.listBox3.Name = "listBox3";
-            this.listBox3.Size = new System.Drawing.Size(435, 436);
-            this.listBox3.TabIndex = 1;
+            this.lb_Healing.FormattingEnabled = true;
+            this.lb_Healing.ItemHeight = 16;
+            this.lb_Healing.Location = new System.Drawing.Point(3, 3);
+            this.lb_Healing.Name = "lb_Healing";
+            this.lb_Healing.Size = new System.Drawing.Size(435, 436);
+            this.lb_Healing.TabIndex = 1;
             // 
             // tabPage7
             // 
-            this.tabPage7.Controls.Add(this.listBox4);
+            this.tabPage7.Controls.Add(this.lb_TrackIgnore);
             this.tabPage7.Location = new System.Drawing.Point(4, 25);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
@@ -713,14 +694,14 @@
             this.tabPage7.Text = "Track Ignore";
             this.tabPage7.UseVisualStyleBackColor = true;
             // 
-            // listBox4
+            // lb_TrackIgnore
             // 
-            this.listBox4.FormattingEnabled = true;
-            this.listBox4.ItemHeight = 16;
-            this.listBox4.Location = new System.Drawing.Point(3, 3);
-            this.listBox4.Name = "listBox4";
-            this.listBox4.Size = new System.Drawing.Size(435, 436);
-            this.listBox4.TabIndex = 2;
+            this.lb_TrackIgnore.FormattingEnabled = true;
+            this.lb_TrackIgnore.ItemHeight = 16;
+            this.lb_TrackIgnore.Location = new System.Drawing.Point(3, 3);
+            this.lb_TrackIgnore.Name = "lb_TrackIgnore";
+            this.lb_TrackIgnore.Size = new System.Drawing.Size(435, 436);
+            this.lb_TrackIgnore.TabIndex = 2;
             // 
             // tabPage9
             // 
@@ -748,85 +729,62 @@
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.Visible = false;
             // 
-            // btn_Refrash
+            // btn_4
             // 
-            this.btn_Refrash.Location = new System.Drawing.Point(617, 490);
-            this.btn_Refrash.Name = "btn_Refrash";
-            this.btn_Refrash.Size = new System.Drawing.Size(75, 23);
-            this.btn_Refrash.TabIndex = 17;
-            this.btn_Refrash.Text = "Refresh";
-            this.btn_Refrash.UseVisualStyleBackColor = true;
-            this.btn_Refrash.Click += new System.EventHandler(this.btn_Refrash_Click);
+            this.btn_4.Location = new System.Drawing.Point(617, 490);
+            this.btn_4.Name = "btn_4";
+            this.btn_4.Size = new System.Drawing.Size(75, 23);
+            this.btn_4.TabIndex = 17;
+            this.btn_4.Text = "Refresh";
+            this.btn_4.UseVisualStyleBackColor = true;
             // 
-            // btn_Load
+            // btn_3
             // 
-            this.btn_Load.Location = new System.Drawing.Point(525, 490);
-            this.btn_Load.Name = "btn_Load";
-            this.btn_Load.Size = new System.Drawing.Size(75, 23);
-            this.btn_Load.TabIndex = 18;
-            this.btn_Load.Text = "Scan Runes";
-            this.btn_Load.UseVisualStyleBackColor = true;
-            this.btn_Load.Click += new System.EventHandler(this.btn_Load_Click);
+            this.btn_3.Location = new System.Drawing.Point(525, 490);
+            this.btn_3.Name = "btn_3";
+            this.btn_3.Size = new System.Drawing.Size(75, 23);
+            this.btn_3.TabIndex = 18;
+            this.btn_3.Text = "Scan Runes";
+            this.btn_3.UseVisualStyleBackColor = true;
             // 
-            // button7
+            // btn_2
             // 
-            this.button7.Location = new System.Drawing.Point(433, 490);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(75, 23);
-            this.button7.TabIndex = 19;
-            this.button7.Text = "Gate";
-            this.button7.UseVisualStyleBackColor = true;
-            this.button7.Click += new System.EventHandler(this.button7_Click);
+            this.btn_2.Location = new System.Drawing.Point(433, 490);
+            this.btn_2.Name = "btn_2";
+            this.btn_2.Size = new System.Drawing.Size(75, 23);
+            this.btn_2.TabIndex = 19;
+            this.btn_2.Text = "Gate";
+            this.btn_2.UseVisualStyleBackColor = true;
             // 
-            // button8
+            // btn_1
             // 
-            this.button8.Location = new System.Drawing.Point(342, 490);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(75, 23);
-            this.button8.TabIndex = 20;
-            this.button8.Text = "Recall";
-            this.button8.UseVisualStyleBackColor = true;
-            this.button8.Click += new System.EventHandler(this.button8_Click);
+            this.btn_1.Location = new System.Drawing.Point(342, 490);
+            this.btn_1.Name = "btn_1";
+            this.btn_1.Size = new System.Drawing.Size(75, 23);
+            this.btn_1.TabIndex = 20;
+            this.btn_1.Text = "Recall";
+            this.btn_1.UseVisualStyleBackColor = true;
             // 
-            // button9
+            // btn_0
             // 
-            this.button9.Location = new System.Drawing.Point(247, 490);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(75, 23);
-            this.button9.TabIndex = 21;
-            this.button9.Text = "Recall-Scroll";
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.button9_Click);
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(6, 65);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(87, 17);
-            this.label11.TabIndex = 21;
-            this.label11.Text = "Obet - Mana";
-            // 
-            // textBox6
-            // 
-            this.textBox6.Location = new System.Drawing.Point(96, 62);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(92, 22);
-            this.textBox6.TabIndex = 20;
-            this.textBox6.TextChanged += new System.EventHandler(this.textBox6_TextChanged);
-            this.textBox6.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox6_KeyPress);
+            this.btn_0.Location = new System.Drawing.Point(247, 490);
+            this.btn_0.Name = "btn_0";
+            this.btn_0.Size = new System.Drawing.Size(75, 23);
+            this.btn_0.TabIndex = 21;
+            this.btn_0.Text = "Recall-Scroll";
+            this.btn_0.UseVisualStyleBackColor = true;
             // 
             // Erebor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.Controls.Add(this.button9);
-            this.Controls.Add(this.button8);
-            this.Controls.Add(this.button7);
-            this.Controls.Add(this.btn_Load);
-            this.Controls.Add(this.btn_Refrash);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.btn_0);
+            this.Controls.Add(this.btn_1);
+            this.Controls.Add(this.btn_2);
+            this.Controls.Add(this.btn_3);
+            this.Controls.Add(this.btn_4);
+            this.Controls.Add(this.TabC);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -844,7 +802,7 @@
             this.tabPage6.PerformLayout();
             this.tabPage8.ResumeLayout(false);
             this.tabPage8.PerformLayout();
-            this.tabControl1.ResumeLayout(false);
+            this.TabC.ResumeLayout(false);
             this.tabPage4.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
@@ -856,71 +814,71 @@
         }
 
         #endregion
-        private System.Windows.Forms.CheckBox checkBox7;
-        private System.Windows.Forms.CheckBox checkBox8;
-        private System.Windows.Forms.CheckBox checkBox9;
-        private System.Windows.Forms.CheckBox checkBox4;
-        private System.Windows.Forms.CheckBox checkBox5;
-        private System.Windows.Forms.CheckBox checkBox6;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox chbAutoArrow;
-        private System.Windows.Forms.CheckBox checkBox11;
-        private System.Windows.Forms.CheckBox checkBox12;
-        private System.Windows.Forms.CheckBox checkBox13;
+        private System.Windows.Forms.CheckBox chb_regeants;
+        private System.Windows.Forms.CheckBox chb_gems;
+        private System.Windows.Forms.CheckBox chb_feathers;
+        private System.Windows.Forms.CheckBox chb_Leather;
+        private System.Windows.Forms.CheckBox chb_Food;
+        private System.Windows.Forms.CheckBox chb_HitBandage;
+        private System.Windows.Forms.CheckBox chb_lot;
+        private System.Windows.Forms.CheckBox chb_CorpseHide;
+        private System.Windows.Forms.CheckBox chb_Automorf;
+        private System.Windows.Forms.CheckBox chb_AutoArrow;
+        private System.Windows.Forms.CheckBox chb_Extend2;
+        private System.Windows.Forms.CheckBox chb_Extend1;
+        private System.Windows.Forms.CheckBox chb_Bolts;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btn_Extend2;
+        private System.Windows.Forms.Button btn_Extend1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btn_ClearHotkeys;
+        private System.Windows.Forms.Button btn_AddHotkeys;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl TabC;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.Button btn_Refrash;
-        private System.Windows.Forms.Button btn_Load;
-        private System.Windows.Forms.Button button7;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button btn_4;
+        private System.Windows.Forms.Button btn_3;
+        private System.Windows.Forms.Button btn_2;
+        private System.Windows.Forms.Button btn_1;
+        private System.Windows.Forms.Button btn_0;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.TabControl tabControl2;
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.TabPage tabPage6;
-        private System.Windows.Forms.Button button11;
-        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.Button btn_SetBag;
+        private System.Windows.Forms.Button btn_SetCarv;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tb_GoldLimit;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox tb_MinHpBandage;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.CheckBox chbAutodrink;
-        private System.Windows.Forms.TreeView Runes;
-        private System.Windows.Forms.CheckBox checkBox10;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.ListBox listBox2;
-        private System.Windows.Forms.ListBox listBox3;
+        private System.Windows.Forms.TextBox tb_Hits2Pot;
+        private System.Windows.Forms.CheckBox chb_AutoDrink;
+        private System.Windows.Forms.TreeView tw_Runes;
+        private System.Windows.Forms.CheckBox chb_StoodUps;
+        private System.Windows.Forms.ListBox lb_Equips;
+        private System.Windows.Forms.ListBox lb_Weapons;
+        private System.Windows.Forms.ListBox lb_Healing;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox tb_HidDelay;
         private System.Windows.Forms.TabPage tabPage7;
-        private System.Windows.Forms.ListBox listBox4;
-        private System.Windows.Forms.CheckBox checkBox14;
+        private System.Windows.Forms.ListBox lb_TrackIgnore;
+        private System.Windows.Forms.CheckBox chb_HitTrack;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox tb_GwHeight;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox tb_GwWidth;
         private System.Windows.Forms.TabPage tabPage8;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Button btn_Pois;
+        private System.Windows.Forms.Label lbl_pois;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TabPage tabPage9;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox tb_Obet;
     }
 }

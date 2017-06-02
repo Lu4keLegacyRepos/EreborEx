@@ -88,6 +88,7 @@ namespace EreborPhoenixExtension.Libs.Abilites
                     que.added -= Que_added;
                     boostBottles.Clear();
                     Heads.Clear();
+                    que.que.Clear();
                     UO.Print("OFF");
                 }
                 vodo = value;
@@ -138,7 +139,7 @@ namespace EreborPhoenixExtension.Libs.Abilites
             {
                 if (it.Graphic == 0x0F0E) continue;
                 it.Click();
-                UO.Wait(100);
+                UO.Wait(200);
                 if(!Heads.ContainsKey(it.Name))Heads.Add(it.Name, it);
             }
             
@@ -183,7 +184,13 @@ namespace EreborPhoenixExtension.Libs.Abilites
             done = VoodooState.Fail;
             boosting = true;
             bagl.Use();
-            UO.Wait(100); 
+            UO.Wait(100);
+            if (bagl.Items.CountItems() != HeadsCount)
+            {
+                UO.Say("Prepocitavam");
+                getHeads();
+            }
+            boosting = false;
             Core.RegisterServerMessageCallback(0x1C, onVoodoo);
             foreach (string it in Heads.Keys)//.Where(x => x.Graphic != 0x0F0E && x.Name==args[0]).ToList())
             {

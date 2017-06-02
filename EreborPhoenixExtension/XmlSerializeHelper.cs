@@ -19,7 +19,7 @@ namespace EreborPhoenixExtension
             _type = typeof(T);
         }
 
-        public void Serialize(string filename, object obj)
+        public void Save(string filename, object obj)
         {
             try
             {
@@ -28,9 +28,14 @@ namespace EreborPhoenixExtension
                     Directory.CreateDirectory(path);
                 }
 
-                if (File.Exists(path + filename)) File.Delete(path + filename);
+                if (File.Exists(path + filename))
+                {
+                    if (File.Exists(path + filename + "_backup"))
+                        File.Delete(path + filename + "_backup");
+                    File.Copy(path + filename, path + filename + "_backup");
+                }
                 var serializer = new XmlSerializer(_type);
-                using (var stream = File.OpenWrite(path + filename))
+                using (var stream = File.Open(path + filename,FileMode.CreateNew,FileAccess.Write,FileShare.None))
                 {
                     serializer.Serialize(stream, obj);
                 }
@@ -38,19 +43,33 @@ namespace EreborPhoenixExtension
             catch (Exception ex) { MessageBox.Show(ex.InnerException.ToString()); }
 
         }
+        private bool IsExist(string filename)
+        {
+            return(File.Exists(path + filename));
+        }
 
-        public T Deserialize(string filename)
+        public bool Load(string filename, out T obj)
         {
 
-                T XMLOBJ ; 
+            if(IsExist(filename))
+            {
+                obj = Deserialize(filename);
+                return true;
+            }
+            obj = default(T);
+            return false;
+        }
+        private T Deserialize(string filename)
+        {
 
-                var serializer = new XmlSerializer(_type);
-                using (var stream = File.OpenRead(path + filename))
-                {
-                    XMLOBJ = (T)serializer.Deserialize(stream);
-                }
-                return XMLOBJ;
-            
+            T XMLOBJ;
+            var serializer = new XmlSerializer(_type);
+            using (var stream = File.OpenRead(path + filename))
+            {
+                XMLOBJ = (T)serializer.Deserialize(stream);
+            }
+            return XMLOBJ;
+
 
 
         }

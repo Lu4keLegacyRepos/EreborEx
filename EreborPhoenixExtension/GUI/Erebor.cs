@@ -10,600 +10,576 @@ using System.Windows.Forms;
 namespace EreborPhoenixExtension.GUI
 
 {
-    public delegate void CheckAll();
+
     [PhoenixWindowTabPage("Erebor")]
     public partial class Erebor : UserControl
     {
+        public event EventHandler<EventChangedArgs> Changed;
         [DllImport("USER32.DLL")]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
         [System.Runtime.InteropServices.DllImport("User32.dll")]
         public static extern bool ShowWindow(IntPtr handle, int nCmdShow);
 
-        public static Erebor Instance;
         public Erebor()
         {
             try
             {
                 InitializeComponent();
-                Instance = this;
-                tabControl1.SelectedIndexChanged += TabControl1_SelectedIndexChanged;
+                Main.Instance.EreborInstance = this;
+                TabC.SelectedIndexChanged += TabControl1_SelectedIndexChanged;
+
+                #region ChangeEvents
+                chb_AutoArrow.CheckedChanged += ControlChanged;
+                chb_AutoDrink.CheckedChanged += ControlChanged;
+                chb_Automorf.CheckedChanged += ControlChanged;
+                chb_Bolts.CheckedChanged += ControlChanged;
+                chb_CorpseHide.CheckedChanged += ControlChanged;
+                chb_Extend1.CheckedChanged += ControlChanged;
+                chb_Extend2.CheckedChanged += ControlChanged;
+                chb_feathers.CheckedChanged += ControlChanged;
+                chb_Food.CheckedChanged += ControlChanged;
+                chb_gems.CheckedChanged += ControlChanged;
+                chb_HitBandage.CheckedChanged += ControlChanged;
+                chb_HitTrack.CheckedChanged += ControlChanged;
+                chb_Leather.CheckedChanged += ControlChanged;
+                chb_lot.CheckedChanged += ControlChanged;
+                chb_regeants.CheckedChanged += ControlChanged;
+                chb_StoodUps.CheckedChanged += ControlChanged;
+
+                btn_0.Click += ControlChanged;
+                btn_1.Click += ControlChanged;
+                btn_2.Click += ControlChanged;
+                btn_3.Click += ControlChanged;
+                btn_4.Click += ControlChanged;
+                btn_AddHotkeys.Click += ControlChanged;
+                btn_ClearHotkeys.Click += ControlChanged;
+                btn_Extend1.Click += ControlChanged;
+                btn_Extend2.Click += ControlChanged;
+                btn_SetBag.Click += ControlChanged;
+                btn_SetCarv.Click += ControlChanged;
+                btn_Pois.Click += ControlChanged;
+
+                tb_GoldLimit.TextChanged += ControlChanged;
+                tb_GwHeight.TextChanged += ControlChanged;
+                tb_GwWidth.TextChanged += ControlChanged;
+                tb_HidDelay.TextChanged += ControlChanged;
+                tb_Hits2Pot.TextChanged += ControlChanged;
+                tb_MinHpBandage.TextChanged += ControlChanged;
+                tb_Obet.TextChanged += ControlChanged;
+
+                #endregion
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             { MessageBox.Show(ex.Message); }
 
 
         }
 
-
-
-        private void btn_Load_Click(object sender, EventArgs e)
+        private void ControlChanged(object sender, EventArgs e)
         {
 
-            switch (tabControl1.SelectedIndex)
+            if(sender is Button)
             {
-                case 0:
-                    SetForegroundWindow(Client.HWND);
-                    Main.Instance.Settings.RuneTree.GetRunes();
-                    Main.Instance.Settings.RuneTree.FillTreeView( Runes);
-                    break;
-                case 1:
-                    SetForegroundWindow(Client.HWND);
-                    Main.Instance.Settings.EquipSet.Add();
-                    break;
-                case 2:
-                    SetForegroundWindow(Client.HWND);
-                    Main.Instance.Settings.Weapons.Add();
-                    break;
-                case 3:
-                    SetForegroundWindow(Client.HWND);
-                    Main.Instance.Settings.AHeal.Add();
-                    break;
-                case 4:
-                    SetForegroundWindow(Client.HWND);
-                    Main.Instance.Settings.Track.Add();
-                    break;
+
+                if (Changed != null)
+                    Changed(this, new EventChangedArgs() { btnName = ((Button)sender).Name, SelectedTabID=TabC.SelectedIndex, TextValue=string.Empty });
+                return;
             }
-            Main.Instance.Settings.EquipSet.fillListBox(listBox1);
-            Main.Instance.Settings.Weapons.fillListBox(listBox2);
-            Main.Instance.Settings.AHeal.fillListBox(listBox3);
-            Main.Instance.Settings.Track.fillListBox(listBox4);
-
-        }
-
-        private void btn_Refrash_Click(object sender, EventArgs e)
-        {
-            switch (tabControl1.SelectedIndex)
+            else if(sender is TextBox)
             {
-                case 0:
-                    Main.Instance.Settings.RuneTree.FillTreeView( Runes);
-                    break;
-                case 1:
-                    Main.Instance.Settings.EquipSet.fillListBox(listBox1);
-                    break;
-                case 2:
-                    Main.Instance.Settings.Weapons.fillListBox(listBox2);
-                    break;
-                case 3:
-                    Main.Instance.Settings.AHeal.fillListBox(listBox3);
-                    break;
-                case 4:
-                    Main.Instance.Settings.Track.fillListBox(listBox4);
-                    break;
-                case 5:
-                   // Main.instance.Items.fillListView(listView1);
-                    break;
+
+                if (Changed != null)
+                    Changed(this, new EventChangedArgs() { TextValue=((TextBox)sender).Text, btnName=string.Empty });
+                return;
             }
-
-
-        }
-        private void button9_Click(object sender, EventArgs e)
-        {
-
-            switch (tabControl1.SelectedIndex)
-            {
-                case 0:
-                    if (Runes.SelectedNode == null) return;
-                    foreach (Rune r in Main.Instance.Settings.RuneTree.Runes.Where(run => run.Id.ToString() == Runes.SelectedNode.Tag.ToString()))
-                    {
-                        Main.Instance.Settings.RuneTree.findRune(r);
-                        r.RecallSvitek();
-                    }
-                    break;
-                case 1:
-                    if (listBox1.SelectedIndex >= 0)
-                    {
-                        UO.PrintInformation("Zamer odkladaci batoh");
-                        Main.Instance.Settings.EquipSet.equipy[listBox1.SelectedIndex].DressOnly();
-                    }
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-            }
-
-        }
-
-        private void button8_Click(object sender, EventArgs e)
-        {
-            switch (tabControl1.SelectedIndex)
-            {
-                case 0:
-                    if (Runes.SelectedNode == null) return;
-                    foreach (Rune r in Main.Instance.Settings.RuneTree.Runes.Where(run => run.Id.ToString() == Runes.SelectedNode.Tag.ToString()))
-                    {
-                        Main.Instance.Settings.RuneTree.findRune(r);
-                        r.Recall();
-                    }
-                    break;
-                case 1:
-                    if (listBox1.SelectedIndex >= 0)
-                    {
-                        SetForegroundWindow(Client.HWND);
-                        UO.PrintInformation("Zamer odkladaci batoh");
-                        Main.Instance.Settings.EquipSet.equipy[listBox1.SelectedIndex].Dress(new UOItem(UIManager.TargetObject()));
-                    }
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-            }
-        }
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-            switch (tabControl1.SelectedIndex)
-            {
-                case 0:
-                    if (Runes.SelectedNode == null) return;
-                    foreach (Rune r in Main.Instance.Settings.RuneTree.Runes.Where(run => run.Id.ToString() == Runes.SelectedNode.Tag.ToString()))
-                    {
-                        Main.Instance.Settings.RuneTree.findRune(r);
-                        r.Gate();
-                    }
-                    break;
-                case 1:
-                    if(listBox1.SelectedIndex>=0)
-                    Main.Instance.Settings.EquipSet.Remove(listBox1.SelectedIndex);
-                    break;
-                case 2:
-                    if (listBox2.SelectedIndex >= 0)
-                        Main.Instance.Settings.Weapons.Remove(listBox2.SelectedIndex);
-                    break;
-                case 3:
-                    if (listBox3.SelectedIndex >= 0)
-                        Main.Instance.Settings.AHeal.Remove(listBox3.SelectedIndex);
-                    break;
-                case 4:
-                    if (listBox4.SelectedIndex >= 0)
-                        Main.Instance.Settings.Track.Remove(listBox4.SelectedIndex);
-                    break;
-            }
-            Main.Instance.Settings.EquipSet.fillListBox(listBox1);
-            Main.Instance.Settings.Weapons.fillListBox(listBox2);
-            Main.Instance.Settings.AHeal.fillListBox(listBox3);
-            Main.Instance.Settings.Track.fillListBox(listBox4);
+            if (Changed != null)
+                Changed(this, new EventChangedArgs() {btnName=string.Empty, TextValue=string.Empty });
         }
 
         private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
             //MessageBox.Show(tabControl1.SelectedIndex.ToString());
-            switch (tabControl1.SelectedIndex)
+            switch (TabC.SelectedIndex)
             {
                 case 0:
-                    button9.Enabled = true;
-                    button9.Visible = true;
-                    button9.Text = "Recall-S";
+                    btn_0.Enabled = true;
+                    btn_0.Visible = true;
+                    btn_0.Text = "Recall-S";
 
-                    button8.Enabled = true;
-                    button8.Visible = true;
-                    button8.Text = "Recall";
+                    btn_1.Enabled = true;
+                    btn_1.Visible = true;
+                    btn_1.Text = "Recall";
 
-                    button7.Enabled = true;
-                    button7.Visible = true;
-                    button7.Text = "Gate";
+                    btn_2.Enabled = true;
+                    btn_2.Visible = true;
+                    btn_2.Text = "Gate";
 
-                    btn_Refrash.Enabled = true;
-                    btn_Refrash.Visible = true;
-                    btn_Refrash.Text = "Refresh";
+                    btn_4.Enabled = true;
+                    btn_4.Visible = true;
+                    btn_4.Text = "Refresh";
 
-                    btn_Load.Visible = true;
-                    btn_Load.Enabled = true;
-                    btn_Load.Text = "Scan";
+                    btn_3.Visible = true;
+                    btn_3.Enabled = true;
+                    btn_3.Text = "Scan";
 
                     break;
                 case 1:
-                    button9.Enabled = true;
-                    button9.Visible = true;
-                    button9.Text = "Dress";
+                    btn_0.Enabled = true;
+                    btn_0.Visible = true;
+                    btn_0.Text = "Dress";
 
-                    button8.Enabled = true;
-                    button8.Visible = true;
-                    button8.Text = "Un/Dress";
+                    btn_1.Enabled = true;
+                    btn_1.Visible = true;
+                    btn_1.Text = "Un/Dress";
 
-                    button7.Enabled = true;
-                    button7.Visible = true;
-                    button7.Text = "Delete";
+                    btn_2.Enabled = true;
+                    btn_2.Visible = true;
+                    btn_2.Text = "Delete";
 
-                    btn_Refrash.Enabled = true;
-                    btn_Refrash.Visible = true;
-                    btn_Refrash.Text = "Refresh";
+                    btn_4.Enabled = true;
+                    btn_4.Visible = true;
+                    btn_4.Text = "Refresh";
 
-                    btn_Load.Visible = true;
-                    btn_Load.Enabled = true;
-                    btn_Load.Text = "Add";
+                    btn_3.Visible = true;
+                    btn_3.Enabled = true;
+                    btn_3.Text = "Add";
 
                     break;
                 case 2:
-                    button9.Enabled = false;
-                    button9.Visible = false;
-                    button9.Text = "Recall-S";
+                    btn_0.Enabled = false;
+                    btn_0.Visible = false;
+                    btn_0.Text = "Recall-S";
 
-                    button8.Enabled = false;
-                    button8.Visible = false;
-                    button8.Text = "Recall";
+                    btn_1.Enabled = false;
+                    btn_1.Visible = false;
+                    btn_1.Text = "Recall";
 
-                    button7.Enabled = true;
-                    button7.Visible = true;
-                    button7.Text = "Delete";
+                    btn_2.Enabled = true;
+                    btn_2.Visible = true;
+                    btn_2.Text = "Delete";
 
-                    btn_Refrash.Enabled = true;
-                    btn_Refrash.Visible = true;
-                    btn_Refrash.Text = "Refresh";
+                    btn_4.Enabled = true;
+                    btn_4.Visible = true;
+                    btn_4.Text = "Refresh";
 
-                    btn_Load.Visible = true;
-                    btn_Load.Enabled = true;
-                    btn_Load.Text = "Add";
+                    btn_3.Visible = true;
+                    btn_3.Enabled = true;
+                    btn_3.Text = "Add";
 
                     break;
                 case 3:
-                    button9.Enabled = false;
-                    button9.Visible = false;
-                    button9.Text = "Recall-S";
+                    btn_0.Enabled = false;
+                    btn_0.Visible = false;
+                    btn_0.Text = "Recall-S";
 
-                    button8.Enabled = false;
-                    button8.Visible = false;
-                    button8.Text = "Recall";
+                    btn_1.Enabled = false;
+                    btn_1.Visible = false;
+                    btn_1.Text = "Recall";
 
-                    button7.Enabled = true;
-                    button7.Visible = true;
-                    button7.Text = "Delete";
+                    btn_2.Enabled = true;
+                    btn_2.Visible = true;
+                    btn_2.Text = "Delete";
 
-                    btn_Refrash.Enabled = true;
-                    btn_Refrash.Visible = true;
-                    btn_Refrash.Text = "Refresh";
+                    btn_4.Enabled = true;
+                    btn_4.Visible = true;
+                    btn_4.Text = "Refresh";
 
-                    btn_Load.Visible = true;
-                    btn_Load.Enabled = true;
-                    btn_Load.Text = "Add";
+                    btn_3.Visible = true;
+                    btn_3.Enabled = true;
+                    btn_3.Text = "Add";
 
                     break;
                 case 4:
-                    button9.Enabled = false;
-                    button9.Visible = false;
-                    button9.Text = "Recall-S";
+                    btn_0.Enabled = false;
+                    btn_0.Visible = false;
+                    btn_0.Text = "Recall-S";
 
-                    button8.Enabled = false;
-                    button8.Visible = false;
-                    button8.Text = "Recall";
+                    btn_1.Enabled = false;
+                    btn_1.Visible = false;
+                    btn_1.Text = "Recall";
 
-                    button7.Enabled = true;
-                    button7.Visible = true;
-                    button7.Text = "Delete";
+                    btn_2.Enabled = true;
+                    btn_2.Visible = true;
+                    btn_2.Text = "Delete";
 
-                    btn_Refrash.Enabled = true;
-                    btn_Refrash.Visible = true;
-                    btn_Refrash.Text = "Refresh";
+                    btn_4.Enabled = true;
+                    btn_4.Visible = true;
+                    btn_4.Text = "Refresh";
 
-                    btn_Load.Visible = true;
-                    btn_Load.Enabled = true;
-                    btn_Load.Text = "Add";
+                    btn_3.Visible = true;
+                    btn_3.Enabled = true;
+                    btn_3.Text = "Add";
                     break;
 
             }
-            button7.Refresh();
-            button8.Refresh();
-            button9.Refresh();
-            btn_Load.Refresh();
-            btn_Refrash.Refresh();
+            btn_2.Refresh();
+            btn_1.Refresh();
+            btn_0.Refresh();
+            btn_3.Refresh();
+            btn_4.Refresh();
         }
 
 
 
+        public void tt() { }
 
 
+        #region ControlProperties
 
-
-
-        //Settings parts
-        private void chbAutodrink_CheckedChanged(object sender, EventArgs e)
+        public bool Food
         {
-            if(Main.Instance.Settings.AutoDrink!= chbAutodrink.Checked)
-                Main.Instance.Settings.AutoDrink = chbAutodrink.Checked;
+            get
+            {
+                return chb_Food.Checked;
 
+            }
+
+            set
+            {
+                chb_Food.Checked = value;
+            }
         }
 
-        private void chbAutoArrow_CheckedChanged(object sender, EventArgs e)
+        public bool Leather
         {
-            if (Main.Instance.Settings.Spells.AutoArrow != chbAutoArrow.Checked)
-                Main.Instance.Settings.Spells.AutoArrow = chbAutoArrow.Checked;
+            get
+            {
+                return chb_Leather.Checked;
+            }
+
+            set
+            {
+                chb_Leather.Checked = value;
+            }
         }
 
-        private void checkBox6_CheckedChanged(object sender, EventArgs e)
+        public bool Bolts
         {
-            if (Main.Instance.Settings.HitBandage != checkBox6.Checked)
-                Main.Instance.Settings.HitBandage = checkBox6.Checked;
+            get
+            {
+                return chb_Bolts.Checked;
+            }
+
+            set
+            {
+                chb_Bolts.Checked = value;
+            }
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        public bool Extend1
         {
-            if (Main.Instance.Settings.Amorf.Amorf != checkBox1.Checked)
-                Main.Instance.Settings.Amorf.Amorf = checkBox1.Checked;
+            get
+            {
+                return chb_Extend1.Checked;
+            }
+
+            set
+            {
+                chb_Extend1.Checked = value;
+            }
         }
 
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        public bool Extend2
         {
-            if (Main.Instance.Settings.Lot.HideCorpses != checkBox2.Checked)
-                Main.Instance.Settings.Lot.HideCorpses = checkBox2.Checked;
+            get
+            {
+                return chb_Extend2.Checked;
+            }
+
+            set
+            {
+                chb_Extend2.Checked = value;
+            }
         }
 
-        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        public bool Lot
         {
-            if (Main.Instance.Settings.Lot.DoLot != checkBox3.Checked)
-                Main.Instance.Settings.Lot.DoLot = checkBox3.Checked;
+            get
+            {
+                return chb_lot.Checked;
+            }
 
+            set
+            {
+                chb_lot.Checked = value;
+            }
         }
 
-        private void checkBox5_CheckedChanged(object sender, EventArgs e)
+        public bool Feathers
         {
-            if (Main.Instance.Settings.Lot.Food != checkBox5.Checked)
-                Main.Instance.Settings.Lot.Food = checkBox5.Checked;
+            get
+            {
+                return chb_feathers.Checked;
+            }
 
+            set
+            {
+                chb_feathers.Checked = value;
+            }
         }
 
-        private void checkBox4_CheckedChanged(object sender, EventArgs e)
+        public bool Gems
         {
-            if (Main.Instance.Settings.Lot.Leather != checkBox4.Checked)
-                Main.Instance.Settings.Lot.Leather = checkBox4.Checked;
+            get
+            {
+                return chb_gems.Checked;
+            }
+
+            set
+            {
+                chb_gems.Checked = value;
+            }
         }
 
-        private void checkBox13_CheckedChanged(object sender, EventArgs e)
+        public bool Regeants
         {
-            if (Main.Instance.Settings.Lot.Bolts != checkBox13.Checked)
-                Main.Instance.Settings.Lot.Bolts = checkBox13.Checked;
+            get
+            {
+                return chb_regeants.Checked;
+            }
+
+            set
+            {
+                chb_regeants.Checked = value;
+            }
         }
 
-        private void checkBox12_CheckedChanged(object sender, EventArgs e)
+        public bool CorpsesHide
         {
-            if (Main.Instance.Settings.Lot.Extend1 != checkBox12.Checked)
-                Main.Instance.Settings.Lot.Extend1 = checkBox12.Checked;
+            get
+            {
+                return chb_CorpseHide.Checked;
+            }
+
+            set
+            {
+                chb_CorpseHide.Checked = value;
+            }
         }
 
-        private void checkBox11_CheckedChanged(object sender, EventArgs e)
+        public bool AutoMorf
         {
-            if (Main.Instance.Settings.Lot.Extend2 != checkBox11.Checked)
-                Main.Instance.Settings.Lot.Extend2 = checkBox11.Checked;
+            get
+            {
+                return chb_Automorf.Checked;
+            }
+
+            set
+            {
+                chb_Automorf.Checked = value;
+            }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        public bool HitBandage
         {
-            SetForegroundWindow(Client.HWND);
-            UO.PrintWarning("Zamer item, ktery chces lotit");
-            UOItem it = new UOItem(UIManager.TargetObject());
-            Main.Instance.Settings.Lot.extend1_type = new Graphic(it.Graphic);
-            button1.Text = Main.Instance.Settings.Lot.extend1_type.ToString();
-            button1.Refresh();
+            get
+            {
+                return chb_HitBandage.Checked;
+            }
+
+            set
+            {
+                chb_HitBandage.Checked = value;
+            }
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        public bool HitTrack
         {
-            SetForegroundWindow(Client.HWND);
-            UO.PrintWarning("Zamer item, ktery chces lotit");
-            UOItem it = new UOItem(UIManager.TargetObject());
-            Main.Instance.Settings.Lot.extend2_type = new Graphic(it.Graphic);
-            button2.Text = Main.Instance.Settings.Lot.extend1_type.ToString();
-            button2.Refresh();
+            get
+            {
+                return chb_HitTrack.Checked;
+            }
+
+            set
+            {
+                chb_HitTrack.Checked = value;
+            }
         }
 
-        private void button10_Click(object sender, EventArgs e)
+        public bool AutoArrow
         {
-            SetForegroundWindow(Client.HWND);
-            UO.PrintInformation("Zamer Kuchatko");
-            Main.Instance.Settings.Lot.CarvTool = new UOItem(UIManager.TargetObject());
+            get
+            {
+                return chb_AutoArrow.Checked;
+            }
 
-
-
-
+            set
+            {
+                chb_AutoArrow.Checked = value;
+            }
         }
 
-        private void button11_Click(object sender, EventArgs e)
+        public bool AutoDrink
         {
-            SetForegroundWindow(Client.HWND);
-            UO.PrintInformation("Zamer batoh");
-            Main.Instance.Settings.Lot.LotBag = new UOItem(UIManager.TargetObject());
+            get
+            {
+                return chb_AutoDrink.Checked;
+            }
+
+            set
+            {
+                chb_AutoDrink.Checked = value;
+            }
         }
 
-        private void checkBox9_CheckedChanged(object sender, EventArgs e)
+        public bool StoodUps
         {
-            if (Main.Instance.Settings.Lot.Feathers != checkBox9.Checked)
-                Main.Instance.Settings.Lot.Feathers = checkBox9.Checked;
+            get
+            {
+                return chb_StoodUps.Checked;
+            }
+
+            set
+            {
+                chb_StoodUps.Checked = value;
+            }
         }
 
-        private void checkBox8_CheckedChanged(object sender, EventArgs e)
+        public TreeView RuneView
         {
-            if (Main.Instance.Settings.Lot.Gems != checkBox8.Checked)
-                Main.Instance.Settings.Lot.Gems = checkBox8.Checked;
+            get
+            {
+                return tw_Runes;
+            }
         }
-
-        private void checkBox7_CheckedChanged(object sender, EventArgs e)
+        public ListBox EquipList
         {
-            if (Main.Instance.Settings.Lot.Reageants != checkBox7.Checked)
-                Main.Instance.Settings.Lot.Reageants = checkBox7.Checked;
+            get
+            {
+                return lb_Equips;
+            }
         }
 
-
-
-
-        public void CheckAll()
+        public ListBox WeaponList
         {
-            textBox6.Text = Main.Instance.Settings.VoodooManaLimit.ToString();
-            textBox5.Text = Main.Instance.Settings.GWWidth.ToString();
-            textBox7.Text = Main.Instance.Settings.GWHeight.ToString();
-            textBox3.Text = Main.Instance.Settings.minHP.ToString();
-            textBox2.Text = Main.Instance.Settings.criticalHits.ToString();
-            textBox1.Text = Main.Instance.Settings.GoldLimit.ToString();
-            checkBox7.Checked = Main.Instance.Settings.Lot.Reageants;
-            checkBox8.Checked = Main.Instance.Settings.Lot.Gems;
-            checkBox9.Checked = Main.Instance.Settings.Lot.Feathers;
-            button2.Text = Main.Instance.Settings.Lot.extend1_type.ToString();
-            button1.Text = Main.Instance.Settings.Lot.extend1_type.ToString();
-            checkBox11.Checked = Main.Instance.Settings.Lot.Extend2;
-            checkBox12.Checked = Main.Instance.Settings.Lot.Extend1;
-            checkBox13.Checked = Main.Instance.Settings.Lot.Bolts;
-            checkBox4.Checked = Main.Instance.Settings.Lot.Leather;
-            checkBox5.Checked = Main.Instance.Settings.Lot.Food;
-            checkBox3.Checked = Main.Instance.Settings.Lot.DoLot;
-            checkBox2.Checked = Main.Instance.Settings.Lot.HideCorpses;
-            checkBox1.Checked = Main.Instance.Settings.Amorf.Amorf;
-            checkBox6.Checked = Main.Instance.Settings.HitBandage;
-            chbAutoArrow.Checked = Main.Instance.Settings.Spells.AutoArrow;
-            chbAutodrink.Checked = Main.Instance.Settings.AutoDrink;
-            checkBox10.Checked = Main.Instance.Settings.PrintAnim;
-            checkBox14.Checked = Main.Instance.Settings.HitTrack;
-
-            textBox4.Text = Main.Instance.Settings.hidDelay.ToString();
-            Main.Instance.Settings.RuneTree.FillTreeView(Runes);
-
-            Main.Instance.Settings.EquipSet.fillListBox(listBox1);
-            Main.Instance.Settings.Weapons.fillListBox(listBox2);
-            Main.Instance.Settings.AHeal.fillListBox(listBox3);
-
+            get
+            {
+                return lb_Weapons;
+            }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        public ListBox HealList
         {
-
-            Main.Instance.Settings.HotKeys.Add();
+            get
+            {
+                return lb_Healing;
+            }
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        public ListBox TrackIgnoreList
         {
-            Main.Instance.Settings.HotKeys.Clear();
+            get
+            {
+                return lb_TrackIgnore;
+            }
         }
-        private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+
+        public string Extend1Type_Text
         {
-            int isNumber = 0;
-            e.Handled = !int.TryParse(e.KeyChar.ToString(), out isNumber);
-
+            set
+            {
+                btn_Extend1.Text = value;
+            }
         }
-
-
-        private void textBox2_KeyPress(object sender, KeyPressEventArgs e)
+        public string Extend2Type_Text
         {
-            int isNumber = 0;
-            e.Handled = !int.TryParse(e.KeyChar.ToString(), out isNumber);
-
+            set
+            {
+                btn_Extend2.Text = value;
+            }
         }
 
-        private void textBox3_KeyPress(object sender, KeyPressEventArgs e)
+        public string SelectedRuneID
         {
-            int isNumber = 0;
-            e.Handled = !int.TryParse(e.KeyChar.ToString(), out isNumber);
-
+            get
+            {
+                if (RuneView.SelectedNode == null) return string.Empty;
+                return RuneView.SelectedNode.Tag.ToString();
+            }
         }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        public int SelectedEquip
         {
-            if (Main.Instance.Settings.GoldLimit != ushort.Parse(textBox1.Text))
-                Main.Instance.Settings.GoldLimit = ushort.Parse(textBox1.Text);
+            get
+            {
+                return lb_Equips.SelectedIndex;
+            }
         }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
+        public int SelectedWeapon
         {
-            if (Main.Instance.Settings.criticalHits != uint.Parse(textBox2.Text))
-                Main.Instance.Settings.criticalHits = uint.Parse(textBox2.Text);
+            get
+            {
+                return lb_Weapons.SelectedIndex;
+            }
         }
 
-        private void textBox3_TextChanged(object sender, EventArgs e)
+        public int SelectedHealed
         {
-            if (Main.Instance.Settings.minHP != uint.Parse(textBox3.Text))
-                Main.Instance.Settings.minHP = uint.Parse(textBox3.Text);
+            get
+            {
+                return lb_Healing.SelectedIndex;
+            }
         }
 
-        private void checkBox10_CheckedChanged(object sender, EventArgs e)
+        public int SelectedIgnored
         {
-            if (Main.Instance.Settings.PrintAnim != checkBox10.Checked)
-                Main.Instance.Settings.PrintAnim = checkBox10.Checked;
+            get
+            {
+                return lb_TrackIgnore.SelectedIndex;
+            }
         }
 
-        private void textBox4_TextChanged(object sender, EventArgs e)
+        public string PoisType
         {
-            if (Main.Instance.Settings.hidDelay != uint.Parse(textBox4.Text))
-                Main.Instance.Settings.hidDelay = uint.Parse(textBox4.Text);
+            set
+            {
+                lbl_pois.Text = value;
+               
+            }
         }
 
-        private void textBox4_KeyPress(object sender, KeyPressEventArgs e)
+
+
+        public string GoldLimit
         {
-            int isNumber = 0;
-            e.Handled = !int.TryParse(e.KeyChar.ToString(), out isNumber);
+            get { return tb_GoldLimit.Text; }
+            set { tb_GoldLimit.Text = value; }
         }
-
-        private void checkBox14_CheckedChanged(object sender, EventArgs e)
+        public string GwHeight
         {
-            if (Main.Instance.Settings.HitTrack != checkBox14.Checked)
-                Main.Instance.Settings.HitTrack = checkBox14.Checked;
+            get { return tb_GwHeight.Text; }
+            set { tb_GwHeight.Text = value; }
         }
-
-        private void textBox5_TextChanged(object sender, EventArgs e)
+        public string GwWidth
         {
-            if (Main.Instance.Settings.GWWidth != int.Parse(textBox5.Text))
-                Main.Instance.Settings.GWWidth = int.Parse(textBox5.Text);
+            get { return tb_GwWidth.Text; }
+            set { tb_GwWidth.Text = value; }
         }
-
-        private void textBox5_KeyPress(object sender, KeyPressEventArgs e)
+        public string HidDelay
         {
-            int isNumber = 0;
-            e.Handled = !int.TryParse(e.KeyChar.ToString(), out isNumber);
+            get { return tb_HidDelay.Text; }
+            set { tb_HidDelay.Text = value; }
         }
-
-        private void textBox7_TextChanged(object sender, EventArgs e)
+        public string Hits2Pot
         {
-            if (Main.Instance.Settings.GWHeight != int.Parse(textBox7.Text))
-                Main.Instance.Settings.GWHeight = int.Parse(textBox7.Text);
+            get { return tb_Hits2Pot.Text; }
+            set { tb_Hits2Pot.Text = value; }
         }
-
-        private void textBox7_KeyPress(object sender, KeyPressEventArgs e)
+        public string MinHp
         {
-            int isNumber = 0;
-            e.Handled = !int.TryParse(e.KeyChar.ToString(), out isNumber);
+            get { return tb_MinHpBandage.Text; }
+            set { tb_MinHpBandage.Text = value; }
         }
-
-        private void button5_Click(object sender, EventArgs e)
+        public string VoodooObet
         {
-            SetForegroundWindow(Client.HWND);
-            UOItem pois;
-            UO.PrintInformation("Zamer Poison");
-            Main.Instance.Settings.Poisoning.PoisonBottle = new UOItem(UIManager.TargetObject());
-            pois = new UOItem(Main.Instance.Settings.Poisoning.PoisonBottle);
-            pois.Click();
-            UO.Wait(200);
-            label10.Text = pois.Name;
-        }
-
-        private void textBox6_TextChanged(object sender, EventArgs e)
-        {
-            if (Main.Instance.Settings.VoodooManaLimit != uint.Parse(textBox6.Text))
-                Main.Instance.Settings.VoodooManaLimit = uint.Parse(textBox6.Text);
-        }
-
-        private void textBox6_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            int isNumber = 0;
-            e.Handled = !int.TryParse(e.KeyChar.ToString(), out isNumber);
+            get { return tb_Obet.Text; }
+            set { tb_Obet.Text = value; }
         }
 
 
 
+
+
+        #endregion
     }
 }

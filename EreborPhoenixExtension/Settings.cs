@@ -188,9 +188,7 @@ namespace EreborPhoenixExtension
         {
             Debug.WriteLine("SETTINGS !!");
 
-            Mining = new Mine();
-            XmlSerializeHelper<Mine> h = new XmlSerializeHelper<Mine>();
-            Mining = h.Deserialize("Mining");
+
             Provocation = new Provocation();
             HotKeys = new SwitchabeHotkeys();
             Casting = new Casting();
@@ -296,6 +294,7 @@ namespace EreborPhoenixExtension
         #endregion
 
         #region CallbackResults
+        [ServerMessageHandler(0x1C)]
         public CallbackResult onCrystal(byte[] data, CallbackResult prevResult)//0x1C
         {
             AsciiSpeech packet = new AsciiSpeech(data);
@@ -318,7 +317,8 @@ namespace EreborPhoenixExtension
         }
 
 
-      public CallbackResult onExp(byte[] data, CallbackResult prevResult)
+        [ServerMessageHandler(0x1C)]
+        public CallbackResult onExp(byte[] data, CallbackResult prevResult)
         {
             AsciiSpeech packet = new AsciiSpeech(data);
             if (packet.Text.Contains(" zkusenosti."))
@@ -334,8 +334,8 @@ namespace EreborPhoenixExtension
             }
             return CallbackResult.Normal;
         }
-
-       public CallbackResult OnNextTarget(byte[] data, CallbackResult prevResult)
+        [ServerMessageHandler(0x11)]
+        public CallbackResult OnNextTarget(byte[] data, CallbackResult prevResult)
         {
             PacketReader reader = new PacketReader(data);
             if (reader.ReadByte() != 0x11) throw new Exception("Invalid packet passed to OnNextTarget method.");
@@ -448,7 +448,7 @@ namespace EreborPhoenixExtension
             //UO.PrintWarning("Naprah na " + new UOCharacter(Aliases.GetObject("laststatus")).Name);
             return CallbackResult.Normal;
         }
-
+        [ServerMessageHandler(0xa1)]
         public CallbackResult onHpChanged(byte[] data, CallbackResult prevResult)//0xa1
         {
             UOCharacter character = new UOCharacter(Phoenix.ByteConverter.BigEndian.ToUInt32(data, 1));
@@ -488,7 +488,7 @@ namespace EreborPhoenixExtension
             return CallbackResult.Normal;
         }
 
-
+        [ServerMessageHandler(0x1C)]
         public CallbackResult onBandageDone(byte[] data, CallbackResult prevResult)//0x1C
         {
             AsciiSpeech packet = new AsciiSpeech(data);
@@ -553,12 +553,6 @@ namespace EreborPhoenixExtension
         [ServerMessageHandler(0x65)]//weather
         public CallbackResult Filter(byte[] data, CallbackResult prevResult) { return CallbackResult.Eat; }
 
-        [ClientMessageHandler(0x01)]//logout
-        public CallbackResult LogOut(byte[] data, CallbackResult prevResult)
-        {
-            Main.Instance.save();
-            return CallbackResult.Normal;
-        }
         #endregion
     }
 }

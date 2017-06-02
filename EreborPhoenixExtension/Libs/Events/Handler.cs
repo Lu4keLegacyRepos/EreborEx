@@ -18,6 +18,8 @@ namespace EreborPhoenixExtension.Libs.Events
         public delegate void HitsChangedHandler(object sender, HitsChangedArgs e);
         public event HitsChangedHandler hitsChanged;
 
+
+
         public Handler()
         {
             EventsHandler = new Timer(200);
@@ -28,7 +30,7 @@ namespace EreborPhoenixExtension.Libs.Events
 
         private void EventsHandler_Elapsed(object sender, ElapsedEventArgs e)
         {
-
+                
             if (World.Player.Hidden != hiddenState)
             {
 

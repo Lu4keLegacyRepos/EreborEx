@@ -1,134 +1,420 @@
 ﻿using EreborPhoenixExtension.GUI;
 using EreborPhoenixExtension.Libs;
 using EreborPhoenixExtension.Libs.Extensions;
+using EreborPhoenixExtension.Libs.Runes;
 using EreborPhoenixExtension.Libs.Skills.Mining;
 using Phoenix;
 using Phoenix.WorldData;
 using System;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
+using System.Timers;
 using System.Windows.Forms;
 
 namespace EreborPhoenixExtension
 {
-    public delegate void Load();
-    [RuntimeObject]
+
     public class Main
     {
+        System.Timers.Timer t;
+        private int X = World.Player.X;
+        private int Y=World.Player.Y;
+        public Erebor EreborInstance;
         private const int SW_SHOWNORMAL = 1;
         private const int SW_SHOWMINIMIZED = 2;
         private const int SW_SHOWMAXIMIZED = 3;
-        public static Main Instance;
-        private int GWHeight;
-        private int GWWidth;
+
+        public GameWindowSize GWS;
         public Settings Settings;
-        private readonly GameWindowSize patch;
+
+        [DllImport("USER32.DLL")]
+        public static extern bool SetForegroundWindow(IntPtr hWnd);
+        [System.Runtime.InteropServices.DllImport("User32.dll")]
+        public static extern bool ShowWindow(IntPtr handle, int nCmdShow);
 
 
-        [DllImport("user32.dll")]
-        private static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
-        public Main()
-        {
-            Instance = this;
-            Instance.Settings = (new Settings().Deserialize("WindowSize"));
-            Instance.Settings.SetWindow(out GWWidth,out GWHeight);
-            try
+
+        private static Main instance;
+
+        private Main() {
+
+            XmlSerializeHelper<GameWindowSize> gw = new XmlSerializeHelper<GameWindowSize>();
+            if (!gw.Load("WindowSize", out GWS))
             {
-                patch = new GameWindowSize(GWWidth, GWHeight);
+                GWS = new GameWindowSize(); //TODO save proc null ?
+                GWS.Width = 800;
+                GWS.Height = 600;
+
             }
-            catch(Exception ex) { MessageBox.Show(ex.Message); }
-            Core.LoginComplete += Core_LoginComplete;
-            Core.Disconnected += Core_Disconnected;
-            
-            
-        }
+            GWS.Patch();
 
-        private void Core_Disconnected(object sender, EventArgs e)
-        {
-            Core.Disconnected -= Core_Disconnected;
-            save();
-            Instance.Settings = null;
-            Core.LoginComplete += Core_LoginComplete;
-            Core.UnregisterServerMessageCallback(0x1C, Instance.Settings.onBandageDone);
-            Core.UnregisterServerMessageCallback(0x1C, Instance.Settings.onCrystal);
-            Core.UnregisterServerMessageCallback(0x1C, Instance.Settings.onExp);
-            Core.UnregisterServerMessageCallback(0xa1, Instance.Settings.onHpChanged);
-            Core.UnregisterServerMessageCallback(0x11, Instance.Settings.OnNextTarget);
-            World.Player.Changed -= Player_Changed;
-            Instance.Settings.Ev.hiddenChange -= Ev_hiddenChange;
-            Instance.Settings.Ev.hitsChanged -= Ev_hitsChanged;
-            //Instance.Settings.AHeal.PatientHurted -= AHeal_PatientHurted;
-
-            Instance = null;
-
-        }
-
-        private void Core_LoginComplete(object sender, EventArgs e)
-        {
-            Core.LoginComplete -= Core_LoginComplete;
+            t = new System.Timers.Timer(500);
+            t.Elapsed += T_Elapsed;
+            t.Start();
             ShowWindowAsync(Client.HWND, SW_SHOWNORMAL);
             ShowWindowAsync(Client.HWND, SW_SHOWMAXIMIZED);
             Erebor.SetForegroundWindow(Client.HWND);
-            if (Instance == null)
-            {
-                Instance = new Main();
-                return;
-            }
 
-
-
-            Core.UnregisterServerMessageCallback(0x1C, Instance.Settings.onBandageDone);
-            Core.UnregisterServerMessageCallback(0x1C, Instance.Settings.onCrystal);
-            Core.UnregisterServerMessageCallback(0x1C, Instance.Settings.onExp);
-            Core.UnregisterServerMessageCallback(0xa1, Instance.Settings.onHpChanged);
-            Core.UnregisterServerMessageCallback(0x11, Instance.Settings.OnNextTarget);
-            Core.RegisterServerMessageCallback(0x1C, Instance.Settings.onBandageDone);
-            Core.RegisterServerMessageCallback(0x1C, Instance.Settings.onCrystal);
-            Core.RegisterServerMessageCallback(0x1C, Instance.Settings.onExp);
-            Core.RegisterServerMessageCallback(0xa1, Instance.Settings.onHpChanged);
-            Core.RegisterServerMessageCallback(0x11, Instance.Settings.OnNextTarget);
-
-
-
-
-            //nacist GUI
             World.Player.RequestStatus(100);
-            World.Player.Click();
+        }
+
+        private void T_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if(World.Player.Name!=null)
+            {
+                
+                t.Stop();
+                Initialize();
+            }
+        }
+
+        public static Main Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new Main();
+                }
+                return instance;
+            }
+        }
 
 
-            UO.PrintInformation("Loading done");
+
+
+
+
+        private void Initialize()
+        {
+            XmlSerializeHelper<Settings> sett = new XmlSerializeHelper<Settings>();
+            
+
+  
             new Thread(setEQ).Start();
-           // Instance.Settings = new XmlSerializeHelper<Settings>().Deserialize(World.Player.Name);
+
+            if (!sett.Load(World.Player.Name, out Settings))
+                Settings = new Settings();
 
             World.Player.Changed += Player_Changed;
             Instance.Settings.Ev.hiddenChange += Ev_hiddenChange;
             Instance.Settings.Ev.hitsChanged += Ev_hitsChanged;
             Instance.Settings.AHeal.PatientHurted += AHeal_PatientHurted;
-            Instance.Settings.Set(World.Player.Name);
-            Erebor.Instance.BeginInvoke(new CheckAll(Erebor.Instance.CheckAll));
-        }
-        private void Load()
-        {
-            while (World.Player.Name == null) UO.Wait(200);
-            Instance.Settings = new Settings().Deserialize(World.Player.Name.ToString());//  Instance.Settings.Deserialize(World.Player.Name.ToString());
-            Erebor.Instance.BeginInvoke(new CheckAll(Erebor.Instance.CheckAll));
-        }
-        private void RuntimeCore_UnregisteringAssembly(object sender, Phoenix.Runtime.UnregisteringAssemblyEventArgs e)
-        {
-            Debug.WriteLine("Ukladam");
-            Instance.save();
-        }
 
-        private void setEQ()
-        {
-            UO.Wait(1000);
-            World.Player.Click();
-            UO.Wait(1000);
-            World.Player.WaitTarget();
-            UO.Say(".setequip15");
+
+            Instance.EreborInstance.Changed += EreborInstance_Changed;
+            UO.PrintInformation("Loading done");
+
+
+            #region Init GUI
+            Instance.EreborInstance.Food = Instance.Settings.Lot.Food;
+            Instance.EreborInstance.Leather = Instance.Settings.Lot.Leather;
+            Instance.EreborInstance.Bolts = Instance.Settings.Lot.Bolts;
+            Instance.EreborInstance.Extend1 = Instance.Settings.Lot.Extend1;
+            Instance.EreborInstance.Extend2 = Instance.Settings.Lot.Extend2;
+            Instance.EreborInstance.Lot = Instance.Settings.Lot.DoLot;
+            Instance.EreborInstance.Feathers = Instance.Settings.Lot.Feathers;
+            Instance.EreborInstance.Gems = Instance.Settings.Lot.Gems;
+            Instance.EreborInstance.Regeants = Instance.Settings.Lot.Reageants;
+            Instance.EreborInstance.CorpsesHide = Instance.Settings.Lot.HideCorpses;
+            Instance.EreborInstance.AutoMorf = Instance.Settings.Amorf.Amorf;
+            Instance.EreborInstance.HitBandage = Instance.Settings.HitBandage;
+            Instance.EreborInstance.HitTrack = Instance.Settings.HitTrack;
+            Instance.EreborInstance.AutoArrow = Instance.Settings.Spells.AutoArrow;
+            Instance.EreborInstance.AutoDrink = Instance.Settings.AutoDrink;
+            Instance.EreborInstance.StoodUps = Instance.Settings.PrintAnim;
+
+            #endregion
 
         }
+        #region GUI Function
+        private void EreborInstance_Changed(object sender, EventChangedArgs e)
+        {
+            //((Erebor)sender).BeginInvoke(new MethodInvoker(EreborInstance.tt));
+            int tmp;
+            string tmps;
+            bool tmpb;
+            SetForegroundWindow(Client.HWND);
+            if (!e.btnName.Equals(string.Empty))
+            {
+                switch (e.btnName)
+                {
+                    case "btn_0":
+                        switch (e.SelectedTabID)
+                        {
+                            // Runes
+                            case 0:
+                                foreach (Rune r in Instance.Settings.RuneTree.Runes.Where(run => run.Id.ToString() == Instance.EreborInstance.SelectedRuneID))
+                                {
+                                    Instance.Settings.RuneTree.findRune(r);
+                                    r.RecallSvitek();
+                                }
+                                break;
+                            // Equip Sets
+                            case 1:
+                                tmp = Instance.EreborInstance.SelectedEquip;
+                                if (tmp >= 0)
+                                {
+                                    Instance.Settings.EquipSet.equipy[tmp].DressOnly();
+                                }
+                                break;
+                        }
+
+                        break;
+                    case "btn_1":
+                        switch (e.SelectedTabID)
+                        {
+                            // Runes
+                            case 0:
+                                foreach (Rune r in Instance.Settings.RuneTree.Runes.Where(run => run.Id.ToString() == Instance.EreborInstance.SelectedRuneID))
+                                {
+                                    Instance.Settings.RuneTree.findRune(r);
+                                    r.Recall();
+                                }
+                                break;
+                            // Equip Sets
+                            case 1:
+                                tmp = Instance.EreborInstance.SelectedEquip;
+                                if (tmp >= 0)
+                                {
+                                    UO.PrintInformation("Zamer odkladaci batoh");
+                                    Instance.Settings.EquipSet.equipy[tmp].Dress(new UOItem(UIManager.TargetObject()));
+                                }
+                                break;
+                        }
+                        break;
+                    case "btn_2":
+                        switch (e.SelectedTabID)
+                        {
+                            // Runes
+                            case 0:
+                                foreach (Rune r in Instance.Settings.RuneTree.Runes.Where(run => run.Id.ToString() == Instance.EreborInstance.SelectedRuneID))
+                                {
+                                    Instance.Settings.RuneTree.findRune(r);
+                                    r.Gate();
+                                }
+                                break;
+                            // Equip Sets
+                            case 1:
+                                tmp = Instance.EreborInstance.SelectedEquip;
+                                if (tmp >= 0)
+                                {
+                                    instance.Settings.EquipSet.Remove(tmp);
+                                    instance.Settings.EquipSet.fillListBox(instance.EreborInstance.EquipList);
+                                }
+                                break;
+                            // Weapons
+                            case 2:
+                                tmp = Instance.EreborInstance.SelectedWeapon;
+                                if (tmp >= 0)
+                                {
+                                    instance.Settings.Weapons.Remove(tmp);
+                                    instance.Settings.Weapons.fillListBox(instance.EreborInstance.WeaponList);
+                                }
+                                break;
+                            // Healed
+                            case 3:
+                                tmp = Instance.EreborInstance.SelectedHealed;
+                                if (tmp >= 0)
+                                {
+                                    instance.Settings.AHeal.Remove(tmp);
+                                    instance.Settings.AHeal.fillListBox(instance.EreborInstance.HealList);
+                                }
+                                break;
+                            // TrackIgnore
+                            case 4:
+                                tmp = Instance.EreborInstance.SelectedIgnored;
+                                if (tmp >= 0)
+                                {
+                                    instance.Settings.Track.Remove(tmp);
+                                    instance.Settings.Track.fillListBox(instance.EreborInstance.TrackIgnoreList);
+                                }
+                                break;
+                            case 5:
+                                break;
+
+                        }
+                        break;
+                    case "btn_3":
+                        switch (e.SelectedTabID)
+                        {
+                            // Runes
+                            case 0:
+                                Instance.Settings.RuneTree.GetRunes();
+                                Instance.Settings.RuneTree.FillTreeView(Instance.EreborInstance.RuneView);
+                                break;
+                            // Equip Sets
+                            case 1:
+                                UO.PrintWarning("Zamer bagl s equipem");
+                                instance.Settings.EquipSet.Add();
+                                instance.Settings.EquipSet.fillListBox(instance.EreborInstance.EquipList);
+                                break;
+                            // Weapons
+                            case 2:
+                                UO.PrintWarning("Zamer zbran a stit");
+                                instance.Settings.Weapons.Add();
+                                instance.Settings.Weapons.fillListBox(instance.EreborInstance.WeaponList);
+                                break;
+                            // Healed
+                            case 3:
+                                UO.PrintWarning("Zamer koho lecit");
+                                instance.Settings.AHeal.Add();
+                                instance.Settings.AHeal.fillListBox(instance.EreborInstance.HealList);
+                                break;
+                            // TrackIgnore
+                            case 4:
+                                UO.PrintWarning("Zamer koho ignorovat pri Trackingu");
+                                instance.Settings.Track.Add();
+                                instance.Settings.Track.fillListBox(instance.EreborInstance.TrackIgnoreList);
+                                break;
+                            case 5:
+                                break;
+
+                        }
+                        break;
+                    case "btn_4":
+                        switch (e.SelectedTabID)
+                        {
+                            // Runes
+                            case 0:
+                                Instance.Settings.RuneTree.FillTreeView(Instance.EreborInstance.RuneView);
+                                break;
+                            // Equip Sets
+                            case 1:
+                                instance.Settings.EquipSet.fillListBox(instance.EreborInstance.EquipList);
+                                break;
+                            // Weapons
+                            case 2:
+                                instance.Settings.Weapons.fillListBox(instance.EreborInstance.WeaponList);
+                                break;
+                            // Healed
+                            case 3:
+                                instance.Settings.AHeal.fillListBox(instance.EreborInstance.HealList);
+                                break;
+                            // TrackIgnore
+                            case 4:
+                                instance.Settings.Track.fillListBox(instance.EreborInstance.TrackIgnoreList);
+
+                                break;
+                            case 5:
+                                break;
+
+                        }
+                        break;
+                    case "btn_AddHotkeys":
+                        Instance.Settings.HotKeys.Add();
+                        break;
+                    case "btn_ClearHotkeys":
+                        Instance.Settings.HotKeys.Clear();
+                        break;
+                    case "btn_Extend1":
+                        UO.PrintWarning("Zamer Item");
+                        Instance.Settings.Lot.extend1_type = new UOItem(UIManager.TargetObject()).Graphic;
+                        Instance.EreborInstance.Extend1Type_Text = Instance.Settings.Lot.extend1_type.ToString();
+                        break;
+                    case "btn_Extend2":
+                        UO.PrintWarning("Zamer Item");
+                        Instance.Settings.Lot.extend1_type = new UOItem(UIManager.TargetObject()).Graphic;
+                        Instance.EreborInstance.Extend2Type_Text = Instance.Settings.Lot.extend2_type.ToString();
+                        break;
+                    case "btn_SetBag":
+                        UO.PrintWarning("Zamer Lot Baglik");
+                        Instance.Settings.Lot.LotBag = new UOItem(UIManager.TargetObject());
+                        break;
+                    case "btn_SetCarv":
+                        UO.PrintWarning("Zamer Nuz");
+                        Instance.Settings.Lot.CarvTool = new UOItem(UIManager.TargetObject());
+                        break;
+                    case "btn_Pois":
+                        UO.PrintInformation("Zamer Poison");
+                        Instance.Settings.Poisoning.PoisonBottle = new UOItem(UIManager.TargetObject());
+                        UOItem pois = new UOItem(Instance.Settings.Poisoning.PoisonBottle);
+                        pois.Click();
+                        UO.Wait(150);
+                        Instance.EreborInstance.PoisType = pois.Name;
+                        break;
+
+                }
+            }
+            if(!e.TextValue.Equals(string.Empty))
+            {
+                tmps = Instance.EreborInstance.GoldLimit ?? "0";
+                //tmps= Regex.Match(tmps, @"\d+").Value;
+                Instance.Settings.GoldLimit = ushort.Parse(tmps);
+
+                tmps = Instance.EreborInstance.GwWidth ?? "800";
+                //tmps = Regex.Match(tmps, @"\d+").Value;
+                Instance.GWS.Width = ushort.Parse(tmps);
+
+                tmps = Instance.EreborInstance.GwHeight ?? "600";
+                //tmps = Regex.Match(tmps, @"\d+").Value;
+                Instance.GWS.Height = ushort.Parse(tmps);
+
+                tmps = Instance.EreborInstance.HidDelay ?? "2800";
+               // tmps = Regex.Match(tmps, @"\d+").Value;
+                Instance.Settings.hidDelay = ushort.Parse(tmps);
+
+                tmps = Instance.EreborInstance.Hits2Pot ?? "30";
+              //  tmps = Regex.Match(tmps, @"\d+").Value;
+                Instance.Settings.criticalHits = ushort.Parse(tmps);
+
+                tmps = Instance.EreborInstance.MinHp ?? "80";
+               // tmps = Regex.Match(tmps, @"\d+").Value;
+                Instance.Settings.minHP = ushort.Parse(tmps);
+
+                tmps = Instance.EreborInstance.VoodooObet ?? "40";
+               // tmps = Regex.Match(tmps, @"\d+").Value;
+                Instance.Settings.VoodooManaLimit = ushort.Parse(tmps);
+            }
+
+
+            // Sync Property with controls
+
+            //Instance.Settings.Lot.Food = Instance.EreborInstance.Food;
+            //Instance.Settings.Lot.Leather = Instance.EreborInstance.Leather;
+            //Instance.Settings.Lot.Bolts = Instance.EreborInstance.Bolts;
+            //Instance.Settings.Lot.Extend1 = Instance.EreborInstance.Extend1;
+            //Instance.Settings.Lot.Extend2 = Instance.EreborInstance.Extend2;
+            //Instance.Settings.Lot.DoLot = Instance.EreborInstance.Lot;
+            //Instance.Settings.Lot.Feathers = Instance.EreborInstance.Feathers;
+            //Instance.Settings.Lot.Gems = Instance.EreborInstance.Gems;
+            //Instance.Settings.Lot.Reageants = Instance.EreborInstance.Regeants;
+            //Instance.Settings.Lot.HideCorpses = Instance.EreborInstance.CorpsesHide;
+            //Instance.Settings.Amorf.Amorf = Instance.EreborInstance.AutoMorf;
+            //Instance.Settings.HitBandage= Instance.EreborInstance.HitBandage;
+            //Instance.Settings.HitTrack= Instance.EreborInstance.HitTrack;
+            //Instance.Settings.Spells.AutoArrow= Instance.EreborInstance.AutoArrow;
+            //Instance.Settings.AutoDrink= Instance.EreborInstance.AutoDrink;
+            //Instance.Settings.PrintAnim= Instance.EreborInstance.StoodUps;
+
+
+            tmpb = Instance.EreborInstance.Food; if (tmpb != Instance.Settings.Lot.Food) Instance.Settings.Lot.Food = tmpb;
+            tmpb = Instance.EreborInstance.Leather; if (tmpb != Instance.Settings.Lot.Leather) Instance.Settings.Lot.Leather = tmpb;
+            tmpb = Instance.EreborInstance.Bolts; if (tmpb != Instance.Settings.Lot.Bolts) Instance.Settings.Lot.Bolts = tmpb;
+            tmpb = Instance.EreborInstance.Extend1; if (tmpb != Instance.Settings.Lot.Extend1) Instance.Settings.Lot.Extend1 = tmpb;
+            tmpb = Instance.EreborInstance.Extend2; if (tmpb != Instance.Settings.Lot.Extend2) Instance.Settings.Lot.Extend2 = tmpb;
+            tmpb = Instance.EreborInstance.Lot; if (tmpb != Instance.Settings.Lot.DoLot) Instance.Settings.Lot.DoLot = tmpb;
+            tmpb = Instance.EreborInstance.Feathers; if (tmpb != Instance.Settings.Lot.Feathers) Instance.Settings.Lot.Feathers = tmpb;
+            tmpb = Instance.EreborInstance.Gems; if (tmpb != Instance.Settings.Lot.Gems) Instance.Settings.Lot.Gems = tmpb;
+            tmpb = Instance.EreborInstance.Regeants; if (tmpb != Instance.Settings.Lot.Reageants) Instance.Settings.Lot.Reageants = tmpb;
+            tmpb = Instance.EreborInstance.CorpsesHide; if (tmpb != Instance.Settings.Lot.HideCorpses) Instance.Settings.Lot.HideCorpses = tmpb;
+            tmpb = Instance.EreborInstance.AutoMorf; if (tmpb != Instance.Settings.Amorf.Amorf) Instance.Settings.Amorf.Amorf = tmpb;
+            tmpb = Instance.EreborInstance.HitBandage; if (tmpb != Instance.Settings.HitBandage) Instance.Settings.HitBandage = tmpb;
+            tmpb = Instance.EreborInstance.HitTrack; if (tmpb != Instance.Settings.HitTrack) Instance.Settings.HitTrack = tmpb;
+            tmpb = Instance.EreborInstance.AutoArrow; if (tmpb != Instance.Settings.Spells.AutoArrow) Instance.Settings.Spells.AutoArrow = tmpb;
+            tmpb = Instance.EreborInstance.AutoDrink; if (tmpb != Instance.Settings.AutoDrink) Instance.Settings.AutoDrink = tmpb;
+            tmpb = Instance.EreborInstance.StoodUps; if (tmpb != Instance.Settings.PrintAnim) Instance.Settings.PrintAnim = tmpb;
+
+
+
+
+        }
+        #endregion
+
         private void AHeal_PatientHurted(object sender, Libs.Healing.HurtedPatientArgs e)
         {
             Instance.Settings.AHeal.PatientHurted -= AHeal_PatientHurted;
@@ -201,9 +487,7 @@ namespace EreborPhoenixExtension
             World.Player.Changed += Player_Changed;
 
         }
-
-
-        public static string PrintState()
+        public string PrintState()
         {
             UOPlayer p = World.Player;
             string temp = "";
@@ -238,364 +522,28 @@ namespace EreborPhoenixExtension
             }
             return temp;
         }
-        #region Commands
 
-
-        [Command]
-        public void Record(string name)
+        private void setEQ()
         {
-            if(Instance.Settings.Mining ==null)
-            {
-                //Instance.Settings.Mining = (new Mine().Deserialize());
-
-            }
-
-            Instance.Settings.Mining.AddMap(name);
-            new XmlSerializeHelper<Mine>().Serialize("Mining", Instance.Settings.Mining);
-            //Instance.Settings.Mining.Serialize();
-
-
-        }
-        [Command]
-        public void mine()
-        {
-            if (Instance.Settings.Mining == null)
-            {
-               // Instance.Settings.Mining = (new Mine().Deserialize());
-
-            }
-           // Instance.Settings.Mining.SelectMap();// TODO odstranit 
-            Instance.Settings.Mining.Work();
-        }
-
-
-        [Command]
-        public void save()
-        {
-            Instance.Settings.Serialize(World.Player.Name.ToString());
-            Instance.Settings.Serialize("WindowSize");
-            UO.PrintInformation("Saved");
-        }
-        [Command]
-        public void wall(bool energy)
-        {
-            int t = 10;
-            Core.UnregisterServerMessageCallback(0x1C, Instance.Settings.onSpellFizz);
-            Core.RegisterServerMessageCallback(0x1C, Instance.Settings.onSpellFizz);
-            StaticTarget st = UIManager.Target();
-            UO.WaitTargetTile(st.X, st.Y, st.Z, st.Graphic);
-            if (energy)
-            {
-                UO.Cast(StandardSpell.EnergyField);
-                while (t > 0)
-                {
-                    UO.Wait(500);
-                    if (Instance.Settings.Casting.SpellFizz)
-                    {
-                        Instance.Settings.Casting.SpellFizz = false;
-                        Core.UnregisterServerMessageCallback(0x1C, Instance.Settings.onSpellFizz);
-                        return;
-                    }
-                    t--;
-                }
-                Instance.Settings.wallCnt.Add(st.X, st.Y, WallCounter.WallTime.Energy);
-            }
-            else
-            {
-                UO.Cast(StandardSpell.WallofStone);
-                while (t > 0)
-                {
-                    UO.Wait(500);
-                    if (Instance.Settings.Casting.SpellFizz)
-                    {
-                        Instance.Settings.Casting.SpellFizz = false;
-                        Core.UnregisterServerMessageCallback(0x1C, Instance.Settings.onSpellFizz);
-                        return;
-                    }
-                    t--;
-                }
-                Instance.Settings.wallCnt.Add(st.X, st.Y, WallCounter.WallTime.Stone);
-            }
-            Core.UnregisterServerMessageCallback(0x1C, Instance.Settings.onSpellFizz);
+            UO.Wait(1000);
+            World.Player.Click();
+            UO.Wait(1000);
+            World.Player.WaitTarget();
+            UO.Say(".setequip15");
 
         }
 
-        [Command, BlockMultipleExecutions]
-        public void kill()
-        {
-            Instance.Settings.OtherAbilites.kill();
-        }
-        [Command, BlockMultipleExecutions]
-        public void friend()
-        {
-            Instance.Settings.OtherAbilites.frnd();
-        }
-        [Command]
-        public void mesure(string command)
-        {
-            UO.Say(command);
-            DateTime tt = DateTime.Now;
-            while (World.Player.Hits == World.Player.MaxHits)
-            {
-                UO.Wait(50);
-            }
-            UO.Print((DateTime.Now - tt).TotalMilliseconds);
-        }
-        [Command]
-        public void autoSacrafire()
-        {
-            if (Instance.Settings.Casting.autoSacrafire)
-            {
-                UO.PrintInformation("Auto obet OFF");
-                Instance.Settings.Casting.autoSacrafire = false;
-            }
-            else
-            {
-                UO.PrintInformation("Auto obet ON");
-                Instance.Settings.Casting.autoSacrafire = true;
-            }
-        }
-        [Command]
-        public void obet()
-        {
-            Instance.Settings.VooDoo.Sacrafire(Instance.Settings.AHeal.bandage);
-        }
 
-        [Command]
-        public void voodoo()
-        {
-            if (Instance.Settings.VooDoo.VoDo) Instance.Settings.VooDoo.VoDo = false;
-            else Instance.Settings.VooDoo.VoDo = true;
-        }
-        [Command]
-        public void switchhotkeys()
-        {
-            Instance.Settings.HotKeys.swHotk();
-        }
-        [Command]
-        public void reactiv()
-        {
-            Instance.Settings.Spells.ReactiveArmor(World.Player);
-        }
-        [Command]
-        public void arrowself(bool b)
-        {
-            Instance.Settings.Spells.arrowSelf(b);
-        }
-        [Command]
-        public void potion(string type)
-        {
-            Instance.Settings.OtherAbilites.potion(type);
-        }
-        [Command]
-        public void potion(string type, int delay)
-        {
-            Instance.Settings.OtherAbilites.potion(type, delay);
-        }
-        [Command]
-        public void attacklast()
-        {
-            Instance.Settings.OtherAbilites.attackLast();
-        }
+        
 
-        [Command]
-        public void war()
-        {
-            Instance.Settings.OtherAbilites.war();
-        }
-        [Command, BlockMultipleExecutions]
-        public void probo()
-        {
-            Instance.Settings.HitBandage = false;
-            Instance.Settings.OtherAbilites.probo(Instance.Settings.HiddenTime);
-            Instance.Settings.HitBandage = true;
-        }
-        [Command, BlockMultipleExecutions]
-        public void kudla()
-        {
-            Instance.Settings.OtherAbilites.kudla();
-        }
-
-        [Command]
-        public void Morf(ushort to)
-        {
-            Instance.Settings.Amorf.MorfTo(to);
-        }
-        [Command]
-        public void OnOff()
-        {
-            if (Instance.Settings.AHeal.OnOff) Instance.Settings.AHeal.OnOff = false;
-            else
-            {
-                Instance.Settings.AHeal.OnOff = true;
-                if (Instance.Settings.ActualCharacter == Character.EreborClass.Null)
-                {
-                    Character.ClassKnown += Character_ClassKnown;
-                    GetClass Gc = new GetClass(Character.GetClass);
-                    Gc.BeginInvoke(null, null);
-                }
-                UO.Print(Instance.Settings.AHeal.HealedPlayers.Count);
-            }
-        }
-
-        private void Character_ClassKnown(object sender, Character.ClassReturnArgs e)
-        {
-            Character.ClassKnown -= Character_ClassKnown;
-            Instance.Settings.ActualCharacter = e.ActualClass;
-            switch (Instance.Settings.ActualCharacter)
-            {
-                case Character.EreborClass.Priest:
-                    Instance.Settings.CrystalCmd = ".enlightment";
-                    Instance.Settings.HealCmd = ".heal";
-                    Instance.Settings.AHeal.PatientHPLimit = 87;
-                    break;
-                case Character.EreborClass.Shaman:
-                    Instance.Settings.CrystalCmd = ".improvement";
-                    Instance.Settings.HealCmd = ".samheal";
-                    Instance.Settings.AHeal.PatientHPLimit = 90;
-                    break;
-
-            }
-            UO.Print(Instance.Settings.CrystalCmd);
-        }
-
-        [Command]
-        public void bandage()
-        {
-            if (Instance.Settings.ActualCharacter == Character.EreborClass.Null)
-            {
-                Character.ClassKnown += Character_ClassKnown;
-                GetClass Gc = new GetClass(Character.GetClass);
-                Gc.BeginInvoke(null, null);
-            }
-            Instance.Settings.AHeal.bandage();
-            Instance.Settings.Weapons.ActualWeapon.Equip();
-        }
+        [DllImport("user32.dll")]
+        private static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
 
 
-        [Command, BlockMultipleExecutions]
-        public void pois()
-        {
-            Instance.Settings.Poisoning.pois();
-        }
-
-        [Command]
-        public void nhcast(string s, Serial t)
-        {
-            if (Instance.Settings.arrowSelfProgress) return;
-            bool tmp = false;
-            if (Instance.Settings.AHeal.OnOff)
-            {
-                Instance.Settings.AHeal.OnOff = false;
-                tmp = true;
-            }
 
 
-            Instance.Settings.Casting.ccast(s, t, Instance.Settings.AHeal.bandage, this.obet);
-            UO.Wait(Instance.Settings.Casting.SpellsDelays[s]);
-            if (tmp == true && Instance.Settings.AHeal.OnOff == false) Instance.Settings.AHeal.OnOff = true;
-        }
-        [Command]
-        public void ccast(string s)
-        {
-            if (Instance.Settings.arrowSelfProgress) return;
-            Instance.Settings.Casting.ccast(s, Instance.Settings.AHeal.bandage, this.obet);
-        }
-        [Command]
-        public void ccast(string s, Serial t)
-        {
-            if (Instance.Settings.arrowSelfProgress) return;
-            if (Aliases.LastAttack != t) UO.Attack(t);
-            Instance.Settings.Casting.ccast(s, t, Instance.Settings.AHeal.bandage, this.obet);
-        }
-        [Command]
-        public void autocast(bool b)
-        {
-            Instance.Settings.Casting.autocast(b, Instance.Settings.AHeal.bandage, this.obet);
-        }
-        [Command]
-        public void hidoff()
-        {
-            Instance.Settings.Hiding.hidoff();
-        }
-        [Command, BlockMultipleExecutions]
-        public void hid()
-        {
-            Instance.Settings.Hiding.hiding(true);
 
-        }
-        [Command("exp")]
-        public void getExp()
-        {
-            UO.Print(Instance.Settings.exp);
-        }
-        [Command]
-        public void inv()
-        {
-            Instance.Settings.Spells.inv(Instance.Settings.Casting.ccast, Instance.Settings.AHeal.bandage, Instance.Settings.Casting.SpellsDelays["Invis"]);
-        }
 
-        [Command("switch")]
-        public void swit()
-        {
-            Instance.Settings.Weapons.SwitchWeapons();
-        }
-        [Command, BlockMultipleExecutions]
-        public void music(bool b)
-        {
-            Instance.Settings.Peace_Entic.music(b);
-        }
 
-        [Command]
-        public void kuch()
-        {
-            Instance.Settings.Lot.Carving();
-            Instance.Settings.Weapons.ActualWeapon.Equip();
-        }
-
-        [Command]
-        public void track()
-        {
-            Instance.Settings.Track.Track();
-        }
-        [Command]
-        public void track(int choice)
-        {
-            Instance.Settings.Track.Track(choice);
-        }
-        [Command]
-        public void track(string var)
-        {
-            Instance.Settings.Track.Track(var);
-        }
-        [Command]
-        public void track(int choice, bool war)
-        {
-            Instance.Settings.Track.Track(choice, war);
-        }
-        [Command]
-        public void add(string name)
-        {
-            Instance.Settings.Track.Add(name);
-
-        }
-        [Command, BlockMultipleExecutions]
-        public void autopetheal()
-        {
-            Instance.Settings.Vete.autoVet();
-        }
-
-        [Command, BlockMultipleExecutions]
-        public void petheal()
-        {
-            Instance.Settings.Vete.Vet();
-        }
-        [Command]
-        public void harm()
-        {
-            UO.Attack(Aliases.GetObject("laststatus"));
-            UO.Cast(StandardSpell.Harm, Aliases.GetObject("laststatus"));
-        }
-        #endregion
     }
 }

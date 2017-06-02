@@ -49,7 +49,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 
         public void RemoveNearObstacles(Action<UOItem> RemoveObstacle)
         {
-            World.FindDistance = 3;
+            World.FindDistance = 2;
             foreach (UOItem it in World.Ground.Where(x => Obsatcles.Any(a => x.Graphic.Equals(a))))
             {
                 RemoveObstacle(it);

@@ -2,6 +2,7 @@
 using Phoenix.WorldData;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace EreborPhoenixExtension.Libs.Skills.Mining
 {
@@ -13,12 +14,14 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
         UOItem Mace;
         List<string> TopMonster = new List<string>() { "golem", "spirit" };
         Graphic[] Humanoid = { 0x0191, 0x0190 };
+        Point ActualPositon;
         public Battle(Action<int,int> moveTo, Action moveFarestField, UOCharacter Ch, UOItem mace)
         {
             MoveFar = moveFarestField;
             MoveTo = moveTo;
             ch = Ch;
             Mace = mace;
+            ActualPositon = new Point(World.Player.X, World.Player.Y);
         }
         public void Kill()
         {
@@ -28,23 +31,28 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
             foreach (string s in TopMonster)
             {
                 if (ch.Name.ToLower().Contains(s))
+
                 {
                     Run();
                     return;
-
                 }
+
 
             }
             foreach (Graphic g in Humanoid)
             {
-                if (ch.Model == g) Run();
-                return;
+                if (ch.Model == g)
+                {
+                    Run();
+                    return;
+                }
+                
             }
-
-            while (!Journal.Contains("Ziskala jsi ", "Ziskal jsi ", "gogo"))
+            UO.Attack(ch);
+            Mace.Equip();
+            while (!Journal.Contains(true, "Ziskala jsi ", "Ziskal jsi ", "gogo"))
             {
-                UO.Attack(ch);
-                Mace.Equip();
+
                 if(ch.Distance>1) MoveTo(ch.X, ch.Y);
                 if (Journal.Contains("Vysavas zivoty!"))
                 {
@@ -56,6 +64,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
                 }
                 UO.Wait(100);
             }
+            MoveTo(ActualPositon.X, ActualPositon.Y);
         }
 
         private void Run()

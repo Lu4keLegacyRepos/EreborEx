@@ -8,18 +8,20 @@ using System.Runtime.InteropServices;
 
 namespace EreborPhoenixExtension.Libs.Extensions
 {
-
+    [Serializable]
     public class GameWindowSize
     {
-        public int Width { get; private set; }// = 1000;
-        public int Height { get; private set; }//= 600;
+        public int Width { get;  set; }// = 1000;
+        public int Height { get;  set; }//= 600;
 
-
-
-        public GameWindowSize(int width, int height)//TODO: asi neni moc rychly, pustit v jinym threadu? dost mozna by se to mohlo ukladat
+        public GameWindowSize()
         {
-            Width = width;
-            Height = height;
+
+        }
+
+        public void Patch()//TODO: asi neni moc rychly, pustit v jinym threadu? dost mozna by se to mohlo ukladat
+        {
+
             try
             {
                 int offset;
