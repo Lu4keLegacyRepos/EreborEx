@@ -7,6 +7,7 @@ using System.Linq;
 namespace EreborPhoenixExtension.Libs.Magic
 {
     public delegate void arrowSelf(bool attacklast);
+
     public class Spells
     {
         private readonly string[] onParaCalls = new string[] { "Nohama ti projela silna bolest, citis, ze se nemuzes hybat.", " crying awfully." };

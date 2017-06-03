@@ -116,8 +116,6 @@ namespace EreborPhoenixExtension
                 hitTrack = value;
             }
         }
-        public int GWHeight { get; set; }
-        public int GWWidth { get; set; }
         public uint criticalHits { get;  set; }
         public bool AutoDrink
         {
@@ -144,45 +142,63 @@ namespace EreborPhoenixExtension
             }
         }
 
-
-        public void Set(string filename)
+        public bool AutoMorf
         {
-            Settings tmp = null;
-            tmp.Deserialize(filename);
-            if (tmp == null) return;
-            Poisoning.PoisonBottle = tmp.Poisoning.PoisonBottle;
-            EquipSet.equipy = tmp.EquipSet.equipy;
-            Lot.Bolts = tmp.Lot.Bolts;
-            Lot.CarvTool = tmp.Lot.CarvTool;
-            Lot.DoLot = tmp.Lot.DoLot;
-            Lot.Feathers = tmp.Lot.Feathers;
-            Lot.Food = tmp.Lot.Food;
-            Lot.Gems = tmp.Lot.Gems;
-            Lot.HideCorpses = tmp.Lot.HideCorpses;
-            Lot.Leather = tmp.Lot.Leather;
-            Lot.LotBag = tmp.Lot.LotBag;
-            Lot.Reageants = tmp.Lot.Reageants;
-            Lot.Extend1 = tmp.Lot.Extend1;
-            Lot.extend1_type = tmp.Lot.extend1_type;
-            Lot.Extend2 = tmp.Lot.Extend2;
-            Lot.extend2_type = tmp.Lot.extend2_type;
-            AHeal.avaibleEquips = tmp.AHeal.avaibleEquips;
-            AHeal.HealedPlayers = tmp.AHeal.HealedPlayers;
-            AHeal.PatientHPLimit = tmp.AHeal.PatientHPLimit;
-            RuneTree.Runes = tmp.RuneTree.Runes;
-            Weapons.weapons = tmp.Weapons.weapons;
-            Weapons.ActualWeapon = tmp.Weapons.ActualWeapon;
-            minHP = tmp.minHP;
-            VoodooManaLimit = tmp.VoodooManaLimit;
-            hidDelay = tmp.hidDelay;
-            HitBandage = tmp.HitBandage;
-            HitTrack = tmp.HitTrack;
-            criticalHits = tmp.criticalHits;
-            AutoDrink = tmp.AutoDrink;
-            GoldLimit = tmp.GoldLimit;
-            PrintAnim = tmp.PrintAnim;
+            get
+            {
+                return Amorf.Amorf;
+            }
 
+            set
+            {
+                Amorf.Amorf = value;
+            }
         }
+
+        public bool AutoArrow
+        {
+            get
+            {
+                return Spells.AutoArrow;
+            }
+
+            set
+            {
+                Spells.AutoArrow = value;
+            }
+        }
+
+        public List<string> Hotkeys
+        {
+            get
+            {
+                return HotKeys.swHotkeys;
+                
+            }
+            set
+            {
+                HotKeys.swHotkeys = value;
+            }
+        } 
+        public uint PoisBottle
+        {
+            get { return Poisoning.PoisonBottle; }
+            set { Poisoning.PoisonBottle = value; }
+        }
+        public string PoisName
+        {
+            get {
+                return Poisoning.PoisonName;
+            }
+            set
+            {
+                UOItem tmp = new UOItem(Poisoning.PoisonBottle);
+                tmp.Click();
+                UO.Wait(200);
+                Poisoning.PoisonName = value;
+            }
+        }
+
 
         public Settings()
         {
@@ -243,55 +259,6 @@ namespace EreborPhoenixExtension
 
 
 
-        #region Serializable & Deserializable & Set Data
-        public void Serialize(string filename)
-        {
-            try
-            {
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-                var serializer = new XmlSerializer(this.GetType());
-                if(File.Exists(path + filename))File.Delete(path + filename);
-                using (var stream = File.OpenWrite(path + filename))
-                {
-                    serializer.Serialize(stream, this);
-                }
-            }
-            catch (Exception ex) { MessageBox.Show(ex.InnerException.ToString()); }
-
-        }
-
-        public Settings Deserialize(string filename)
-        {
-            Settings XMLOBJ = null;
-            try
-            {
-                var serializer = new XmlSerializer(GetType());
-                using (var stream = File.OpenRead(path + filename))
-                {
-                    XMLOBJ = (Settings)serializer.Deserialize(stream);
-                }
-
-            }
-            catch //(Exception ex)
-            {
-
-                UO.PrintError(filename + " neexistuje");
-               // MessageBox.Show(ex.InnerException.ToString());
-                return new Settings();
-            }
-            return XMLOBJ;
-
-        }
-
-        public void SetWindow(out int Width, out int Height)
-        {
-            Width = GWWidth<400?800:GWWidth;
-            Height = GWHeight<300?600:GWHeight;
-        }
-        #endregion
 
         #region CallbackResults
         [ServerMessageHandler(0x1C)]

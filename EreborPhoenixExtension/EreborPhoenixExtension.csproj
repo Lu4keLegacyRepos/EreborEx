@@ -78,6 +78,7 @@
     <Compile Include="Libs\Events\Handler.cs" />
     <Compile Include="Libs\Events\HiddenChangeArgs.cs" />
     <Compile Include="Libs\Events\HitsChangedArgs.cs" />
+    <Compile Include="Libs\Extensions\GameWIndoSize_DATA.cs" />
     <Compile Include="Libs\Extensions\GameWindowSize.cs" />
     <Compile Include="Libs\Extensions\MoneyCash.cs" />
     <Compile Include="Libs\Extensions\Pathfinding\Movement.cs" />

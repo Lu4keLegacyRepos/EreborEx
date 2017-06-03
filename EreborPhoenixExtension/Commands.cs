@@ -49,11 +49,11 @@ namespace EreborPhoenixExtension
         [Command]
         public void save()
         {
-            XmlSerializeHelper<GameWindowSize> gws = new XmlSerializeHelper<GameWindowSize>();
+            XmlSerializeHelper<GameWIndoSize_DATA> gws = new XmlSerializeHelper<GameWIndoSize_DATA>();
             XmlSerializeHelper<Settings> sett = new XmlSerializeHelper<Settings>();
             XmlSerializeHelper<Mine> min = new XmlSerializeHelper<Mine>();
 
-            gws.Save("WindowSize", Main.Instance.GWS);
+            gws.Save("WindowSize", Main.Instance.GWS_DATA);
             sett.Save(World.Player.Name, Main.Instance.Settings);
             if (Main.Instance.Settings.Mining != null) min.Save("Mining", Main.Instance.Settings.Mining);
             UO.PrintInformation("Saved");

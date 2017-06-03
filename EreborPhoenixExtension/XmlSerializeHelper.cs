@@ -33,9 +33,10 @@ namespace EreborPhoenixExtension
                     if (File.Exists(path + filename + "_backup"))
                         File.Delete(path + filename + "_backup");
                     File.Copy(path + filename, path + filename + "_backup");
+                    File.Delete(path + filename);
                 }
                 var serializer = new XmlSerializer(_type);
-                using (var stream = File.Open(path + filename,FileMode.CreateNew,FileAccess.Write,FileShare.None))
+                using (var stream = File.Open(path + filename,FileMode.CreateNew,FileAccess.ReadWrite,FileShare.None))
                 {
                     serializer.Serialize(stream, obj);
                 }

@@ -4,6 +4,7 @@ using Phoenix.WorldData;
 
 namespace EreborPhoenixExtension.Libs.Abilites
 {
+
     public class AutoMorf
     {
 

@@ -7,10 +7,9 @@ using System.Xml.Serialization;
 
 namespace EreborPhoenixExtension.Libs
 {
-    [Serializable]
     public class SwitchabeHotkeys
     {
-        [XmlArray]
+
         public List<string> swHotkeys { get; set; }
         public static SwitchabeHotkeys instance;
         private bool on = true;

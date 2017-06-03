@@ -15,11 +15,20 @@ namespace EreborPhoenixExtension.Libs
     public class Lot
     {
 
-        private List<Graphic> toCarv = new List<Graphic> { 0x2006, 0x0EE3, 0x0EE4, 0x0EE5, 0x0EE6, 0x2006 };//pavuciny+mrtvola
+        private List<Graphic> toCarv = new List<Graphic> { 0x2006, 0x0EE3, 0x0EE4, 0x0EE5, 0x0EE6, 0x2006 };//pvuciny+mrtvola
         private readonly List<string> jezdidla = new List<string> { "body of mustang", "body of zostrich", "body of oclock", "body of orn", "oody of ledni medved", "body of ridgeback", "body of ridgeback savage" };
-        private bool Running = false;
-        private bool jidlo, regy, drahokamy, peri, kuze, sipky, extend1, extend2 = false;
-        public Graphic extend1_type, extend2_type = 0;
+        private bool running = false;
+        private bool jidlo = false;
+        private bool regy = false;
+        private bool drahokamy = false;
+        private bool peri = false;
+        private bool kuze = false;
+        private bool sipky = false;
+        private bool extend1 = false;
+        private bool extend2 = false;
+        private bool doLot = false;
+        private bool hideCorpses = false;
+        private Graphic extend1_type, extend2_type = 0;
         private List<ushort> lotitems;
         private ushort[] food = new ushort[] { 0x0978, 0x097A, 0x097B, 0x097E, 0x098C, 0x0994, 0x09B7, 0x09B9, 0x09C0, 0x09C9, 0x09D0, 0x09D1, 0x09D2, 0x09E9, 0x09EA, 0x09EC, 0x09F2, 0x0C5C, 0x0C64, 0x0C66, 0x0C6A, 0x0C6D, 0x0C70, 0x0C72, 0x0C74, 0x0C77, 0x0C79, 0x0C7B, 0x0C7F, 0x0D39, 0x103B, 0x1040, 0x1041, 0x1608, 0x1609, 0x160A, 0x171F, 0x1726, 0x1727, 0x1728, 0x172A };
         [XmlIgnore]
@@ -47,7 +56,7 @@ namespace EreborPhoenixExtension.Libs
         {
             get
             {
-                return jidlo;
+                return jidlo ;
             }
             set
             {
@@ -197,6 +206,31 @@ namespace EreborPhoenixExtension.Libs
                 catch { }
             }
         }
+        public ushort Extend1_type
+        {
+            get
+            {
+                return extend1_type;
+            }
+
+            set
+            {
+                extend1_type = (Graphic)value;
+            }
+        }
+
+        public ushort Extend2_type
+        {
+            get
+            {
+                return extend2_type;
+            }
+
+            set
+            {
+                extend2_type = (Graphic)value;
+            }
+        }
 
         public bool Extend1
         {
@@ -209,13 +243,13 @@ namespace EreborPhoenixExtension.Libs
             {
                 try
                 {
-                    if (extend1_type == 0) return;
+                    if (Extend1_type == 0) return;
                     extend1 = value;
                     if (extend1)
                     {
-                        lotitems.Add(extend1_type);
+                        lotitems.Add(Extend1_type);
                     }
-                    else lotitems.RemoveAt(lotitems.IndexOf(extend1_type));
+                    else lotitems.RemoveAt(lotitems.IndexOf(Extend1_type));
                 }
                 catch { }
             }
@@ -232,20 +266,57 @@ namespace EreborPhoenixExtension.Libs
             {
                 try
                 {
-                    if (extend2_type == 0) return;
+                    if (Extend2_type == 0) return;
                     extend2 = value;
                     if (sipky)
                     {
-                        lotitems.Add(extend2_type);
+                        lotitems.Add(Extend2_type);
                     }
-                    else lotitems.RemoveAt(lotitems.IndexOf(extend2_type));
+                    else lotitems.RemoveAt(lotitems.IndexOf(Extend2_type));
                 }
                 catch { }
             }
         }
 
-        public bool HideCorpses { get; set; }
-        public bool DoLot { get; set; }
+        public bool Running
+        {
+            get
+            {
+                return running;
+            }
+
+            set
+            {
+                running = value;
+            }
+        }
+
+        public bool DoLot
+        {
+            get
+            {
+                return doLot;
+            }
+
+            set
+            {
+                doLot = value;
+            }
+        }
+
+        public bool HideCorpses
+        {
+            get
+            {
+                return hideCorpses;
+            }
+
+            set
+            {
+                hideCorpses = value;
+            }
+        }
+
 
 
         public Lot()

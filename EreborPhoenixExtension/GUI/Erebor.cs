@@ -83,18 +83,18 @@ namespace EreborPhoenixExtension.GUI
             {
 
                 if (Changed != null)
-                    Changed(this, new EventChangedArgs() { btnName = ((Button)sender).Name, SelectedTabID=TabC.SelectedIndex, TextValue=string.Empty });
+                    Changed(sender, new EventChangedArgs() { btnName = ((Button)sender).Name, SelectedTabID=TabC.SelectedIndex, TextValue=string.Empty });
                 return;
             }
             else if(sender is TextBox)
             {
 
                 if (Changed != null)
-                    Changed(this, new EventChangedArgs() { TextValue=((TextBox)sender).Text, btnName=string.Empty });
+                    Changed(sender, new EventChangedArgs() { TextValue=((TextBox)sender).Text });
                 return;
             }
             if (Changed != null)
-                Changed(this, new EventChangedArgs() {btnName=string.Empty, TextValue=string.Empty });
+                Changed(sender, new EventChangedArgs());
         }
 
         private void TabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -477,6 +477,10 @@ namespace EreborPhoenixExtension.GUI
 
         public string Extend1Type_Text
         {
+            get
+            {
+                return btn_Extend1.Text;
+            }
             set
             {
                 btn_Extend1.Text = value;
@@ -484,6 +488,10 @@ namespace EreborPhoenixExtension.GUI
         }
         public string Extend2Type_Text
         {
+            get
+            {
+                return btn_Extend2.Text;
+            }
             set
             {
                 btn_Extend2.Text = value;

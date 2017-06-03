@@ -10,6 +10,7 @@ namespace EreborPhoenixExtension.Libs.Skills
     {
         [XmlIgnore]
         private UOItem poisonBottle = null;
+        private string poisonName = string.Empty;
         public uint PoisonBottle
         {
             get
@@ -19,6 +20,19 @@ namespace EreborPhoenixExtension.Libs.Skills
             set
             {
                 poisonBottle = new UOItem(value);
+            }
+        }
+        public string PoisonName
+        {
+            get
+            {
+                if (poisonName.Equals(string.Empty))
+                    return "_";
+                else return poisonName;
+            }
+            set
+            {
+                poisonName = value;
             }
         }
 

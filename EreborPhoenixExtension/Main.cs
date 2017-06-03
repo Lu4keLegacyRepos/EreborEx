@@ -28,7 +28,8 @@ namespace EreborPhoenixExtension
         private const int SW_SHOWMINIMIZED = 2;
         private const int SW_SHOWMAXIMIZED = 3;
 
-        public GameWindowSize GWS;
+        readonly GameWindowSize GWS;
+        public GameWIndoSize_DATA GWS_DATA;
         public Settings Settings;
 
         [DllImport("USER32.DLL")]
@@ -41,16 +42,11 @@ namespace EreborPhoenixExtension
         private static Main instance;
 
         private Main() {
+            XmlSerializeHelper<GameWIndoSize_DATA> gw = new XmlSerializeHelper<GameWIndoSize_DATA>();
+            gw.Load("WindowSize", out GWS_DATA);
 
-            XmlSerializeHelper<GameWindowSize> gw = new XmlSerializeHelper<GameWindowSize>();
-            if (!gw.Load("WindowSize", out GWS))
-            {
-                GWS = new GameWindowSize(); //TODO save proc null ?
-                GWS.Width = 800;
-                GWS.Height = 600;
-
-            }
-            GWS.Patch();
+            GWS = new GameWindowSize(GWS_DATA); //TODO save proc null ?
+            
 
             t = new System.Timers.Timer(500);
             t.Elapsed += T_Elapsed;
@@ -59,7 +55,7 @@ namespace EreborPhoenixExtension
             ShowWindowAsync(Client.HWND, SW_SHOWMAXIMIZED);
             Erebor.SetForegroundWindow(Client.HWND);
 
-            World.Player.RequestStatus(100);
+
         }
 
         private void T_Elapsed(object sender, ElapsedEventArgs e)
@@ -91,14 +87,12 @@ namespace EreborPhoenixExtension
 
         private void Initialize()
         {
+            World.Player.RequestStatus(100);
             XmlSerializeHelper<Settings> sett = new XmlSerializeHelper<Settings>();
-            
-
-  
             new Thread(setEQ).Start();
 
-            if (!sett.Load(World.Player.Name, out Settings))
-                Settings = new Settings();
+            if (!sett.Load(World.Player.Name, out Instance.Settings))
+                Instance.Settings = new Settings();
 
             World.Player.Changed += Player_Changed;
             Instance.Settings.Ev.hiddenChange += Ev_hiddenChange;
@@ -106,27 +100,49 @@ namespace EreborPhoenixExtension
             Instance.Settings.AHeal.PatientHurted += AHeal_PatientHurted;
 
 
-            Instance.EreborInstance.Changed += EreborInstance_Changed;
-            UO.PrintInformation("Loading done");
+
 
 
             #region Init GUI
-            Instance.EreborInstance.Food = Instance.Settings.Lot.Food;
-            Instance.EreborInstance.Leather = Instance.Settings.Lot.Leather;
-            Instance.EreborInstance.Bolts = Instance.Settings.Lot.Bolts;
-            Instance.EreborInstance.Extend1 = Instance.Settings.Lot.Extend1;
-            Instance.EreborInstance.Extend2 = Instance.Settings.Lot.Extend2;
-            Instance.EreborInstance.Lot = Instance.Settings.Lot.DoLot;
-            Instance.EreborInstance.Feathers = Instance.Settings.Lot.Feathers;
-            Instance.EreborInstance.Gems = Instance.Settings.Lot.Gems;
-            Instance.EreborInstance.Regeants = Instance.Settings.Lot.Reageants;
-            Instance.EreborInstance.CorpsesHide = Instance.Settings.Lot.HideCorpses;
-            Instance.EreborInstance.AutoMorf = Instance.Settings.Amorf.Amorf;
-            Instance.EreborInstance.HitBandage = Instance.Settings.HitBandage;
-            Instance.EreborInstance.HitTrack = Instance.Settings.HitTrack;
-            Instance.EreborInstance.AutoArrow = Instance.Settings.Spells.AutoArrow;
-            Instance.EreborInstance.AutoDrink = Instance.Settings.AutoDrink;
-            Instance.EreborInstance.StoodUps = Instance.Settings.PrintAnim;
+            Instance.EreborInstance.Invoke(new MethodInvoker(delegate
+            {
+                Instance.EreborInstance.Food = Instance.Settings.Lot.Food;
+                Instance.EreborInstance.Leather = Instance.Settings.Lot.Leather;
+                Instance.EreborInstance.Bolts = Instance.Settings.Lot.Bolts;
+                Instance.EreborInstance.Extend1Type_Text = Instance.Settings.Lot.Extend1_type.ToString();
+                Instance.EreborInstance.Extend2Type_Text = Instance.Settings.Lot.Extend2_type.ToString();
+                Instance.EreborInstance.Extend1 = Instance.Settings.Lot.Extend1;
+                Instance.EreborInstance.Extend2 = Instance.Settings.Lot.Extend2;
+                Instance.EreborInstance.Lot = Instance.Settings.Lot.DoLot;
+                Instance.EreborInstance.Feathers = Instance.Settings.Lot.Feathers;
+                Instance.EreborInstance.Gems = Instance.Settings.Lot.Gems;
+                Instance.EreborInstance.Regeants = Instance.Settings.Lot.Reageants;
+                Instance.EreborInstance.CorpsesHide = Instance.Settings.Lot.HideCorpses;
+                Instance.EreborInstance.AutoMorf = Instance.Settings.Amorf.Amorf;
+                Instance.EreborInstance.HitBandage = Instance.Settings.HitBandage;
+                Instance.EreborInstance.HitTrack = Instance.Settings.HitTrack;
+                Instance.EreborInstance.AutoArrow = Instance.Settings.Spells.AutoArrow;
+                Instance.EreborInstance.AutoDrink = Instance.Settings.AutoDrink;
+                Instance.EreborInstance.StoodUps = Instance.Settings.PrintAnim;
+                Instance.EreborInstance.PoisType = Instance.Settings.PoisName;
+
+
+                instance.EreborInstance.GoldLimit = instance.Settings.GoldLimit.ToString();
+                instance.EreborInstance.GwWidth = instance.GWS_DATA.Width.ToString();
+                instance.EreborInstance.GwHeight = instance.GWS_DATA.Height.ToString();
+                instance.EreborInstance.HidDelay = instance.Settings.hidDelay.ToString();
+                instance.EreborInstance.Hits2Pot = instance.Settings.criticalHits.ToString();
+                instance.EreborInstance.MinHp = instance.Settings.minHP.ToString();
+                instance.EreborInstance.VoodooObet = instance.Settings.VoodooManaLimit.ToString();
+
+
+            }));
+            RefreshLists();
+
+            UO.Wait(100);
+            Instance.EreborInstance.Changed += EreborInstance_Changed;
+            UO.PrintInformation("Loading done");
+
 
             #endregion
 
@@ -134,16 +150,14 @@ namespace EreborPhoenixExtension
         #region GUI Function
         private void EreborInstance_Changed(object sender, EventChangedArgs e)
         {
-            //((Erebor)sender).BeginInvoke(new MethodInvoker(EreborInstance.tt));
             int tmp;
             string tmps;
-            bool tmpb;
-            SetForegroundWindow(Client.HWND);
-            if (!e.btnName.Equals(string.Empty))
+            if (sender is Button)
             {
                 switch (e.btnName)
                 {
                     case "btn_0":
+                        SetForegroundWindow(Client.HWND);
                         switch (e.SelectedTabID)
                         {
                             // Runes
@@ -166,6 +180,7 @@ namespace EreborPhoenixExtension
 
                         break;
                     case "btn_1":
+                        SetForegroundWindow(Client.HWND);
                         switch (e.SelectedTabID)
                         {
                             // Runes
@@ -192,6 +207,7 @@ namespace EreborPhoenixExtension
                         {
                             // Runes
                             case 0:
+                                SetForegroundWindow(Client.HWND);
                                 foreach (Rune r in Instance.Settings.RuneTree.Runes.Where(run => run.Id.ToString() == Instance.EreborInstance.SelectedRuneID))
                                 {
                                     Instance.Settings.RuneTree.findRune(r);
@@ -240,6 +256,7 @@ namespace EreborPhoenixExtension
                         }
                         break;
                     case "btn_3":
+                        SetForegroundWindow(Client.HWND);
                         switch (e.SelectedTabID)
                         {
                             // Runes
@@ -285,19 +302,19 @@ namespace EreborPhoenixExtension
                                 break;
                             // Equip Sets
                             case 1:
-                                instance.Settings.EquipSet.fillListBox(instance.EreborInstance.EquipList);
+                                Instance.Settings.EquipSet.fillListBox(instance.EreborInstance.EquipList);
                                 break;
                             // Weapons
                             case 2:
-                                instance.Settings.Weapons.fillListBox(instance.EreborInstance.WeaponList);
+                                Instance.Settings.Weapons.fillListBox(instance.EreborInstance.WeaponList);
                                 break;
                             // Healed
                             case 3:
-                                instance.Settings.AHeal.fillListBox(instance.EreborInstance.HealList);
+                                Instance.Settings.AHeal.fillListBox(instance.EreborInstance.HealList);
                                 break;
                             // TrackIgnore
                             case 4:
-                                instance.Settings.Track.fillListBox(instance.EreborInstance.TrackIgnoreList);
+                                Instance.Settings.Track.fillListBox(instance.EreborInstance.TrackIgnoreList);
 
                                 break;
                             case 5:
@@ -312,106 +329,142 @@ namespace EreborPhoenixExtension
                         Instance.Settings.HotKeys.Clear();
                         break;
                     case "btn_Extend1":
+                        SetForegroundWindow(Client.HWND);
                         UO.PrintWarning("Zamer Item");
-                        Instance.Settings.Lot.extend1_type = new UOItem(UIManager.TargetObject()).Graphic;
-                        Instance.EreborInstance.Extend1Type_Text = Instance.Settings.Lot.extend1_type.ToString();
+                        Instance.Settings.Lot.Extend1_type = new UOItem(UIManager.TargetObject()).Graphic;
+                        Instance.EreborInstance.Invoke(new MethodInvoker(delegate
+                        {
+                            Instance.EreborInstance.Extend1Type_Text = Instance.Settings.Lot.Extend1_type.ToString();
+                        }));
                         break;
                     case "btn_Extend2":
+                        SetForegroundWindow(Client.HWND);
                         UO.PrintWarning("Zamer Item");
-                        Instance.Settings.Lot.extend1_type = new UOItem(UIManager.TargetObject()).Graphic;
-                        Instance.EreborInstance.Extend2Type_Text = Instance.Settings.Lot.extend2_type.ToString();
+                        Instance.Settings.Lot.Extend2_type = new UOItem(UIManager.TargetObject()).Graphic;
+                        Instance.EreborInstance.Invoke(new MethodInvoker(delegate
+                        {
+                            Instance.EreborInstance.Extend2Type_Text = Instance.Settings.Lot.Extend2_type.ToString();
+                        }));
                         break;
                     case "btn_SetBag":
+                        SetForegroundWindow(Client.HWND);
                         UO.PrintWarning("Zamer Lot Baglik");
                         Instance.Settings.Lot.LotBag = new UOItem(UIManager.TargetObject());
                         break;
                     case "btn_SetCarv":
+                        SetForegroundWindow(Client.HWND);
                         UO.PrintWarning("Zamer Nuz");
                         Instance.Settings.Lot.CarvTool = new UOItem(UIManager.TargetObject());
                         break;
                     case "btn_Pois":
+                        SetForegroundWindow(Client.HWND);
                         UO.PrintInformation("Zamer Poison");
                         Instance.Settings.Poisoning.PoisonBottle = new UOItem(UIManager.TargetObject());
                         UOItem pois = new UOItem(Instance.Settings.Poisoning.PoisonBottle);
                         pois.Click();
                         UO.Wait(150);
-                        Instance.EreborInstance.PoisType = pois.Name;
+                        Instance.EreborInstance.Invoke(new MethodInvoker(delegate
+                        {
+                            Instance.EreborInstance.PoisType = pois.Name;
+                        }));
                         break;
 
                 }
             }
-            if(!e.TextValue.Equals(string.Empty))
+            if (sender is TextBox)
             {
-                tmps = Instance.EreborInstance.GoldLimit ?? "0";
-                //tmps= Regex.Match(tmps, @"\d+").Value;
-                Instance.Settings.GoldLimit = ushort.Parse(tmps);
 
-                tmps = Instance.EreborInstance.GwWidth ?? "800";
-                //tmps = Regex.Match(tmps, @"\d+").Value;
-                Instance.GWS.Width = ushort.Parse(tmps);
+                switch (((TextBox)sender).Name)
+                {
+                    case "tb_GoldLimit":
+                        tmps = Instance.EreborInstance.GoldLimit ?? "0";
+                        tmps= Regex.Match(tmps, @"\d+").Value;
+                        Instance.Settings.GoldLimit = ushort.Parse(tmps);
+                        break;
+                    case "tb_GwWidth":
+                        tmps = Instance.EreborInstance.GwWidth ?? "800";
+                        tmps = Regex.Match(tmps, @"\d+").Value;
+                        Instance.GWS_DATA.Width = ushort.Parse(tmps);
+                        break;
+                    case "tb_GwHeight":
 
-                tmps = Instance.EreborInstance.GwHeight ?? "600";
-                //tmps = Regex.Match(tmps, @"\d+").Value;
-                Instance.GWS.Height = ushort.Parse(tmps);
-
-                tmps = Instance.EreborInstance.HidDelay ?? "2800";
-               // tmps = Regex.Match(tmps, @"\d+").Value;
-                Instance.Settings.hidDelay = ushort.Parse(tmps);
-
-                tmps = Instance.EreborInstance.Hits2Pot ?? "30";
-              //  tmps = Regex.Match(tmps, @"\d+").Value;
-                Instance.Settings.criticalHits = ushort.Parse(tmps);
-
-                tmps = Instance.EreborInstance.MinHp ?? "80";
-               // tmps = Regex.Match(tmps, @"\d+").Value;
-                Instance.Settings.minHP = ushort.Parse(tmps);
-
-                tmps = Instance.EreborInstance.VoodooObet ?? "40";
-               // tmps = Regex.Match(tmps, @"\d+").Value;
-                Instance.Settings.VoodooManaLimit = ushort.Parse(tmps);
-            }
+                        tmps = Instance.EreborInstance.GwHeight ?? "600";
+                        tmps = Regex.Match(tmps, @"\d+").Value;
+                        Instance.GWS_DATA.Height = ushort.Parse(tmps);
+                        break;
+                    case "tb_HidDelay":
+                        tmps = Instance.EreborInstance.HidDelay ?? "2800";
+                         tmps = Regex.Match(tmps, @"\d+").Value;
+                        Instance.Settings.hidDelay = ushort.Parse(tmps);
+                        break;
+                    case "tb_Hits2Pot":
+                        tmps = Instance.EreborInstance.Hits2Pot ?? "30";
+                          tmps = Regex.Match(tmps, @"\d+").Value;
+                        Instance.Settings.criticalHits = ushort.Parse(tmps);
+                        break;
+                    case "tb_MinHpBandage":
+                        tmps = Instance.EreborInstance.MinHp ?? "80";
+                         tmps = Regex.Match(tmps, @"\d+").Value;
+                        Instance.Settings.minHP = ushort.Parse(tmps);
+                        break;
+                    case "tb_Obet":
+                        tmps = Instance.EreborInstance.VoodooObet ?? "40";
+                         tmps = Regex.Match(tmps, @"\d+").Value;
+                        Instance.Settings.VoodooManaLimit = ushort.Parse(tmps);
+                        break;
+                }
+        }
 
 
             // Sync Property with controls
 
-            //Instance.Settings.Lot.Food = Instance.EreborInstance.Food;
-            //Instance.Settings.Lot.Leather = Instance.EreborInstance.Leather;
-            //Instance.Settings.Lot.Bolts = Instance.EreborInstance.Bolts;
-            //Instance.Settings.Lot.Extend1 = Instance.EreborInstance.Extend1;
-            //Instance.Settings.Lot.Extend2 = Instance.EreborInstance.Extend2;
-            //Instance.Settings.Lot.DoLot = Instance.EreborInstance.Lot;
-            //Instance.Settings.Lot.Feathers = Instance.EreborInstance.Feathers;
-            //Instance.Settings.Lot.Gems = Instance.EreborInstance.Gems;
-            //Instance.Settings.Lot.Reageants = Instance.EreborInstance.Regeants;
-            //Instance.Settings.Lot.HideCorpses = Instance.EreborInstance.CorpsesHide;
-            //Instance.Settings.Amorf.Amorf = Instance.EreborInstance.AutoMorf;
-            //Instance.Settings.HitBandage= Instance.EreborInstance.HitBandage;
-            //Instance.Settings.HitTrack= Instance.EreborInstance.HitTrack;
-            //Instance.Settings.Spells.AutoArrow= Instance.EreborInstance.AutoArrow;
-            //Instance.Settings.AutoDrink= Instance.EreborInstance.AutoDrink;
-            //Instance.Settings.PrintAnim= Instance.EreborInstance.StoodUps;
+            Instance.EreborInstance.Invoke(new MethodInvoker(delegate
+            {
+                if (Instance.EreborInstance.Food != Instance.Settings.Lot.Food) Instance.Settings.Lot.Food = Instance.EreborInstance.Food;
+                if (Instance.EreborInstance.Leather != Instance.Settings.Lot.Leather) Instance.Settings.Lot.Leather = Instance.EreborInstance.Leather;
+                if (Instance.EreborInstance.Bolts != Instance.Settings.Lot.Bolts) Instance.Settings.Lot.Bolts = Instance.EreborInstance.Bolts;
+                if (Instance.EreborInstance.Extend1 != Instance.Settings.Lot.Extend1) Instance.Settings.Lot.Extend1 = Instance.EreborInstance.Extend1;
+                if (Instance.EreborInstance.Extend2 != Instance.Settings.Lot.Extend2) Instance.Settings.Lot.Extend2 = Instance.EreborInstance.Extend2;
+                if (Instance.EreborInstance.Lot != Instance.Settings.Lot.DoLot) Instance.Settings.Lot.DoLot = Instance.EreborInstance.Lot;
+                if (Instance.EreborInstance.Feathers != Instance.Settings.Lot.Feathers) Instance.Settings.Lot.Feathers = Instance.EreborInstance.Feathers;
+                if (Instance.EreborInstance.Gems != Instance.Settings.Lot.Gems) Instance.Settings.Lot.Gems = Instance.EreborInstance.Gems;
+                if (Instance.EreborInstance.Regeants != Instance.Settings.Lot.Reageants) Instance.Settings.Lot.Reageants = Instance.EreborInstance.Regeants;
+                if (Instance.EreborInstance.CorpsesHide != Instance.Settings.Lot.HideCorpses) Instance.Settings.Lot.HideCorpses = Instance.EreborInstance.CorpsesHide;
+                if (Instance.EreborInstance.AutoMorf != Instance.Settings.Amorf.Amorf) Instance.Settings.Amorf.Amorf = Instance.EreborInstance.AutoMorf;
+                if (Instance.EreborInstance.HitBandage != Instance.Settings.HitBandage) Instance.Settings.HitBandage = Instance.EreborInstance.HitBandage;
+                if (Instance.EreborInstance.HitTrack != Instance.Settings.HitTrack) Instance.Settings.HitTrack = Instance.EreborInstance.HitTrack;
+                if (Instance.EreborInstance.AutoArrow != Instance.Settings.Spells.AutoArrow) Instance.Settings.Spells.AutoArrow = Instance.EreborInstance.AutoArrow;
+                if (Instance.EreborInstance.AutoDrink != Instance.Settings.AutoDrink) Instance.Settings.AutoDrink = Instance.EreborInstance.AutoDrink;
+                if (Instance.EreborInstance.StoodUps != Instance.Settings.PrintAnim) Instance.Settings.PrintAnim = Instance.EreborInstance.StoodUps;
 
+                if (Instance.EreborInstance.Extend1Type_Text != Instance.Settings.Lot.Extend1_type.ToString())
+                    Instance.Settings.Lot.Extend1_type = ushort.Parse(Instance.EreborInstance.Extend1Type_Text);
+                if (Instance.EreborInstance.Extend2Type_Text != Instance.Settings.Lot.Extend2_type.ToString())
+                    Instance.Settings.Lot.Extend2_type = ushort.Parse(Instance.EreborInstance.Extend2Type_Text);
+                if (instance.EreborInstance.GoldLimit != instance.Settings.GoldLimit.ToString())
+                    instance.EreborInstance.GoldLimit = instance.Settings.GoldLimit.ToString();
+                if (instance.EreborInstance.GwWidth != instance.GWS_DATA.Width.ToString())
+                    instance.EreborInstance.GwWidth = instance.GWS_DATA.Width.ToString();
+                if (instance.EreborInstance.GwHeight != instance.GWS_DATA.Height.ToString())
+                    instance.EreborInstance.GwHeight = instance.GWS_DATA.Height.ToString();
+                if (instance.EreborInstance.HidDelay != instance.Settings.hidDelay.ToString())
+                    instance.EreborInstance.HidDelay = instance.Settings.hidDelay.ToString();
+                if (instance.EreborInstance.Hits2Pot != instance.Settings.criticalHits.ToString())
+                    instance.EreborInstance.Hits2Pot = instance.Settings.criticalHits.ToString();
+                if (instance.EreborInstance.MinHp != instance.Settings.minHP.ToString())
+                    instance.EreborInstance.MinHp = instance.Settings.minHP.ToString();
+                if(instance.EreborInstance.VoodooObet != instance.Settings.VoodooManaLimit.ToString())
+                instance.EreborInstance.VoodooObet = instance.Settings.VoodooManaLimit.ToString();
 
-            tmpb = Instance.EreborInstance.Food; if (tmpb != Instance.Settings.Lot.Food) Instance.Settings.Lot.Food = tmpb;
-            tmpb = Instance.EreborInstance.Leather; if (tmpb != Instance.Settings.Lot.Leather) Instance.Settings.Lot.Leather = tmpb;
-            tmpb = Instance.EreborInstance.Bolts; if (tmpb != Instance.Settings.Lot.Bolts) Instance.Settings.Lot.Bolts = tmpb;
-            tmpb = Instance.EreborInstance.Extend1; if (tmpb != Instance.Settings.Lot.Extend1) Instance.Settings.Lot.Extend1 = tmpb;
-            tmpb = Instance.EreborInstance.Extend2; if (tmpb != Instance.Settings.Lot.Extend2) Instance.Settings.Lot.Extend2 = tmpb;
-            tmpb = Instance.EreborInstance.Lot; if (tmpb != Instance.Settings.Lot.DoLot) Instance.Settings.Lot.DoLot = tmpb;
-            tmpb = Instance.EreborInstance.Feathers; if (tmpb != Instance.Settings.Lot.Feathers) Instance.Settings.Lot.Feathers = tmpb;
-            tmpb = Instance.EreborInstance.Gems; if (tmpb != Instance.Settings.Lot.Gems) Instance.Settings.Lot.Gems = tmpb;
-            tmpb = Instance.EreborInstance.Regeants; if (tmpb != Instance.Settings.Lot.Reageants) Instance.Settings.Lot.Reageants = tmpb;
-            tmpb = Instance.EreborInstance.CorpsesHide; if (tmpb != Instance.Settings.Lot.HideCorpses) Instance.Settings.Lot.HideCorpses = tmpb;
-            tmpb = Instance.EreborInstance.AutoMorf; if (tmpb != Instance.Settings.Amorf.Amorf) Instance.Settings.Amorf.Amorf = tmpb;
-            tmpb = Instance.EreborInstance.HitBandage; if (tmpb != Instance.Settings.HitBandage) Instance.Settings.HitBandage = tmpb;
-            tmpb = Instance.EreborInstance.HitTrack; if (tmpb != Instance.Settings.HitTrack) Instance.Settings.HitTrack = tmpb;
-            tmpb = Instance.EreborInstance.AutoArrow; if (tmpb != Instance.Settings.Spells.AutoArrow) Instance.Settings.Spells.AutoArrow = tmpb;
-            tmpb = Instance.EreborInstance.AutoDrink; if (tmpb != Instance.Settings.AutoDrink) Instance.Settings.AutoDrink = tmpb;
-            tmpb = Instance.EreborInstance.StoodUps; if (tmpb != Instance.Settings.PrintAnim) Instance.Settings.PrintAnim = tmpb;
+            }));
 
+            RefreshLists();
 
+            XmlSerializeHelper<Settings> sett = new XmlSerializeHelper<Settings>();
+            sett.Save(World.Player.Name, Instance.Settings);
 
-
+            XmlSerializeHelper<GameWIndoSize_DATA> gws = new XmlSerializeHelper<GameWIndoSize_DATA>();
+            gws.Save("WindowSize", Instance.GWS_DATA);
         }
         #endregion
 
@@ -534,8 +587,19 @@ namespace EreborPhoenixExtension
         }
 
 
-        
 
+        private void RefreshLists()
+        {
+            Instance.Settings.RuneTree.FillTreeView(Instance.EreborInstance.RuneView);
+
+            Instance.Settings.EquipSet.fillListBox(instance.EreborInstance.EquipList);
+
+            Instance.Settings.Weapons.fillListBox(instance.EreborInstance.WeaponList);
+
+            Instance.Settings.AHeal.fillListBox(instance.EreborInstance.HealList);
+
+            Instance.Settings.Track.fillListBox(instance.EreborInstance.TrackIgnoreList);
+        }
         [DllImport("user32.dll")]
         private static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
 

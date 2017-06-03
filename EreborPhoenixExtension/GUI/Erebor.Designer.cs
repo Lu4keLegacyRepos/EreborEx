@@ -32,7 +32,6 @@
             this.chb_CorpseHide = new System.Windows.Forms.CheckBox();
             this.chb_lot = new System.Windows.Forms.CheckBox();
             this.chb_Leather = new System.Windows.Forms.CheckBox();
-            this.chb_Food = new System.Windows.Forms.CheckBox();
             this.chb_HitBandage = new System.Windows.Forms.CheckBox();
             this.chb_regeants = new System.Windows.Forms.CheckBox();
             this.chb_gems = new System.Windows.Forms.CheckBox();
@@ -94,6 +93,7 @@
             this.btn_2 = new System.Windows.Forms.Button();
             this.btn_1 = new System.Windows.Forms.Button();
             this.btn_0 = new System.Windows.Forms.Button();
+            this.chb_Food = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -150,16 +150,6 @@
             this.chb_Leather.TabIndex = 5;
             this.chb_Leather.Text = "Leather";
             this.chb_Leather.UseVisualStyleBackColor = true;
-            // 
-            // chb_Food
-            // 
-            this.chb_Food.AutoSize = true;
-            this.chb_Food.Location = new System.Drawing.Point(33, 28);
-            this.chb_Food.Name = "chb_Food";
-            this.chb_Food.Size = new System.Drawing.Size(62, 21);
-            this.chb_Food.TabIndex = 4;
-            this.chb_Food.Text = "Food";
-            this.chb_Food.UseVisualStyleBackColor = true;
             // 
             // chb_HitBandage
             // 
@@ -244,6 +234,7 @@
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.chb_Food);
             this.panel1.Controls.Add(this.btn_SetBag);
             this.panel1.Controls.Add(this.btn_SetCarv);
             this.panel1.Controls.Add(this.label1);
@@ -254,7 +245,6 @@
             this.panel1.Controls.Add(this.chb_Leather);
             this.panel1.Controls.Add(this.chb_Extend2);
             this.panel1.Controls.Add(this.chb_feathers);
-            this.panel1.Controls.Add(this.chb_Food);
             this.panel1.Controls.Add(this.chb_Extend1);
             this.panel1.Controls.Add(this.chb_gems);
             this.panel1.Controls.Add(this.chb_Bolts);
@@ -774,6 +764,17 @@
             this.btn_0.Text = "Recall-Scroll";
             this.btn_0.UseVisualStyleBackColor = true;
             // 
+            // chb_Food
+            // 
+            this.chb_Food.AutoSize = true;
+            this.chb_Food.Location = new System.Drawing.Point(33, 27);
+            this.chb_Food.Name = "chb_Food";
+            this.chb_Food.Size = new System.Drawing.Size(62, 21);
+            this.chb_Food.TabIndex = 17;
+            this.chb_Food.Text = "Food";
+            this.chb_Food.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chb_Food.UseVisualStyleBackColor = true;
+            // 
             // Erebor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -818,7 +819,6 @@
         private System.Windows.Forms.CheckBox chb_gems;
         private System.Windows.Forms.CheckBox chb_feathers;
         private System.Windows.Forms.CheckBox chb_Leather;
-        private System.Windows.Forms.CheckBox chb_Food;
         private System.Windows.Forms.CheckBox chb_HitBandage;
         private System.Windows.Forms.CheckBox chb_lot;
         private System.Windows.Forms.CheckBox chb_CorpseHide;
@@ -880,5 +880,6 @@
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox tb_Obet;
+        private System.Windows.Forms.CheckBox chb_Food;
     }
 }

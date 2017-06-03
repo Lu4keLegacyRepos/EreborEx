@@ -5,23 +5,27 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Runtime.Remoting.Activation;
+using System.Xml.Serialization;
 
 namespace EreborPhoenixExtension.Libs.Extensions
 {
-    [Serializable]
+
     public class GameWindowSize
     {
-        public int Width { get;  set; }// = 1000;
-        public int Height { get;  set; }//= 600;
-
-        public GameWindowSize()
+        private int Width,Height;
+        public GameWindowSize(GameWIndoSize_DATA Data)//TODO: asi neni moc rychly, pustit v jinym threadu? dost mozna by se to mohlo ukladat
         {
-
-        }
-
-        public void Patch()//TODO: asi neni moc rychly, pustit v jinym threadu? dost mozna by se to mohlo ukladat
-        {
-
+            if (Data.Height == default(int) || Data.Width == default(int))
+            {
+                Width = 800;
+                Height = 600;
+            }
+            else
+            {
+                Width = Data.Width;
+                Height = Data.Height;
+            }
             try
             {
                 int offset;
