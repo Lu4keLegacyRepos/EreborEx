@@ -52,7 +52,10 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
             World.FindDistance = 2;
             foreach (UOItem it in World.Ground.Where(x => Obsatcles.Any(a => x.Graphic.Equals(a))))
             {
-                RemoveObstacle(it);
+                it.Click();
+                UO.Wait(300);
+                if (it.Name.Contains("dulni zaval"))
+                    RemoveObstacle(it);
             }
         }
 

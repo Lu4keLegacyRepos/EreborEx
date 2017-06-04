@@ -26,6 +26,8 @@ namespace EreborPhoenixExtension.Libs.Healing
                 if (value)
                 {
                     Main.Instance.Settings.BandageDone = true;
+                    //Core.UnregisterServerMessageCallback(0X1c, Main.Instance.Settings.onBandageDone);
+                   // Core.RegisterServerMessageCallback(0X1c, Main.Instance.Settings.onBandageDone);
                     checker.Start();
                     GetStatuses();
                     UO.PrintInformation("Heal ON");
@@ -33,6 +35,7 @@ namespace EreborPhoenixExtension.Libs.Healing
                 else
                 {
                     checker.Stop();
+                  //  Core.UnregisterServerMessageCallback(0X1c, Main.Instance.Settings.onBandageDone);
                     UO.PrintInformation("Heal OFF");
                 }
                 onOff = value;
@@ -107,7 +110,13 @@ namespace EreborPhoenixExtension.Libs.Healing
             if (!Main.Instance.Settings.crystalState) UO.Say(Main.Instance.Settings.CrystalCmd);
             UO.Say(Main.Instance.Settings.HealCmd + p.equip);
             UO.Wait(100);
-            if (Main.Instance.Settings.ActualCharacter == Character.EreborClass.Shaman && Main.Instance.Settings.crystalState) UO.Say(Main.Instance.Settings.CrystalCmd);
+            if (Main.Instance.Settings.ActualCharacter == Character.EreborClass.Shaman)
+            {
+                if (Main.Instance.Settings.crystalState)
+                {
+                    UO.Say(Main.Instance.Settings.CrystalCmd);
+                }
+            }
         }
 
 

@@ -20,8 +20,8 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 		#region Fields & Property
 
 		private string[] calls = { "You put ", "Nevykopala jsi nic ", "Jeste nemuzes pouzit skill",                  // 0-1, 2
-								   " There is no ore", "too far", "Try mining",                                      // 3-5
-								   " is attacking ", "afk", "AFK", "kontrola", "GM", "gm", "Je spatne videt." };     // 6, 7-11, 12
+								   " There is no ore", "too far", "Try mining","Tam nedosahnes.",                    // 3-6
+									"afk", "AFK", "kontrola", "GM", "gm", "Je spatne videt." };     // 7-12
 
 
 		private string path = Core.Directory + @"\Profiles\XML\";
@@ -160,7 +160,10 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 		{
 			get
 			{
-				uint tmp = World.Player.Backpack.AllItems.FindType(0x1406).Exist
+				uint tmp;
+				if (World.Player.Layers[Layer.RightHand].Graphic.Equals(0x1406) | World.Player.Layers[Layer.RightHand].Graphic.Equals(0x1407))
+					tmp = World.Player.Layers[Layer.RightHand];
+				else tmp = World.Player.Backpack.AllItems.FindType(0x1406).Exist
 				? World.Player.Backpack.AllItems.FindType(0x1406).Serial
 				: World.Player.Backpack.AllItems.FindType(0x1407).Exist
 				? World.Player.Backpack.AllItems.FindType(0x1407).Serial : 0;
@@ -318,7 +321,6 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 				actualMapIndex = value;
 			}
 		}
-		// TODO krumpace, lucerny  kontrola, doplneni
 		public uint OreBox
 		{
 			get
@@ -538,7 +540,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 			}));
 
 			// No Ore
-			if (Journal.Contains(true, calls[3], calls[4], calls[5]))
+			if (Journal.Contains(true, calls[3], calls[4], calls[5], calls[6]))
 				rtrnTmp = true;
 
 			// Skill delay
@@ -551,6 +553,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 			if (World.Player.Weight > (World.Player.Strenght * 4 + 15))
 			{
 				Unload();
+				return false;
 			}
 
 			// Incoming Ore  TODO: zjednodusit
@@ -634,12 +637,12 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 			Mace = Mace;
 			PickAxe = PickAxe;
 
-			if (mace.Serial == 0)
+			if (Mace == 0)
 			{
 				Unload();
 				return false;
 			}
-			if (pickAxe.Serial == 0)
+			if (PickAxe == 0)
 			{
 				Unload();
 				return false;
@@ -727,6 +730,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 
 			int x = World.Player.X;
 			int y = World.Player.Y;
+			UO.Warmode(false);
 			switch (v)
 			{
 				case 0:
@@ -745,6 +749,29 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 					}
 					break;
 				case 1:
+					//while (World.Player.X == x || World.Player.Y == y)
+					//{
+					//	while (World.Player.Mana < 20)
+					//	{
+					//		UO.UseSkill(StandardSkill.Meditation);
+					//		UO.Wait(500);
+					//	}
+
+					//	foreach (Runes.Rune r in Main.Instance.Settings.RuneTree.Runes.Where(a => a.Name == "Skalni dul"))
+					//	{
+					//		Main.Instance.Settings.RuneTree.findRune(r);
+					//		r.RecallSvitek();
+					//	}
+
+
+					//	Journal.ClearAll();
+					//	UO.Wait(500);
+					//	Journal.WaitForText(true, 12000, "Kouzlo se nezdarilo.");
+					//	UO.Wait(200);
+					//}
+
+
+
 					while (World.Player.X == x || World.Player.Y == y)
 					{
 						while (World.Player.Mana < 20)
@@ -753,7 +780,8 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 							UO.Wait(500);
 						}
 
-						foreach (Runes.Rune r in Main.Instance.Settings.RuneTree.Runes.Where(a => a.Name == "Skalni dul"))
+						foreach (Runes.Rune r in Main.Instance.Settings.RuneTree.Runes.Where
+							(a => a.Name == Main.Instance.Settings.Mining.Maps[Main.Instance.Settings.Mining.ActualMapIndex].Name))
 						{
 							Main.Instance.Settings.RuneTree.findRune(r);
 							r.RecallSvitek();
@@ -825,6 +853,12 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 			{
 				World.Player.Backpack.AllItems.FindType(i).Move(ushort.MaxValue, GemBox);
 			}
+			// Mramor
+			while (World.Player.Backpack.AllItems.FindType(0x1363).Amount > 0)
+				World.Player.Backpack.AllItems.FindType(0x1363).Move(ushort.MaxValue, OreBox);
+
+
+
 			SelfFeed();
 			box.Use();
 			if (World.Player.Backpack.AllItems.FindType(0x1F4C).Amount < 4)

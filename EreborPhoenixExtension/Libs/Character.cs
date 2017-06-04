@@ -44,6 +44,7 @@ namespace EreborPhoenixExtension.Libs
 
         }
 
+
         public class ClassReturnArgs: EventArgs
         {
             public EreborClass ActualClass { get; set; }

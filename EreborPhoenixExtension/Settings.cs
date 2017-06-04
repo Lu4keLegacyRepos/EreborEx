@@ -461,7 +461,7 @@ namespace EreborPhoenixExtension
 
             if (packet.Text.Contains("Jsi zpatky v normalnim stavu."))
             {
-                crystalState = false;
+                Main.Instance.Settings.crystalState = false;
 
                 return CallbackResult.Normal;
             }
@@ -469,7 +469,7 @@ namespace EreborPhoenixExtension
             {
                 if (packet.Text.Contains(s))
                 {
-                    crystalState = true;
+                    Main.Instance.Settings.crystalState = true;
                     return CallbackResult.Normal;
                 }
             }
@@ -566,8 +566,9 @@ namespace EreborPhoenixExtension
                     Core.UnregisterServerMessageCallback(0x1C, OnHitBandage);
                     bandage asBanage = new bandage(AHeal.bandage);
                     asBanage.BeginInvoke(null, null);
-                    Equip eq = new Equip(Weapons.ActualWeapon.Equip);
-                    eq.BeginInvoke(null, null);
+                    Main.Instance.Settings.Weapons.ActualWeapon.Equip();
+                    //Equip eq = new Equip(Weapons.ActualWeapon.Equip);
+                    //eq.BeginInvoke(null, null);
                     UO.Wait(100);
                     Core.RegisterServerMessageCallback(0x1C, OnHitBandage);
                     return CallbackResult.Normal;

@@ -33,7 +33,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
                 if (ch.Name.ToLower().Contains(s))
 
                 {
-                    Run();
+                    Run( false);
                     return;
                 }
 
@@ -43,7 +43,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
             {
                 if (ch.Model == g)
                 {
-                    Run();
+                    Run( true);
                     return;
                 }
                 
@@ -52,14 +52,22 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
             Mace.Equip();
             while (!Journal.Contains(true, "Ziskala jsi ", "Ziskal jsi ", "gogo"))
             {
-
+                if(!ch.Exist || ch.Hits<1)
+                {
+                    UO.Wait(1000);
+                    return;
+                }
                 if(ch.Distance>1) MoveTo(ch.X, ch.Y);
                 if (Journal.Contains("Vysavas zivoty!"))
                 {
                     Journal.SetLineText(Journal.Find("Vysavas zivoty!"), " ");
                     UO.Say(".heal15");
                     Mace.Equip();
-                    UO.Attack(ch);
+                    try
+                    {
+                        UO.Attack(ch);
+                    }
+                    catch { }
                     Journal.WaitForText(true, 7000, " byl uspesne osetren", "Leceni se ti nepovedlo.", "prestal krvacet", " neni zranen.");
                 }
                 UO.Wait(100);
@@ -67,11 +75,12 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
             MoveTo(ActualPositon.X, ActualPositon.Y);
         }
 
-        private void Run()
+        private void Run(bool recall)
         {
+            if (recall) UO.Say(".recallhome");
             while (ch.Distance < 19)
             {
-                if (World.Player.Dead) return;
+                if (World.Player.Dead) UO.TerminateAll();
                 MoveFar();
             }
         }
