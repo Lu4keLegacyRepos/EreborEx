@@ -71,7 +71,7 @@ namespace EreborPhoenixExtension
         Provocation Provocation;
         [XmlIgnore]
         public Handler Ev;
-        [XmlIgnore]
+        
         public Mine Mining;
 
 
@@ -413,7 +413,10 @@ namespace EreborPhoenixExtension
             RuneTree = new RuneTree();
             AHeal = new AutoHeal();
             Ev = new Handler();
+
             Mining = new Mine();
+
+
 
             AHeal.PatientHurted += AHeal_PatientHurted;
 

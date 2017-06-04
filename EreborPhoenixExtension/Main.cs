@@ -42,6 +42,7 @@ namespace EreborPhoenixExtension
         private static Main instance;
 
         private Main() {
+           // UO.Wait(5000);
             XmlSerializeHelper<GameWIndoSize_DATA> gw = new XmlSerializeHelper<GameWIndoSize_DATA>();
             gw.Load("WindowSize", out GWS_DATA);
 
@@ -96,7 +97,7 @@ namespace EreborPhoenixExtension
 
             XmlSerializeHelper<Mine> ss = new XmlSerializeHelper<Mine>();
             if (!ss.Load("Mining", out Instance.Settings.Mining))
-                Instance.Settings.Mining = new Mine();
+
 
             World.Player.Changed += Player_Changed;
             Instance.Settings.Ev.hiddenChange += Ev_hiddenChange;
@@ -420,12 +421,12 @@ namespace EreborPhoenixExtension
 
                     case "btn_setOreBox":
                         UO.PrintInformation("Zamer Kontejner na Ore");
-                        Instance.Settings.Mining.DoorRight =new UOItem(UIManager.TargetObject());
+                        Instance.Settings.Mining.OreBox =new UOItem(UIManager.TargetObject());
                         break;
 
                     case "btn_setGemBox":
                         UO.PrintInformation("Zamer Kontejner na Kameny");
-                        Instance.Settings.Mining.DoorRight = new UOItem(UIManager.TargetObject());
+                        Instance.Settings.Mining.GemBox = new UOItem(UIManager.TargetObject());
                         break;
 
                 }

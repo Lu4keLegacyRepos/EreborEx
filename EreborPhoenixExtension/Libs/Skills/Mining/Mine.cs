@@ -28,7 +28,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 
 		private string AlarmPath = Core.Directory + @"\afk.wav";// "C:\\afk.wav";
 		private Graphic Ore = 0x19B7;
-		private Dictionary<string, UOColor> Material = new Dictionary<string, UOColor>() { { "Copper", 0x099A }, { "Iron", 0x0763 }, { "Kremicity", 0x0481 }, { "Verite", 0x097F }, { "Valorite", 0x0985 }, { "Obsidian", 0x09BD }, { "Adamantium", 0x19B7 } };
+		private Dictionary<string, UOColor> Material = new Dictionary<string, UOColor>() { { "Copper", 0x099A }, { "Iron", 0x0763 }, { "Kremicity", 0x0481 }, { "Verite", 0x097F }, { "Valorite", 0x0985 }, { "Obsidian", 0x09BD }, { "Adamantium", 0x0026 } };
 		private int[] MaterialsCount = { 0, 0, 0, 0, 0, 0, 0 };
 		private DateTime StartMine = DateTime.Now;
 		private int actualMapIndex = 0;
@@ -41,8 +41,8 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 		private bool removeObstacles = false;
 		private UOItem pickAxe;
 		private UOItem mace;
-		private UOItem oreBox = new UOItem(0x40034E86);
-		private UOItem gemBox = new UOItem(0x4003CFCA);
+		private UOItem oreBox;
+		private UOItem gemBox;
 		private int maxObsidian = 5;
 		private int maxAdamantium = 2;
 		private List<Map> maps;
@@ -323,7 +323,8 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 		{
 			get
 			{
-				UOItem tmp = oreBox ?? new UOItem(0x00);
+
+				UOItem tmp = oreBox ?? new UOItem(0x40034E86);
 				return tmp.Serial;
 			}
 
@@ -337,7 +338,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 		{
 			get
 			{
-				UOItem tmp = gemBox ?? new UOItem(0x00);
+				UOItem tmp = gemBox ?? new UOItem(0x4003CFCA);
 				return tmp.Serial;
 			}
 
@@ -600,7 +601,12 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 			if (rtrnTmp)
 			{
 				// Check amount of Best materials
-				if (MaterialsCount[5] >= MaxObsidian | MaterialsCount[6] >= MaxAdamantium)
+				if (MaterialsCount[5] >= MaxObsidian)
+				{
+					Unload();
+				}
+				else
+				if (MaterialsCount[6] >= MaxAdamantium)
 				{
 					Unload();
 				}
@@ -774,7 +780,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 			World.Player.Backpack.AllItems.FindType(Ore, Material["Kremicity"]).Move(ushort.MaxValue, OreBox);
 			World.Player.Backpack.AllItems.FindType(Ore, Material["Obsidian"]).Move(ushort.MaxValue, OreBox);
 			World.Player.Backpack.AllItems.FindType(Ore, Material["Adamantium"]).Move(ushort.MaxValue, OreBox);
-
+			UO.Wait(100);
 			for (ushort i = 0x0F0F; i < 0x0F31; i++)
 			{
 				World.Player.Backpack.AllItems.FindType(i).Move(ushort.MaxValue, GemBox);
