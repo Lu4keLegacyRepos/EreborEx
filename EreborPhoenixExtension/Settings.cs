@@ -71,7 +71,7 @@ namespace EreborPhoenixExtension
         Provocation Provocation;
         [XmlIgnore]
         public Handler Ev;
-        
+        [XmlIgnore]
         public Mine Mining;
 
 
@@ -415,6 +415,7 @@ namespace EreborPhoenixExtension
             Ev = new Handler();
 
             Mining = new Mine();
+
 
 
 

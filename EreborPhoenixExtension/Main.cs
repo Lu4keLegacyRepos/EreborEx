@@ -42,9 +42,9 @@ namespace EreborPhoenixExtension
         private static Main instance;
 
         private Main() {
-           // UO.Wait(5000);
-            XmlSerializeHelper<GameWIndoSize_DATA> gw = new XmlSerializeHelper<GameWIndoSize_DATA>();
-            gw.Load("WindowSize", out GWS_DATA);
+            //UO.Wait(5000);
+            //XmlSerializeHelper<GameWIndoSize_DATA> gw = new XmlSerializeHelper<GameWIndoSize_DATA>();
+            XmlSerializeHelper<GameWIndoSize_DATA>.Load("WindowSize", out GWS_DATA);
 
             GWS = new GameWindowSize(GWS_DATA); //TODO save proc null ?
             
@@ -89,15 +89,15 @@ namespace EreborPhoenixExtension
         private void Initialize()
         {
             World.Player.RequestStatus(100);
-            XmlSerializeHelper<Settings> sett = new XmlSerializeHelper<Settings>();
+           // XmlSerializeHelper<Settings> sett = new XmlSerializeHelper<Settings>();
             new Thread(setEQ).Start();
 
-            if (!sett.Load(World.Player.Name, out Instance.Settings))
+            XmlSerializeHelper<Settings>.Load(World.Player.Name, out Instance.Settings);
+            if (Instance.Settings == default(Settings))
                 Instance.Settings = new Settings();
-
-            XmlSerializeHelper<Mine> ss = new XmlSerializeHelper<Mine>();
-            if (!ss.Load("Mining", out Instance.Settings.Mining))
-
+            XmlSerializeHelper<Mine>.Load("Mining", out Instance.Settings.Mining);
+            if (Instance.Settings.Mining == default(Mine))
+                Instance.Settings.Mining = new Mine();
 
             World.Player.Changed += Player_Changed;
             Instance.Settings.Ev.hiddenChange += Ev_hiddenChange;
@@ -108,7 +108,8 @@ namespace EreborPhoenixExtension
 
 
 
-            #region Init GUI
+
+                #region Init GUI
             Instance.EreborInstance.Invoke(new MethodInvoker(delegate
             {
                 Instance.EreborInstance.Food = Instance.Settings.Lot.Food;
@@ -164,11 +165,14 @@ namespace EreborPhoenixExtension
             RefreshLists();
 
             UO.Wait(100);
-            Instance.EreborInstance.Changed += EreborInstance_Changed;
+
             UO.PrintInformation("Loading done");
 
 
             #endregion
+            //XmlSerializeHelper<Mine> ss = new XmlSerializeHelper<Mine>();
+
+            Instance.EreborInstance.Changed += EreborInstance_Changed;
 
         }
         #region GUI Function
@@ -551,14 +555,9 @@ namespace EreborPhoenixExtension
 
             RefreshLists();
 
-            XmlSerializeHelper<Settings> sett = new XmlSerializeHelper<Settings>();
-            sett.Save(World.Player.Name, Instance.Settings);
-
-            XmlSerializeHelper<Mine> min = new XmlSerializeHelper<Mine>();
-            min.Save("Mining", Instance.Settings.Mining);
-
-            XmlSerializeHelper<GameWIndoSize_DATA> gws = new XmlSerializeHelper<GameWIndoSize_DATA>();
-            gws.Save("WindowSize", Instance.GWS_DATA);
+            XmlSerializeHelper<GameWIndoSize_DATA>.Save("WindowSize", Main.Instance.GWS_DATA);
+            XmlSerializeHelper<Settings>.Save(World.Player.Name, Main.Instance.Settings);
+            XmlSerializeHelper<Mine>.Save("Mining", (Main.Instance.Settings.Mining));
         }
         #endregion
 

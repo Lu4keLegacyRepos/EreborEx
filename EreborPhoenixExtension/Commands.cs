@@ -23,12 +23,12 @@ namespace EreborPhoenixExtension
         {
             if (Main.Instance.Settings.Mining == null)
             {
-                XmlSerializeHelper<Mine> ss = new XmlSerializeHelper<Mine>();
-                if (!ss.Load("Mining", out Main.Instance.Settings.Mining))
-                    Main.Instance.Settings.Mining = new Mine();
+                //XmlSerializeHelper<Mine> ss = new XmlSerializeHelper<Mine>();
+                XmlSerializeHelper<Mine>.Load("Mining",out Main.Instance.Settings.Mining);
+               // ss.Load("Mining", out Main.Instance.Settings.Mining);
             }
             Main.Instance.Settings.Mining.AddMap(name);
-            new XmlSerializeHelper<Mine>().Save("Mining", Main.Instance.Settings.Mining);
+            XmlSerializeHelper<Mine>.Save("Mining", Main.Instance.Settings.Mining);
 
 
 
@@ -60,13 +60,17 @@ namespace EreborPhoenixExtension
         [Command]
         public void save()
         {
-            XmlSerializeHelper<GameWIndoSize_DATA> gws = new XmlSerializeHelper<GameWIndoSize_DATA>();
-            XmlSerializeHelper<Settings> sett = new XmlSerializeHelper<Settings>();
-            XmlSerializeHelper<Mine> min = new XmlSerializeHelper<Mine>();
+            //XmlSerializeHelper<GameWIndoSize_DATA> gws = new XmlSerializeHelper<GameWIndoSize_DATA>();
+            //XmlSerializeHelper<Settings> sett = new XmlSerializeHelper<Settings>();
+            //XmlSerializeHelper<Mine> min = new XmlSerializeHelper<Mine>();
 
-            gws.Save("WindowSize", Main.Instance.GWS_DATA);
-            sett.Save(World.Player.Name, Main.Instance.Settings);
-            if (Main.Instance.Settings.Mining != null) min.Save("Mining",( Main.Instance.Settings.Mining));
+            //gws.Save("WindowSize", Main.Instance.GWS_DATA);
+            //sett.Save(World.Player.Name, Main.Instance.Settings);
+            //if (Main.Instance.Settings.Mining != null) min.Save("Mining",( Main.Instance.Settings.Mining));
+            XmlSerializeHelper<GameWIndoSize_DATA>.Save("WindowSize", Main.Instance.GWS_DATA);
+            XmlSerializeHelper<Settings>.Save(World.Player.Name, Main.Instance.Settings);
+            XmlSerializeHelper<Mine>.Save("Mining", (Main.Instance.Settings.Mining));
+
             UO.PrintInformation("Saved");
         }
         [Command]

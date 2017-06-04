@@ -9,17 +9,13 @@ using System.Xml.Serialization;
 
 namespace EreborPhoenixExtension
 {
-    public class XmlSerializeHelper<T>
+    public static class XmlSerializeHelper<T>
     {
-        private string path = Core.Directory + @"\Profiles\XML\";
-        public Type _type;
+        private static string path = Core.Directory + @"\Profiles\XML\";
+        public static Type _type = typeof(T);
 
-        public XmlSerializeHelper()
-        {
-            _type = typeof(T);
-        }
 
-        public void Save(string filename, object obj)
+        public static void Save(string filename, object obj)
         {
             try
             {
@@ -44,23 +40,22 @@ namespace EreborPhoenixExtension
             catch (Exception ex) { MessageBox.Show(ex.InnerException.ToString()); }
 
         }
-        private bool IsExist(string filename)
+        private static bool IsExist(string filename)
         {
             return(File.Exists(path + filename));
         }
 
-        public bool Load(string filename, out T obj)
+        public static void Load(string filename, out T obj)
         {
 
             if(IsExist(filename))
             {
-                obj = Deserialize(filename);
-                return true;
+                obj= Deserialize(filename);
+                return;
             }
             obj = default(T);
-            return false;
         }
-        private T Deserialize(string filename)
+        private static T Deserialize(string filename)
         {
 
             T XMLOBJ;

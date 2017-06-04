@@ -51,7 +51,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 		private SearchParameters searchParams;
 		private bool skipCopper = false;
 		private bool skipIron = false;
-		private bool skipSilicon= false;
+		private bool skipSilicon = false;
 		private bool skipVerite = false;
 		private bool useBank;
 
@@ -253,7 +253,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 			get { return useBank; }
 			set { useBank = value; }
 		}
-	
+
 		public uint DoorRight
 		{
 			get
@@ -318,7 +318,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 				actualMapIndex = value;
 			}
 		}
-
+		// TODO krumpace, lucerny  kontrola, doplneni
 		public uint OreBox
 		{
 			get
@@ -432,7 +432,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 		private ushort doorLeftClosedGraphic = 0x0841;
 		private ushort doorRightClosedGraphic = 0x0843;
 
-		private Point housePosition = new Point(2729,3272);
+		private Point housePosition = new Point(2729, 3272);
 		private Point runePosition = new Point(2732, 3270);
 
 		public void AddMap(string Name)
@@ -526,16 +526,16 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 
 				}
 			}
-				Main.Instance.EreborInstance.Invoke(new MethodInvoker(delegate
-				{
-					Main.Instance.EreborInstance.CopperCount = MaterialsCount[0].ToString();
-					Main.Instance.EreborInstance.IronCount = MaterialsCount[1].ToString();
-					Main.Instance.EreborInstance.SiliconCount = MaterialsCount[2].ToString();
-					Main.Instance.EreborInstance.VeriteCount = MaterialsCount[3].ToString();
-					Main.Instance.EreborInstance.ValoriteCount = MaterialsCount[4].ToString();
-					Main.Instance.EreborInstance.ObsidianCount = MaterialsCount[5].ToString();
-					Main.Instance.EreborInstance.AdamantiumCount = MaterialsCount[6].ToString();
-				}));
+			Main.Instance.EreborInstance.Invoke(new MethodInvoker(delegate
+			{
+				Main.Instance.EreborInstance.CopperCount = MaterialsCount[0].ToString();
+				Main.Instance.EreborInstance.IronCount = MaterialsCount[1].ToString();
+				Main.Instance.EreborInstance.SiliconCount = MaterialsCount[2].ToString();
+				Main.Instance.EreborInstance.VeriteCount = MaterialsCount[3].ToString();
+				Main.Instance.EreborInstance.ValoriteCount = MaterialsCount[4].ToString();
+				Main.Instance.EreborInstance.ObsidianCount = MaterialsCount[5].ToString();
+				Main.Instance.EreborInstance.AdamantiumCount = MaterialsCount[6].ToString();
+			}));
 
 			// No Ore
 			if (Journal.Contains(true, calls[3], calls[4], calls[5]))
@@ -613,14 +613,11 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 			}
 			return rtrnTmp;
 		}
-		// TODO vypis poctu materialu
+
 		public void Work()
 		{
 			while (true)
 			{
-
-				Mace = Mace;
-				PickAxe = PickAxe;
 				MineHere(MoveToClosestExploitable(), 0);
 				UO.Wait(200);
 				if (RemoveObstacles)
@@ -632,6 +629,24 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 
 		}
 
+		private bool CheckTools()
+		{
+			Mace = Mace;
+			PickAxe = PickAxe;
+
+			if (mace.Serial == 0)
+			{
+				Unload();
+				return false;
+			}
+			if (pickAxe.Serial == 0)
+			{
+				Unload();
+				return false;
+			}
+			return true;
+		}
+
 		#region Move
 
 		private MineField MoveToClosestExploitable()
@@ -641,7 +656,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 			MineField tmp;
 			try
 			{
-				tmp = Maps[ActualMapIndex].Fields.First(x => x.State==MineFieldState.Unknown);
+				tmp = Maps[ActualMapIndex].Fields.First(x => x.State == MineFieldState.Unknown);
 				MoveTo(tmp.Location);
 			}
 			catch
@@ -690,7 +705,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 				UO.PrintError("Nenalezen tezitelbne pole");
 			}
 		}
-		#endregion 
+		#endregion
 
 		public void Unload()
 		{
@@ -738,7 +753,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 							UO.Wait(500);
 						}
 
-						foreach(Runes.Rune r in Main.Instance.Settings.RuneTree.Runes.Where(a=>a.Name=="Skalni dul"))
+						foreach (Runes.Rune r in Main.Instance.Settings.RuneTree.Runes.Where(a => a.Name == "Skalni dul"))
 						{
 							Main.Instance.Settings.RuneTree.findRune(r);
 							r.RecallSvitek();
@@ -751,7 +766,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 						UO.Wait(200);
 					}
 					break;
-			}       
+			}
 
 
 		}
@@ -763,11 +778,12 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 			if (!AutoStockUp) UO.TerminateAll();
 			MoveOre_Feed_GetRecall();
 			MoveTo(RunePosition);
-			
+
 		}
 
 		private void MoveOre_Feed_GetRecall()
 		{
+			Serial tmp;
 			if (UseBank) openBank(14);
 			UOItem box = new UOItem(OreBox);
 			box.Use();
@@ -781,13 +797,36 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 			World.Player.Backpack.AllItems.FindType(Ore, Material["Obsidian"]).Move(ushort.MaxValue, OreBox);
 			World.Player.Backpack.AllItems.FindType(Ore, Material["Adamantium"]).Move(ushort.MaxValue, OreBox);
 			UO.Wait(100);
+			if (PickAxe == 0)
+			{
+
+				tmp = box.AllItems.FindType(0x1406).Exist
+						? box.AllItems.FindType(0x1406).Serial : box.AllItems.FindType(0x1407).Exist
+						? box.AllItems.FindType(0x1407).Serial : 0;
+				if (tmp == 0)
+				{
+					UO.PrintError("Nemas krumpac");
+					UO.TerminateAll();
+				}
+			}
+		
+			if (Mace == 0)
+			{
+				tmp = box.AllItems.FindType(0x0E85).Exist
+				? box.AllItems.FindType(0x0E85).Serial : box.AllItems.FindType(0x0E86).Exist
+				? box.AllItems.FindType(0x0E86).Serial : 0;
+				if (tmp == 0)
+				{
+					UO.PrintError("Nemas Zbran");
+					UO.TerminateAll();
+				} 
+}
 			for (ushort i = 0x0F0F; i < 0x0F31; i++)
 			{
 				World.Player.Backpack.AllItems.FindType(i).Move(ushort.MaxValue, GemBox);
 			}
 			SelfFeed();
 			box.Use();
-			// Recall
 			if (World.Player.Backpack.AllItems.FindType(0x1F4C).Amount < 4)
 				box.AllItems.FindType(0x1F4C).Move(7, World.Player.Backpack);
 
@@ -819,11 +858,14 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 				{
 					mf.State = MineFieldState.Empty;
 
-					XmlSerializeHelper<Mine> min = new XmlSerializeHelper<Mine>();
-					min.Save("Mining", Main.Instance.Settings.Mining);
+					//XmlSerializeHelper<Mine> min = new XmlSerializeHelper<Mine>();
+					XmlSerializeHelper<Mine>.Save("Mining", Main.Instance.Settings.Mining);
 					return;
 				}
 			}
+
+			if (!CheckTools()) return;
+
 
 			if (CrystalEnabled && Try == 0)
 			{
@@ -840,7 +882,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 				UO.WaitTargetTile(World.Player.X, World.Player.Y, World.Player.Z, 0);
 				(pickAxe).Use();
 				StartMine = DateTime.Now;
-				UO.Wait(300);
+				UO.Wait(100);
 				MineHere(mf, Try + 1);
 			}
 		}
