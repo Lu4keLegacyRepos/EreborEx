@@ -111,6 +111,7 @@ namespace EreborPhoenixExtension.Libs.Runes
             try
             {
                 t.Nodes.Clear();
+                Runes.Sort((x, y) => x.Name.CompareTo(y.Name));
                 foreach (Rune r in Runes)
                 {
                     if (r.ContainersName[0] != "null")

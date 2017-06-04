@@ -67,6 +67,34 @@ namespace EreborPhoenixExtension.GUI
                 tb_MinHpBandage.TextChanged += ControlChanged;
                 tb_Obet.TextChanged += ControlChanged;
 
+
+                ///
+
+                chb_skipCopper.CheckedChanged += ControlChanged;
+                chb_skipIron.CheckedChanged += ControlChanged;
+                chb_skipSilicon.CheckedChanged += ControlChanged;
+                chb_skipVerite.CheckedChanged += ControlChanged;
+
+                chb_dropCopper.CheckedChanged += ControlChanged;
+                chb_dropIron.CheckedChanged += ControlChanged;
+                chb_dropSilicon.CheckedChanged += ControlChanged;
+                chb_dropVerite.CheckedChanged += ControlChanged;
+
+                chb_crystal.CheckedChanged += ControlChanged;
+                chb_autoStockUp.CheckedChanged += ControlChanged;
+                chb_autoRemoveObstacles.CheckedChanged += ControlChanged;
+                chb_useBank.CheckedChanged += ControlChanged;
+
+                num_Obs.ValueChanged += ControlChanged;
+                num_Ada.ValueChanged += ControlChanged;
+
+                btn_setBankPos.Click += ControlChanged;
+                btn_setGemBox.Click += ControlChanged;
+                btn_setRunesPos.Click += ControlChanged;
+                btn_setDoor.Click += ControlChanged;
+                btn_setOreBox.Click += ControlChanged;
+
+
                 #endregion
 
             }
@@ -210,6 +238,27 @@ namespace EreborPhoenixExtension.GUI
                     btn_3.Visible = true;
                     btn_3.Enabled = true;
                     btn_3.Text = "Add";
+                    break;
+                case 5:
+                    btn_0.Enabled = false;
+                    btn_0.Visible = false;
+                    btn_0.Text = "Recall-S";
+
+                    btn_1.Enabled = false;
+                    btn_1.Visible = false;
+                    btn_1.Text = "Recall";
+
+                    btn_2.Enabled = false;
+                    btn_2.Visible = false;
+                    btn_2.Text = "Delete";
+
+                    btn_4.Enabled = true;
+                    btn_4.Visible = true;
+                    btn_4.Text = "Refresh";
+
+                    btn_3.Visible = true;
+                    btn_3.Enabled = true;
+                    btn_3.Text = "Select";
                     break;
 
             }
@@ -474,6 +523,13 @@ namespace EreborPhoenixExtension.GUI
                 return lb_TrackIgnore;
             }
         }
+        public ListBox MiningList
+        {
+            get
+            {
+                return lb_mining;
+            }
+        }
 
         public string Extend1Type_Text
         {
@@ -537,6 +593,13 @@ namespace EreborPhoenixExtension.GUI
             }
         }
 
+        public int SelectedMine
+        {
+            get
+            {
+                return lb_mining.SelectedIndex;
+            }
+        }
         public string PoisType
         {
             set
@@ -586,6 +649,242 @@ namespace EreborPhoenixExtension.GUI
 
 
 
+
+
+
+        public bool SkipCopper
+        {
+            get
+            {
+                return chb_skipCopper.Checked;
+            }
+
+            set
+            {
+                chb_skipCopper.Checked = value;
+            }
+        }
+
+        public bool SkipIron
+        {
+            get
+            {
+                return chb_skipIron.Checked;
+            }
+
+            set
+            {
+                chb_skipIron.Checked = value;
+            }
+        }
+
+        public bool SkipSilicon
+        {
+            get
+            {
+                return chb_skipSilicon.Checked;
+            }
+
+            set
+            {
+                chb_skipSilicon.Checked = value;
+            }
+        }
+
+        public bool SkipVerite
+        {
+            get
+            {
+                return chb_skipVerite.Checked;
+            }
+
+            set
+            {
+                chb_skipVerite.Checked = value;
+            }
+        }
+
+        public bool DropCopper
+        {
+            get
+            {
+                return chb_dropCopper.Checked;
+            }
+
+            set
+            {
+                chb_dropCopper.Checked = value;
+            }
+        }
+
+        public bool DropIron
+        {
+            get
+            {
+                return chb_dropIron.Checked;
+            }
+
+            set
+            {
+                chb_dropIron.Checked = value;
+            }
+        }
+
+        public bool DropSilicon
+        {
+            get
+            {
+                return chb_dropSilicon.Checked;
+            }
+
+            set
+            {
+                chb_dropSilicon.Checked = value;
+            }
+        }
+
+        public bool DropVerite
+        {
+            get
+            {
+                return chb_dropVerite.Checked;
+            }
+
+            set
+            {
+                chb_dropVerite.Checked = value;
+            }
+        }
+
+        public bool Crystal
+        {
+            get
+            {
+                return chb_crystal.Checked;
+            }
+
+            set
+            {
+                chb_crystal.Checked = value;
+            }
+        }
+
+        public bool AutoStockUp
+        {
+            get
+            {
+                return chb_autoStockUp.Checked;
+            }
+
+            set
+            {
+                chb_autoStockUp.Checked = value;
+            }
+        }
+
+        public bool AutoRemoveObstacles
+        {
+            get
+            {
+                return chb_autoRemoveObstacles.Checked;
+            }
+
+            set
+            {
+                chb_autoRemoveObstacles.Checked = value;
+            }
+        }
+
+        public bool UseBank
+        {
+            get
+            {
+                return chb_useBank.Checked;
+            }
+
+            set
+            {
+                chb_useBank.Checked = value;
+            }
+        }
+
+        public int MaxObs
+        {
+            get
+            {
+                return (int)num_Obs.Value;
+            }
+
+            set
+            {
+                num_Obs.Value = value;
+            }
+        }
+
+        public int MaxAda
+        {
+            get
+            {
+                return (int)num_Ada.Value;
+            }
+
+            set
+            {
+                num_Ada.Value = value;
+            }
+        }
+
+
+        public string CopperCount
+        {
+            set
+            {
+                lbl_copperCnt.Text = value;
+            }
+        }
+
+        public string IronCount
+        {
+            set
+            {
+                lbl_ironCnt.Text = value;
+            }
+        }
+        public string SiliconCount
+        {
+            set
+            {
+                lbl_siliconCnt.Text = value;
+            }
+        }
+        public string VeriteCount
+        {
+            set
+            {
+                lbl_veriteCnt.Text = value;
+            }
+        }
+        public string ValoriteCount
+        {
+            set
+            {
+                lbl_valoriteCount.Text = value;
+            }
+        }
+        public string ObsidianCount
+        {
+            set
+            {
+                lbl_obsidianCnt.Text = value;
+            }
+        }
+        public string AdamantiumCount
+        {
+            set
+            {
+                lbl_adamantiumCnt.Text = value;
+            }
+        }
 
 
         #endregion

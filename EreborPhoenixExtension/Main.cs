@@ -94,6 +94,10 @@ namespace EreborPhoenixExtension
             if (!sett.Load(World.Player.Name, out Instance.Settings))
                 Instance.Settings = new Settings();
 
+            XmlSerializeHelper<Mine> ss = new XmlSerializeHelper<Mine>();
+            if (!ss.Load("Mining", out Instance.Settings.Mining))
+                Instance.Settings.Mining = new Mine();
+
             World.Player.Changed += Player_Changed;
             Instance.Settings.Ev.hiddenChange += Ev_hiddenChange;
             Instance.Settings.Ev.hitsChanged += Ev_hitsChanged;
@@ -127,13 +131,32 @@ namespace EreborPhoenixExtension
                 Instance.EreborInstance.PoisType = Instance.Settings.PoisName;
 
 
-                instance.EreborInstance.GoldLimit = instance.Settings.GoldLimit.ToString();
-                instance.EreborInstance.GwWidth = instance.GWS_DATA.Width.ToString();
-                instance.EreborInstance.GwHeight = instance.GWS_DATA.Height.ToString();
-                instance.EreborInstance.HidDelay = instance.Settings.hidDelay.ToString();
-                instance.EreborInstance.Hits2Pot = instance.Settings.criticalHits.ToString();
-                instance.EreborInstance.MinHp = instance.Settings.minHP.ToString();
-                instance.EreborInstance.VoodooObet = instance.Settings.VoodooManaLimit.ToString();
+                Instance.EreborInstance.GoldLimit = Instance.Settings.GoldLimit.ToString();
+                Instance.EreborInstance.GwWidth = Instance.GWS_DATA.Width.ToString();
+                Instance.EreborInstance.GwHeight = Instance.GWS_DATA.Height.ToString();
+                Instance.EreborInstance.HidDelay = Instance.Settings.hidDelay.ToString();
+                Instance.EreborInstance.Hits2Pot = Instance.Settings.criticalHits.ToString();
+                Instance.EreborInstance.MinHp = Instance.Settings.minHP.ToString();
+                Instance.EreborInstance.VoodooObet = Instance.Settings.VoodooManaLimit.ToString();
+
+
+
+                Instance.EreborInstance.SkipCopper = Instance.Settings.SkipCopper;
+                Instance.EreborInstance.SkipIron = Instance.Settings.SkipIron;
+                Instance.EreborInstance.SkipSilicon = Instance.Settings.SkipSilicon;
+                Instance.EreborInstance.SkipVerite = Instance.Settings.SkipVerite;
+                Instance.EreborInstance.DropCopper = Instance.Settings.DropCopper;
+                Instance.EreborInstance.DropIron = Instance.Settings.DropIron;
+                Instance.EreborInstance.DropSilicon = Instance.Settings.DropSilicon;
+                Instance.EreborInstance.DropVerite = Instance.Settings.DropVerite;
+
+                Instance.EreborInstance.Crystal = Instance.Settings.Crystal;
+                Instance.EreborInstance.AutoStockUp = Instance.Settings.AutoStockUp;
+                Instance.EreborInstance.AutoRemoveObstacles = Instance.Settings.AutoRemoveObstacles;
+                Instance.EreborInstance.UseBank = Instance.Settings.UseBank;
+
+                Instance.EreborInstance.MaxObs = Instance.Settings.MaxObs;
+                Instance.EreborInstance.MaxAda = Instance.Settings.MaxAda;
 
 
             }));
@@ -219,8 +242,8 @@ namespace EreborPhoenixExtension
                                 tmp = Instance.EreborInstance.SelectedEquip;
                                 if (tmp >= 0)
                                 {
-                                    instance.Settings.EquipSet.Remove(tmp);
-                                    instance.Settings.EquipSet.fillListBox(instance.EreborInstance.EquipList);
+                                    Instance.Settings.EquipSet.Remove(tmp);
+                                    Instance.Settings.EquipSet.fillListBox(Instance.EreborInstance.EquipList);
                                 }
                                 break;
                             // Weapons
@@ -228,8 +251,8 @@ namespace EreborPhoenixExtension
                                 tmp = Instance.EreborInstance.SelectedWeapon;
                                 if (tmp >= 0)
                                 {
-                                    instance.Settings.Weapons.Remove(tmp);
-                                    instance.Settings.Weapons.fillListBox(instance.EreborInstance.WeaponList);
+                                    Instance.Settings.Weapons.Remove(tmp);
+                                    Instance.Settings.Weapons.fillListBox(Instance.EreborInstance.WeaponList);
                                 }
                                 break;
                             // Healed
@@ -237,8 +260,8 @@ namespace EreborPhoenixExtension
                                 tmp = Instance.EreborInstance.SelectedHealed;
                                 if (tmp >= 0)
                                 {
-                                    instance.Settings.AHeal.Remove(tmp);
-                                    instance.Settings.AHeal.fillListBox(instance.EreborInstance.HealList);
+                                    Instance.Settings.AHeal.Remove(tmp);
+                                    Instance.Settings.AHeal.fillListBox(Instance.EreborInstance.HealList);
                                 }
                                 break;
                             // TrackIgnore
@@ -246,8 +269,8 @@ namespace EreborPhoenixExtension
                                 tmp = Instance.EreborInstance.SelectedIgnored;
                                 if (tmp >= 0)
                                 {
-                                    instance.Settings.Track.Remove(tmp);
-                                    instance.Settings.Track.fillListBox(instance.EreborInstance.TrackIgnoreList);
+                                    Instance.Settings.Track.Remove(tmp);
+                                    Instance.Settings.Track.fillListBox(Instance.EreborInstance.TrackIgnoreList);
                                 }
                                 break;
                             case 5:
@@ -267,28 +290,31 @@ namespace EreborPhoenixExtension
                             // Equip Sets
                             case 1:
                                 UO.PrintWarning("Zamer bagl s equipem");
-                                instance.Settings.EquipSet.Add();
-                                instance.Settings.EquipSet.fillListBox(instance.EreborInstance.EquipList);
+                                Instance.Settings.EquipSet.Add();
+                                Instance.Settings.EquipSet.fillListBox(Instance.EreborInstance.EquipList);
                                 break;
                             // Weapons
                             case 2:
                                 UO.PrintWarning("Zamer zbran a stit");
-                                instance.Settings.Weapons.Add();
-                                instance.Settings.Weapons.fillListBox(instance.EreborInstance.WeaponList);
+                                Instance.Settings.Weapons.Add();
+                                Instance.Settings.Weapons.fillListBox(Instance.EreborInstance.WeaponList);
                                 break;
                             // Healed
                             case 3:
                                 UO.PrintWarning("Zamer koho lecit");
-                                instance.Settings.AHeal.Add();
-                                instance.Settings.AHeal.fillListBox(instance.EreborInstance.HealList);
+                                Instance.Settings.AHeal.Add();
+                                Instance.Settings.AHeal.fillListBox(Instance.EreborInstance.HealList);
                                 break;
                             // TrackIgnore
                             case 4:
                                 UO.PrintWarning("Zamer koho ignorovat pri Trackingu");
-                                instance.Settings.Track.Add();
-                                instance.Settings.Track.fillListBox(instance.EreborInstance.TrackIgnoreList);
+                                Instance.Settings.Track.Add();
+                                Instance.Settings.Track.fillListBox(Instance.EreborInstance.TrackIgnoreList);
                                 break;
+                            // Mining
                             case 5:
+                                UO.PrintInformation("Zvolen dul {0}", Instance.Settings.Mining.Maps[Instance.EreborInstance.SelectedMine].Name);
+                                Instance.Settings.Mining.ActualMapIndex = Instance.EreborInstance.SelectedMine;
                                 break;
 
                         }
@@ -302,22 +328,24 @@ namespace EreborPhoenixExtension
                                 break;
                             // Equip Sets
                             case 1:
-                                Instance.Settings.EquipSet.fillListBox(instance.EreborInstance.EquipList);
+                                Instance.Settings.EquipSet.fillListBox(Instance.EreborInstance.EquipList);
                                 break;
                             // Weapons
                             case 2:
-                                Instance.Settings.Weapons.fillListBox(instance.EreborInstance.WeaponList);
+                                Instance.Settings.Weapons.fillListBox(Instance.EreborInstance.WeaponList);
                                 break;
                             // Healed
                             case 3:
-                                Instance.Settings.AHeal.fillListBox(instance.EreborInstance.HealList);
+                                Instance.Settings.AHeal.fillListBox(Instance.EreborInstance.HealList);
                                 break;
                             // TrackIgnore
                             case 4:
-                                Instance.Settings.Track.fillListBox(instance.EreborInstance.TrackIgnoreList);
+                                Instance.Settings.Track.fillListBox(Instance.EreborInstance.TrackIgnoreList);
 
                                 break;
+                            // Mining
                             case 5:
+                                Instance.Settings.Mining.fillListBox(Instance.EreborInstance.MiningList);
                                 break;
 
                         }
@@ -367,6 +395,37 @@ namespace EreborPhoenixExtension
                         {
                             Instance.EreborInstance.PoisType = pois.Name;
                         }));
+                        break;
+
+                    case "btn_setRunesPos":
+                        UO.PrintError("Aktualni poloha ulozena pro Portovani do dolu");
+                        Instance.Settings.Mining.RunePosition = new System.Drawing.Point(World.Player.X, World.Player.Y);
+                        break;
+
+                    case "btn_setBankPos":
+                        UO.PrintError("Aktualni poloha ulozena pro Vykladaní a spotrebu steaku ze zeme");
+                        Instance.Settings.Mining.HousePosition = new System.Drawing.Point(World.Player.X, World.Player.Y);
+                        break;
+
+                    case "btn_setDoor":
+                        UO.PrintError("Zamer leve zavrene dvere");
+                        UOItem tmpd = new UOItem(UIManager.TargetObject());
+                        Instance.Settings.Mining.DoorLeft = tmpd ?? new UOItem(0x0);
+                        Instance.Settings.Mining.DoorLeftClosedGraphic = tmpd.Graphic;
+                        UO.PrintInformation("Zamer prave zavrene dvere");
+                        tmpd = new UOItem(UIManager.TargetObject());
+                        Instance.Settings.Mining.DoorRight = tmpd ?? new UOItem(0x0);
+                        Instance.Settings.Mining.DoorRightClosedGraphic = tmpd.Graphic;
+                        break;
+
+                    case "btn_setOreBox":
+                        UO.PrintInformation("Zamer Kontejner na Ore");
+                        Instance.Settings.Mining.DoorRight =new UOItem(UIManager.TargetObject());
+                        break;
+
+                    case "btn_setGemBox":
+                        UO.PrintInformation("Zamer Kontejner na Kameny");
+                        Instance.Settings.Mining.DoorRight = new UOItem(UIManager.TargetObject());
                         break;
 
                 }
@@ -441,20 +500,51 @@ namespace EreborPhoenixExtension
                     Instance.Settings.Lot.Extend1_type = ushort.Parse(Instance.EreborInstance.Extend1Type_Text);
                 if (Instance.EreborInstance.Extend2Type_Text != Instance.Settings.Lot.Extend2_type.ToString())
                     Instance.Settings.Lot.Extend2_type = ushort.Parse(Instance.EreborInstance.Extend2Type_Text);
-                if (instance.EreborInstance.GoldLimit != instance.Settings.GoldLimit.ToString())
-                    instance.EreborInstance.GoldLimit = instance.Settings.GoldLimit.ToString();
-                if (instance.EreborInstance.GwWidth != instance.GWS_DATA.Width.ToString())
-                    instance.EreborInstance.GwWidth = instance.GWS_DATA.Width.ToString();
-                if (instance.EreborInstance.GwHeight != instance.GWS_DATA.Height.ToString())
-                    instance.EreborInstance.GwHeight = instance.GWS_DATA.Height.ToString();
-                if (instance.EreborInstance.HidDelay != instance.Settings.hidDelay.ToString())
-                    instance.EreborInstance.HidDelay = instance.Settings.hidDelay.ToString();
-                if (instance.EreborInstance.Hits2Pot != instance.Settings.criticalHits.ToString())
-                    instance.EreborInstance.Hits2Pot = instance.Settings.criticalHits.ToString();
-                if (instance.EreborInstance.MinHp != instance.Settings.minHP.ToString())
-                    instance.EreborInstance.MinHp = instance.Settings.minHP.ToString();
-                if(instance.EreborInstance.VoodooObet != instance.Settings.VoodooManaLimit.ToString())
-                instance.EreborInstance.VoodooObet = instance.Settings.VoodooManaLimit.ToString();
+
+                if (Instance.EreborInstance.GoldLimit != Instance.Settings.GoldLimit.ToString())
+                    Instance.Settings.GoldLimit = ushort.Parse(Instance.EreborInstance.GoldLimit);
+                if (Instance.EreborInstance.GwWidth != Instance.GWS_DATA.Width.ToString())
+                    Instance.GWS_DATA.Width = ushort.Parse(Instance.EreborInstance.GwWidth);
+                if (Instance.EreborInstance.GwHeight != Instance.GWS_DATA.Height.ToString())
+                    Instance.GWS_DATA.Height = ushort.Parse(Instance.EreborInstance.GwHeight);
+                if (Instance.EreborInstance.HidDelay != Instance.Settings.hidDelay.ToString())
+                    Instance.Settings.hidDelay = ushort.Parse(Instance.EreborInstance.HidDelay);
+                if (Instance.EreborInstance.Hits2Pot != Instance.Settings.criticalHits.ToString())
+                    Instance.Settings.criticalHits = ushort.Parse(Instance.EreborInstance.Hits2Pot);
+                if (Instance.EreborInstance.MinHp != Instance.Settings.minHP.ToString())
+                    Instance.Settings.minHP = ushort.Parse(Instance.EreborInstance.MinHp);
+                if (Instance.EreborInstance.VoodooObet != Instance.Settings.VoodooManaLimit.ToString())
+                    Instance.Settings.VoodooManaLimit = ushort.Parse(Instance.EreborInstance.VoodooObet);
+
+                if (Instance.EreborInstance.SkipCopper != Instance.Settings.SkipCopper)
+                    Instance.Settings.SkipCopper = Instance.EreborInstance.SkipCopper;
+                if (Instance.EreborInstance.SkipIron != Instance.Settings.SkipIron)
+                    Instance.Settings.SkipIron = Instance.EreborInstance.SkipIron;
+                if (Instance.EreborInstance.SkipSilicon != Instance.Settings.SkipSilicon)
+                    Instance.Settings.SkipSilicon = Instance.EreborInstance.SkipSilicon;
+                if (Instance.EreborInstance.SkipVerite != Instance.Settings.SkipVerite)
+                    Instance.Settings.SkipVerite = Instance.EreborInstance.SkipVerite;
+                if (Instance.EreborInstance.DropCopper != Instance.Settings.DropCopper)
+                    Instance.Settings.DropCopper = Instance.EreborInstance.DropCopper;
+                if (Instance.EreborInstance.DropIron != Instance.Settings.DropIron)
+                    Instance.Settings.DropIron = Instance.EreborInstance.DropIron;
+                if (Instance.EreborInstance.DropSilicon != Instance.Settings.DropSilicon)
+                    Instance.Settings.DropSilicon = Instance.EreborInstance.DropSilicon;
+                if (Instance.EreborInstance.DropVerite != Instance.Settings.DropVerite)
+                    Instance.Settings.DropVerite = Instance.EreborInstance.DropVerite;
+                if (Instance.EreborInstance.Crystal != Instance.Settings.Crystal)
+                    Instance.Settings.Crystal = Instance.EreborInstance.Crystal;
+                if (Instance.EreborInstance.AutoStockUp != Instance.Settings.AutoStockUp)
+                    Instance.Settings.AutoStockUp = Instance.EreborInstance.AutoStockUp;
+                if (Instance.EreborInstance.AutoRemoveObstacles != Instance.Settings.AutoRemoveObstacles)
+                    Instance.Settings.AutoRemoveObstacles = Instance.EreborInstance.AutoRemoveObstacles;
+                if (Instance.EreborInstance.UseBank != Instance.Settings.UseBank)
+                    Instance.Settings.UseBank = Instance.EreborInstance.UseBank;
+                if (Instance.EreborInstance.MaxObs != Instance.Settings.MaxObs)
+                    Instance.Settings.MaxObs = Instance.EreborInstance.MaxObs;
+                if (Instance.EreborInstance.MaxAda != Instance.Settings.MaxAda)
+                    Instance.Settings.MaxAda = Instance.EreborInstance.MaxAda;
+
 
             }));
 
@@ -462,6 +552,9 @@ namespace EreborPhoenixExtension
 
             XmlSerializeHelper<Settings> sett = new XmlSerializeHelper<Settings>();
             sett.Save(World.Player.Name, Instance.Settings);
+
+            XmlSerializeHelper<Mine> min = new XmlSerializeHelper<Mine>();
+            min.Save("Mining", Instance.Settings.Mining);
 
             XmlSerializeHelper<GameWIndoSize_DATA> gws = new XmlSerializeHelper<GameWIndoSize_DATA>();
             gws.Save("WindowSize", Instance.GWS_DATA);
@@ -590,15 +683,20 @@ namespace EreborPhoenixExtension
 
         private void RefreshLists()
         {
-            Instance.Settings.RuneTree.FillTreeView(Instance.EreborInstance.RuneView);
+            Instance.EreborInstance.Invoke(new MethodInvoker(delegate
+            {
+                Instance.Settings.RuneTree.FillTreeView(Instance.EreborInstance.RuneView);
 
-            Instance.Settings.EquipSet.fillListBox(instance.EreborInstance.EquipList);
+                Instance.Settings.EquipSet.fillListBox(Instance.EreborInstance.EquipList);
 
-            Instance.Settings.Weapons.fillListBox(instance.EreborInstance.WeaponList);
+                Instance.Settings.Weapons.fillListBox(Instance.EreborInstance.WeaponList);
 
-            Instance.Settings.AHeal.fillListBox(instance.EreborInstance.HealList);
+                Instance.Settings.AHeal.fillListBox(Instance.EreborInstance.HealList);
 
-            Instance.Settings.Track.fillListBox(instance.EreborInstance.TrackIgnoreList);
+                Instance.Settings.Track.fillListBox(Instance.EreborInstance.TrackIgnoreList);
+
+                Instance.Settings.Mining.fillListBox(Instance.EreborInstance.MiningList);
+            }));
         }
         [DllImport("user32.dll")]
         private static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);

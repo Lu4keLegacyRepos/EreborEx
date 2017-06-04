@@ -36,15 +36,26 @@ namespace EreborPhoenixExtension
         [Command]
         public void mine()
         {
-            if (Main.Instance.Settings.Mining == null)
-            {
-                XmlSerializeHelper<Mine> ss = new XmlSerializeHelper<Mine>();
-                if (!ss.Load("Mining", out Main.Instance.Settings.Mining))
-                    Main.Instance.Settings.Mining = new Mine();
-            }
+            //if (Main.Instance.Settings.Mining == null)
+            //{
+            //    XmlSerializeHelper<Mine> ss = new XmlSerializeHelper<Mine>();
+            //    if (!ss.Load("Mining", out Main.Instance.Settings.Mining))
+            //        Main.Instance.Settings.Mining = new Mine();
+            //}
             Main.Instance.Settings.Mining.Work();
         }
 
+        [Command]
+        public void unload()
+        {
+            //if (Main.Instance.Settings.Mining == null)
+            //{
+            //    XmlSerializeHelper<Mine> ss = new XmlSerializeHelper<Mine>();
+            //    if (!ss.Load("Mining", out Main.Instance.Settings.Mining))
+            //        Main.Instance.Settings.Mining = new Mine();
+            //}
+            Main.Instance.Settings.Mining.Unload();
+        }
 
         [Command]
         public void save()

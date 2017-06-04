@@ -43,7 +43,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
             {
                 MineField tmp = Fields.Find(x => x.Location.X == it.X && x.Location.Y == it.Y);
                 if (tmp == null) continue;
-                Fields[Fields.IndexOf(tmp)].IsObstacle = true;
+                Fields[Fields.IndexOf(tmp)].State = MineFieldState.Obstacle;
             }
         }
 
@@ -98,7 +98,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
                     this.Fields.Add(new MineField()
                     {
                         IsExploitable = true,
-                        IsObstacle = false,
+                        //IsObstacle = false,
                         IsWalkable = true,
                         Location = new System.Drawing.Point(X, Y),
                         MapIndex = index,
@@ -110,11 +110,11 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
                     this.Fields.Add(new MineField()
                     {
                         IsExploitable = false,
-                        IsObstacle = false,
+                        //IsObstacle = false,
                         IsWalkable = true,
                         Location = new System.Drawing.Point(X, Y),
                         MapIndex = index,
-                        State = MineFieldState.Unknown
+                        State = MineFieldState.Walkable
                     });
                 }
                 UO.Wait(100);

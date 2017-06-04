@@ -22,7 +22,7 @@ namespace EreborPhoenixExtension.Libs.Abilites
                 List<UOCharacter> redList = new List<UOCharacter>();
                 List<UOCharacter> sortedlist;
                 redList.Clear();
-                foreach (UOCharacter ch in World.Characters.Where(x=>x.Notoriety>Notoriety.Guild && x.Distance<15 && x.Serial!=World.Player.Serial && !x.Renamable))
+                foreach (UOCharacter ch in World.Characters.Where(x=>x.Notoriety>Notoriety.Criminal && x.Distance<15 && x.Serial!=World.Player.Serial && !x.Renamable))
                 {
                    // if (ch.Distance > 10 || Array.IndexOf(Filter, ch.Notoriety) < 0 || ch.Serial == World.Player.Serial || ch.Renamable)
                      //   continue;

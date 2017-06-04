@@ -65,7 +65,7 @@ namespace EreborPhoenixExtension.Libs.Extensions.Pathfinding
             nodes = new List<Node>();
             foreach(MineField f in map.Fields)
             {
-                nodes.Add(new Node(f.Location, f.IsWalkable && !f.IsObstacle, searchParameters.EndLocation));
+                nodes.Add(new Node(f.Location, f.IsWalkable && f.State!=MineFieldState.Obstacle, searchParameters.EndLocation));
             }
 
            /* this.width = map.GetLength(0);

@@ -41,6 +41,7 @@
             this.chb_Extend1 = new System.Windows.Forms.CheckBox();
             this.chb_Bolts = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.chb_Food = new System.Windows.Forms.CheckBox();
             this.btn_SetBag = new System.Windows.Forms.Button();
             this.btn_SetCarv = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -87,13 +88,57 @@
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.lb_TrackIgnore = new System.Windows.Forms.ListBox();
             this.tabPage9 = new System.Windows.Forms.TabPage();
-            this.listView1 = new System.Windows.Forms.ListView();
+            this.lb_mining = new System.Windows.Forms.ListBox();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.btn_setGemBox = new System.Windows.Forms.Button();
+            this.btn_setOreBox = new System.Windows.Forms.Button();
+            this.btn_setDoor = new System.Windows.Forms.Button();
+            this.btn_setBankPos = new System.Windows.Forms.Button();
+            this.btn_setRunesPos = new System.Windows.Forms.Button();
+            this.label16 = new System.Windows.Forms.Label();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.label10 = new System.Windows.Forms.Label();
+            this.chb_dropVerite = new System.Windows.Forms.CheckBox();
+            this.chb_dropCopper = new System.Windows.Forms.CheckBox();
+            this.chb_dropSilicon = new System.Windows.Forms.CheckBox();
+            this.chb_dropIron = new System.Windows.Forms.CheckBox();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.num_Ada = new System.Windows.Forms.NumericUpDown();
+            this.num_Obs = new System.Windows.Forms.NumericUpDown();
+            this.label13 = new System.Windows.Forms.Label();
+            this.chb_useBank = new System.Windows.Forms.CheckBox();
+            this.chb_crystal = new System.Windows.Forms.CheckBox();
+            this.chb_autoRemoveObstacles = new System.Windows.Forms.CheckBox();
+            this.chb_autoStockUp = new System.Windows.Forms.CheckBox();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.label12 = new System.Windows.Forms.Label();
+            this.chb_skipVerite = new System.Windows.Forms.CheckBox();
+            this.chb_skipCopper = new System.Windows.Forms.CheckBox();
+            this.chb_skipSilicon = new System.Windows.Forms.CheckBox();
+            this.chb_skipIron = new System.Windows.Forms.CheckBox();
             this.btn_4 = new System.Windows.Forms.Button();
             this.btn_3 = new System.Windows.Forms.Button();
             this.btn_2 = new System.Windows.Forms.Button();
             this.btn_1 = new System.Windows.Forms.Button();
             this.btn_0 = new System.Windows.Forms.Button();
-            this.chb_Food = new System.Windows.Forms.CheckBox();
+            this.panel9 = new System.Windows.Forms.Panel();
+            this.label17 = new System.Windows.Forms.Label();
+            this.lbl_copperCnt = new System.Windows.Forms.Label();
+            this.lbl_ironCnt = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.lbl_veriteCnt = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.lbl_siliconCnt = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.lbl_obsidianCnt = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.lbl_valoriteCount = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.lbl_adamantiumCnt = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -108,6 +153,14 @@
             this.tabPage3.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.tabPage9.SuspendLayout();
+            this.panel8.SuspendLayout();
+            this.panel5.SuspendLayout();
+            this.panel6.SuspendLayout();
+            this.panel7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Ada)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Obs)).BeginInit();
+            this.panel4.SuspendLayout();
+            this.panel9.SuspendLayout();
             this.SuspendLayout();
             // 
             // chb_Automorf
@@ -252,6 +305,17 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(226, 184);
             this.panel1.TabIndex = 13;
+            // 
+            // chb_Food
+            // 
+            this.chb_Food.AutoSize = true;
+            this.chb_Food.Location = new System.Drawing.Point(33, 27);
+            this.chb_Food.Name = "chb_Food";
+            this.chb_Food.Size = new System.Drawing.Size(62, 21);
+            this.chb_Food.TabIndex = 17;
+            this.chb_Food.Text = "Food";
+            this.chb_Food.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chb_Food.UseVisualStyleBackColor = true;
             // 
             // btn_SetBag
             // 
@@ -592,7 +656,7 @@
             this.TabC.Location = new System.Drawing.Point(247, 3);
             this.TabC.Name = "TabC";
             this.TabC.SelectedIndex = 0;
-            this.TabC.Size = new System.Drawing.Size(449, 469);
+            this.TabC.Size = new System.Drawing.Size(448, 469);
             this.TabC.TabIndex = 16;
             // 
             // tabPage4
@@ -602,15 +666,18 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(441, 440);
+            this.tabPage4.Size = new System.Drawing.Size(440, 440);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Runes";
             // 
             // tw_Runes
             // 
+            this.tw_Runes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tw_Runes.Location = new System.Drawing.Point(3, 3);
             this.tw_Runes.Name = "tw_Runes";
-            this.tw_Runes.Size = new System.Drawing.Size(435, 437);
+            this.tw_Runes.Size = new System.Drawing.Size(434, 437);
             this.tw_Runes.TabIndex = 0;
             // 
             // tabPage1
@@ -620,17 +687,20 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(441, 440);
+            this.tabPage1.Size = new System.Drawing.Size(440, 440);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Equip sets";
             // 
             // lb_Equips
             // 
+            this.lb_Equips.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lb_Equips.FormattingEnabled = true;
             this.lb_Equips.ItemHeight = 16;
             this.lb_Equips.Location = new System.Drawing.Point(3, 3);
             this.lb_Equips.Name = "lb_Equips";
-            this.lb_Equips.Size = new System.Drawing.Size(435, 436);
+            this.lb_Equips.Size = new System.Drawing.Size(431, 436);
             this.lb_Equips.TabIndex = 0;
             // 
             // tabPage2
@@ -640,17 +710,20 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(441, 440);
+            this.tabPage2.Size = new System.Drawing.Size(440, 440);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Weapons";
             // 
             // lb_Weapons
             // 
+            this.lb_Weapons.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lb_Weapons.FormattingEnabled = true;
             this.lb_Weapons.ItemHeight = 16;
             this.lb_Weapons.Location = new System.Drawing.Point(3, 3);
             this.lb_Weapons.Name = "lb_Weapons";
-            this.lb_Weapons.Size = new System.Drawing.Size(435, 436);
+            this.lb_Weapons.Size = new System.Drawing.Size(431, 436);
             this.lb_Weapons.TabIndex = 1;
             // 
             // tabPage3
@@ -660,17 +733,20 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(441, 440);
+            this.tabPage3.Size = new System.Drawing.Size(440, 440);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Healed Players";
             // 
             // lb_Healing
             // 
+            this.lb_Healing.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lb_Healing.FormattingEnabled = true;
             this.lb_Healing.ItemHeight = 16;
             this.lb_Healing.Location = new System.Drawing.Point(3, 3);
             this.lb_Healing.Name = "lb_Healing";
-            this.lb_Healing.Size = new System.Drawing.Size(435, 436);
+            this.lb_Healing.Size = new System.Drawing.Size(431, 436);
             this.lb_Healing.TabIndex = 1;
             // 
             // tabPage7
@@ -679,45 +755,358 @@
             this.tabPage7.Location = new System.Drawing.Point(4, 25);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(441, 440);
+            this.tabPage7.Size = new System.Drawing.Size(440, 440);
             this.tabPage7.TabIndex = 4;
             this.tabPage7.Text = "Track Ignore";
             this.tabPage7.UseVisualStyleBackColor = true;
             // 
             // lb_TrackIgnore
             // 
+            this.lb_TrackIgnore.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lb_TrackIgnore.FormattingEnabled = true;
             this.lb_TrackIgnore.ItemHeight = 16;
             this.lb_TrackIgnore.Location = new System.Drawing.Point(3, 3);
             this.lb_TrackIgnore.Name = "lb_TrackIgnore";
-            this.lb_TrackIgnore.Size = new System.Drawing.Size(435, 436);
+            this.lb_TrackIgnore.Size = new System.Drawing.Size(434, 436);
             this.lb_TrackIgnore.TabIndex = 2;
             // 
             // tabPage9
             // 
-            this.tabPage9.Controls.Add(this.listView1);
+            this.tabPage9.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage9.Controls.Add(this.panel9);
+            this.tabPage9.Controls.Add(this.lb_mining);
+            this.tabPage9.Controls.Add(this.panel8);
+            this.tabPage9.Controls.Add(this.panel5);
+            this.tabPage9.Controls.Add(this.panel6);
+            this.tabPage9.Controls.Add(this.panel4);
             this.tabPage9.Location = new System.Drawing.Point(4, 25);
             this.tabPage9.Name = "tabPage9";
             this.tabPage9.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage9.Size = new System.Drawing.Size(441, 440);
+            this.tabPage9.Size = new System.Drawing.Size(440, 440);
             this.tabPage9.TabIndex = 5;
-            this.tabPage9.Text = "Items";
-            this.tabPage9.UseVisualStyleBackColor = true;
+            this.tabPage9.Text = "Mining";
             // 
-            // listView1
+            // lb_mining
             // 
-            this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listView1.Enabled = false;
-            this.listView1.FullRowSelect = true;
-            this.listView1.Location = new System.Drawing.Point(3, 3);
-            this.listView1.MaximumSize = new System.Drawing.Size(2000, 2000);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(435, 434);
-            this.listView1.TabIndex = 0;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.Visible = false;
+            this.lb_mining.FormattingEnabled = true;
+            this.lb_mining.ItemHeight = 16;
+            this.lb_mining.Location = new System.Drawing.Point(0, 3);
+            this.lb_mining.Name = "lb_mining";
+            this.lb_mining.Size = new System.Drawing.Size(437, 228);
+            this.lb_mining.TabIndex = 31;
+            // 
+            // panel8
+            // 
+            this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel8.Controls.Add(this.btn_setGemBox);
+            this.panel8.Controls.Add(this.btn_setOreBox);
+            this.panel8.Controls.Add(this.btn_setDoor);
+            this.panel8.Controls.Add(this.btn_setBankPos);
+            this.panel8.Controls.Add(this.btn_setRunesPos);
+            this.panel8.Controls.Add(this.label16);
+            this.panel8.Location = new System.Drawing.Point(361, 283);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(76, 154);
+            this.panel8.TabIndex = 30;
+            // 
+            // btn_setGemBox
+            // 
+            this.btn_setGemBox.Location = new System.Drawing.Point(1, 123);
+            this.btn_setGemBox.Name = "btn_setGemBox";
+            this.btn_setGemBox.Size = new System.Drawing.Size(72, 23);
+            this.btn_setGemBox.TabIndex = 22;
+            this.btn_setGemBox.Text = "GemBox";
+            this.btn_setGemBox.UseVisualStyleBackColor = true;
+            // 
+            // btn_setOreBox
+            // 
+            this.btn_setOreBox.Location = new System.Drawing.Point(1, 98);
+            this.btn_setOreBox.Name = "btn_setOreBox";
+            this.btn_setOreBox.Size = new System.Drawing.Size(71, 23);
+            this.btn_setOreBox.TabIndex = 21;
+            this.btn_setOreBox.Text = "OreBox";
+            this.btn_setOreBox.UseVisualStyleBackColor = true;
+            // 
+            // btn_setDoor
+            // 
+            this.btn_setDoor.Location = new System.Drawing.Point(1, 73);
+            this.btn_setDoor.Name = "btn_setDoor";
+            this.btn_setDoor.Size = new System.Drawing.Size(71, 23);
+            this.btn_setDoor.TabIndex = 20;
+            this.btn_setDoor.Text = "Door";
+            this.btn_setDoor.UseVisualStyleBackColor = true;
+            // 
+            // btn_setBankPos
+            // 
+            this.btn_setBankPos.Location = new System.Drawing.Point(1, 48);
+            this.btn_setBankPos.Name = "btn_setBankPos";
+            this.btn_setBankPos.Size = new System.Drawing.Size(71, 23);
+            this.btn_setBankPos.TabIndex = 19;
+            this.btn_setBankPos.Text = "Bank";
+            this.btn_setBankPos.UseVisualStyleBackColor = true;
+            // 
+            // btn_setRunesPos
+            // 
+            this.btn_setRunesPos.Location = new System.Drawing.Point(1, 23);
+            this.btn_setRunesPos.Name = "btn_setRunesPos";
+            this.btn_setRunesPos.Size = new System.Drawing.Size(71, 23);
+            this.btn_setRunesPos.TabIndex = 18;
+            this.btn_setRunesPos.Text = "Runes";
+            this.btn_setRunesPos.UseVisualStyleBackColor = true;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(3, 3);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(58, 17);
+            this.label16.TabIndex = 4;
+            this.label16.Text = "Pos/Obj";
+            // 
+            // panel5
+            // 
+            this.panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel5.Controls.Add(this.label10);
+            this.panel5.Controls.Add(this.chb_dropVerite);
+            this.panel5.Controls.Add(this.chb_dropCopper);
+            this.panel5.Controls.Add(this.chb_dropSilicon);
+            this.panel5.Controls.Add(this.chb_dropIron);
+            this.panel5.Location = new System.Drawing.Point(3, 364);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(176, 73);
+            this.panel5.TabIndex = 29;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(3, 3);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(104, 17);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "Drop Materials:";
+            // 
+            // chb_dropVerite
+            // 
+            this.chb_dropVerite.AutoSize = true;
+            this.chb_dropVerite.Location = new System.Drawing.Point(98, 41);
+            this.chb_dropVerite.Name = "chb_dropVerite";
+            this.chb_dropVerite.Size = new System.Drawing.Size(67, 21);
+            this.chb_dropVerite.TabIndex = 25;
+            this.chb_dropVerite.Text = "Verite";
+            this.chb_dropVerite.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chb_dropVerite.UseVisualStyleBackColor = true;
+            // 
+            // chb_dropCopper
+            // 
+            this.chb_dropCopper.AutoSize = true;
+            this.chb_dropCopper.Location = new System.Drawing.Point(19, 22);
+            this.chb_dropCopper.Name = "chb_dropCopper";
+            this.chb_dropCopper.Size = new System.Drawing.Size(76, 21);
+            this.chb_dropCopper.TabIndex = 22;
+            this.chb_dropCopper.Text = "Copper";
+            this.chb_dropCopper.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chb_dropCopper.UseVisualStyleBackColor = true;
+            // 
+            // chb_dropSilicon
+            // 
+            this.chb_dropSilicon.AutoSize = true;
+            this.chb_dropSilicon.Location = new System.Drawing.Point(98, 22);
+            this.chb_dropSilicon.Name = "chb_dropSilicon";
+            this.chb_dropSilicon.Size = new System.Drawing.Size(71, 21);
+            this.chb_dropSilicon.TabIndex = 24;
+            this.chb_dropSilicon.Text = "Silicon";
+            this.chb_dropSilicon.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chb_dropSilicon.UseVisualStyleBackColor = true;
+            // 
+            // chb_dropIron
+            // 
+            this.chb_dropIron.AutoSize = true;
+            this.chb_dropIron.Location = new System.Drawing.Point(19, 42);
+            this.chb_dropIron.Name = "chb_dropIron";
+            this.chb_dropIron.Size = new System.Drawing.Size(54, 21);
+            this.chb_dropIron.TabIndex = 23;
+            this.chb_dropIron.Text = "Iron";
+            this.chb_dropIron.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chb_dropIron.UseVisualStyleBackColor = true;
+            // 
+            // panel6
+            // 
+            this.panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel6.Controls.Add(this.panel7);
+            this.panel6.Controls.Add(this.label13);
+            this.panel6.Controls.Add(this.chb_useBank);
+            this.panel6.Controls.Add(this.chb_crystal);
+            this.panel6.Controls.Add(this.chb_autoRemoveObstacles);
+            this.panel6.Controls.Add(this.chb_autoStockUp);
+            this.panel6.Location = new System.Drawing.Point(185, 283);
+            this.panel6.Name = "panel6";
+            this.panel6.Size = new System.Drawing.Size(249, 154);
+            this.panel6.TabIndex = 28;
+            // 
+            // panel7
+            // 
+            this.panel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel7.Controls.Add(this.label15);
+            this.panel7.Controls.Add(this.label14);
+            this.panel7.Controls.Add(this.num_Ada);
+            this.panel7.Controls.Add(this.num_Obs);
+            this.panel7.Location = new System.Drawing.Point(-1, 103);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(177, 50);
+            this.panel7.TabIndex = 30;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(96, 2);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(66, 17);
+            this.label15.TabIndex = 29;
+            this.label15.Text = "Max Ada:";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(15, 2);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(67, 17);
+            this.label14.TabIndex = 28;
+            this.label14.Text = "Max Obs:";
+            // 
+            // num_Ada
+            // 
+            this.num_Ada.Location = new System.Drawing.Point(99, 20);
+            this.num_Ada.Name = "num_Ada";
+            this.num_Ada.Size = new System.Drawing.Size(55, 22);
+            this.num_Ada.TabIndex = 26;
+            // 
+            // num_Obs
+            // 
+            this.num_Obs.Location = new System.Drawing.Point(18, 20);
+            this.num_Obs.Name = "num_Obs";
+            this.num_Obs.Size = new System.Drawing.Size(56, 22);
+            this.num_Obs.TabIndex = 27;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(3, 3);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(63, 17);
+            this.label13.TabIndex = 3;
+            this.label13.Text = "Settings:";
+            // 
+            // chb_useBank
+            // 
+            this.chb_useBank.AutoSize = true;
+            this.chb_useBank.Location = new System.Drawing.Point(18, 80);
+            this.chb_useBank.Name = "chb_useBank";
+            this.chb_useBank.Size = new System.Drawing.Size(136, 21);
+            this.chb_useBank.TabIndex = 25;
+            this.chb_useBank.Text = "Use Bank - eq14";
+            this.chb_useBank.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chb_useBank.UseVisualStyleBackColor = true;
+            // 
+            // chb_crystal
+            // 
+            this.chb_crystal.AutoSize = true;
+            this.chb_crystal.Location = new System.Drawing.Point(18, 22);
+            this.chb_crystal.Name = "chb_crystal";
+            this.chb_crystal.Size = new System.Drawing.Size(73, 21);
+            this.chb_crystal.TabIndex = 22;
+            this.chb_crystal.Text = "Crystal";
+            this.chb_crystal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chb_crystal.UseVisualStyleBackColor = true;
+            // 
+            // chb_autoRemoveObstacles
+            // 
+            this.chb_autoRemoveObstacles.AutoSize = true;
+            this.chb_autoRemoveObstacles.Location = new System.Drawing.Point(18, 61);
+            this.chb_autoRemoveObstacles.Name = "chb_autoRemoveObstacles";
+            this.chb_autoRemoveObstacles.Size = new System.Drawing.Size(158, 21);
+            this.chb_autoRemoveObstacles.TabIndex = 24;
+            this.chb_autoRemoveObstacles.Text = "Auto Remove Rocks";
+            this.chb_autoRemoveObstacles.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chb_autoRemoveObstacles.UseVisualStyleBackColor = true;
+            // 
+            // chb_autoStockUp
+            // 
+            this.chb_autoStockUp.AutoSize = true;
+            this.chb_autoStockUp.Location = new System.Drawing.Point(18, 42);
+            this.chb_autoStockUp.Name = "chb_autoStockUp";
+            this.chb_autoStockUp.Size = new System.Drawing.Size(120, 21);
+            this.chb_autoStockUp.TabIndex = 23;
+            this.chb_autoStockUp.Text = "Auto Stock Up";
+            this.chb_autoStockUp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chb_autoStockUp.UseVisualStyleBackColor = true;
+            // 
+            // panel4
+            // 
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Controls.Add(this.label12);
+            this.panel4.Controls.Add(this.chb_skipVerite);
+            this.panel4.Controls.Add(this.chb_skipCopper);
+            this.panel4.Controls.Add(this.chb_skipSilicon);
+            this.panel4.Controls.Add(this.chb_skipIron);
+            this.panel4.Location = new System.Drawing.Point(3, 283);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(176, 73);
+            this.panel4.TabIndex = 26;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(3, 3);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(100, 17);
+            this.label12.TabIndex = 3;
+            this.label12.Text = "Skip Materials:";
+            // 
+            // chb_skipVerite
+            // 
+            this.chb_skipVerite.AutoSize = true;
+            this.chb_skipVerite.Location = new System.Drawing.Point(98, 41);
+            this.chb_skipVerite.Name = "chb_skipVerite";
+            this.chb_skipVerite.Size = new System.Drawing.Size(67, 21);
+            this.chb_skipVerite.TabIndex = 25;
+            this.chb_skipVerite.Text = "Verite";
+            this.chb_skipVerite.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chb_skipVerite.UseVisualStyleBackColor = true;
+            // 
+            // chb_skipCopper
+            // 
+            this.chb_skipCopper.AutoSize = true;
+            this.chb_skipCopper.Location = new System.Drawing.Point(19, 22);
+            this.chb_skipCopper.Name = "chb_skipCopper";
+            this.chb_skipCopper.Size = new System.Drawing.Size(76, 21);
+            this.chb_skipCopper.TabIndex = 22;
+            this.chb_skipCopper.Text = "Copper";
+            this.chb_skipCopper.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chb_skipCopper.UseVisualStyleBackColor = true;
+            // 
+            // chb_skipSilicon
+            // 
+            this.chb_skipSilicon.AutoSize = true;
+            this.chb_skipSilicon.Location = new System.Drawing.Point(98, 22);
+            this.chb_skipSilicon.Name = "chb_skipSilicon";
+            this.chb_skipSilicon.Size = new System.Drawing.Size(71, 21);
+            this.chb_skipSilicon.TabIndex = 24;
+            this.chb_skipSilicon.Text = "Silicon";
+            this.chb_skipSilicon.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chb_skipSilicon.UseVisualStyleBackColor = true;
+            // 
+            // chb_skipIron
+            // 
+            this.chb_skipIron.AutoSize = true;
+            this.chb_skipIron.Location = new System.Drawing.Point(19, 42);
+            this.chb_skipIron.Name = "chb_skipIron";
+            this.chb_skipIron.Size = new System.Drawing.Size(54, 21);
+            this.chb_skipIron.TabIndex = 23;
+            this.chb_skipIron.Text = "Iron";
+            this.chb_skipIron.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chb_skipIron.UseVisualStyleBackColor = true;
             // 
             // btn_4
             // 
@@ -764,16 +1153,153 @@
             this.btn_0.Text = "Recall-Scroll";
             this.btn_0.UseVisualStyleBackColor = true;
             // 
-            // chb_Food
+            // panel9
             // 
-            this.chb_Food.AutoSize = true;
-            this.chb_Food.Location = new System.Drawing.Point(33, 27);
-            this.chb_Food.Name = "chb_Food";
-            this.chb_Food.Size = new System.Drawing.Size(62, 21);
-            this.chb_Food.TabIndex = 17;
-            this.chb_Food.Text = "Food";
-            this.chb_Food.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.chb_Food.UseVisualStyleBackColor = true;
+            this.panel9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel9.Controls.Add(this.lbl_adamantiumCnt);
+            this.panel9.Controls.Add(this.label29);
+            this.panel9.Controls.Add(this.lbl_obsidianCnt);
+            this.panel9.Controls.Add(this.label25);
+            this.panel9.Controls.Add(this.lbl_valoriteCount);
+            this.panel9.Controls.Add(this.label27);
+            this.panel9.Controls.Add(this.lbl_veriteCnt);
+            this.panel9.Controls.Add(this.label21);
+            this.panel9.Controls.Add(this.lbl_siliconCnt);
+            this.panel9.Controls.Add(this.label23);
+            this.panel9.Controls.Add(this.lbl_ironCnt);
+            this.panel9.Controls.Add(this.label19);
+            this.panel9.Controls.Add(this.lbl_copperCnt);
+            this.panel9.Controls.Add(this.label17);
+            this.panel9.Location = new System.Drawing.Point(3, 236);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(434, 48);
+            this.panel9.TabIndex = 32;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(2, 3);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(62, 17);
+            this.label17.TabIndex = 4;
+            this.label17.Text = "Copper: ";
+            // 
+            // lbl_copperCnt
+            // 
+            this.lbl_copperCnt.AutoSize = true;
+            this.lbl_copperCnt.Location = new System.Drawing.Point(57, 3);
+            this.lbl_copperCnt.Name = "lbl_copperCnt";
+            this.lbl_copperCnt.Size = new System.Drawing.Size(16, 17);
+            this.lbl_copperCnt.TabIndex = 5;
+            this.lbl_copperCnt.Text = "0";
+            // 
+            // lbl_ironCnt
+            // 
+            this.lbl_ironCnt.AutoSize = true;
+            this.lbl_ironCnt.Location = new System.Drawing.Point(57, 22);
+            this.lbl_ironCnt.Name = "lbl_ironCnt";
+            this.lbl_ironCnt.Size = new System.Drawing.Size(16, 17);
+            this.lbl_ironCnt.TabIndex = 7;
+            this.lbl_ironCnt.Text = "0";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(2, 22);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(32, 17);
+            this.label19.TabIndex = 6;
+            this.label19.Text = "Iron";
+            // 
+            // lbl_veriteCnt
+            // 
+            this.lbl_veriteCnt.AutoSize = true;
+            this.lbl_veriteCnt.Location = new System.Drawing.Point(150, 22);
+            this.lbl_veriteCnt.Name = "lbl_veriteCnt";
+            this.lbl_veriteCnt.Size = new System.Drawing.Size(16, 17);
+            this.lbl_veriteCnt.TabIndex = 11;
+            this.lbl_veriteCnt.Text = "0";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(95, 22);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(49, 17);
+            this.label21.TabIndex = 10;
+            this.label21.Text = "Verite:";
+            // 
+            // lbl_siliconCnt
+            // 
+            this.lbl_siliconCnt.AutoSize = true;
+            this.lbl_siliconCnt.Location = new System.Drawing.Point(150, 3);
+            this.lbl_siliconCnt.Name = "lbl_siliconCnt";
+            this.lbl_siliconCnt.Size = new System.Drawing.Size(16, 17);
+            this.lbl_siliconCnt.TabIndex = 9;
+            this.lbl_siliconCnt.Text = "0";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(95, 3);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(53, 17);
+            this.label23.TabIndex = 8;
+            this.label23.Text = "Silicon:";
+            // 
+            // lbl_obsidianCnt
+            // 
+            this.lbl_obsidianCnt.AutoSize = true;
+            this.lbl_obsidianCnt.Location = new System.Drawing.Point(397, 2);
+            this.lbl_obsidianCnt.Name = "lbl_obsidianCnt";
+            this.lbl_obsidianCnt.Size = new System.Drawing.Size(16, 17);
+            this.lbl_obsidianCnt.TabIndex = 15;
+            this.lbl_obsidianCnt.Text = "0";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(306, 3);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(72, 17);
+            this.label25.TabIndex = 14;
+            this.label25.Text = "Obsidian: ";
+            // 
+            // lbl_valoriteCount
+            // 
+            this.lbl_valoriteCount.AutoSize = true;
+            this.lbl_valoriteCount.Location = new System.Drawing.Point(240, 3);
+            this.lbl_valoriteCount.Name = "lbl_valoriteCount";
+            this.lbl_valoriteCount.Size = new System.Drawing.Size(16, 17);
+            this.lbl_valoriteCount.TabIndex = 13;
+            this.lbl_valoriteCount.Text = "0";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(185, 3);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(64, 17);
+            this.label27.TabIndex = 12;
+            this.label27.Text = "Valorite: ";
+            // 
+            // lbl_adamantiumCnt
+            // 
+            this.lbl_adamantiumCnt.AutoSize = true;
+            this.lbl_adamantiumCnt.Location = new System.Drawing.Point(397, 22);
+            this.lbl_adamantiumCnt.Name = "lbl_adamantiumCnt";
+            this.lbl_adamantiumCnt.Size = new System.Drawing.Size(16, 17);
+            this.lbl_adamantiumCnt.TabIndex = 17;
+            this.lbl_adamantiumCnt.Text = "0";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(306, 22);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(90, 17);
+            this.label29.TabIndex = 16;
+            this.label29.Text = "Adamantium:";
             // 
             // Erebor
             // 
@@ -790,7 +1316,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "Erebor";
-            this.Size = new System.Drawing.Size(775, 559);
+            this.Size = new System.Drawing.Size(710, 532);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -810,6 +1336,20 @@
             this.tabPage3.ResumeLayout(false);
             this.tabPage7.ResumeLayout(false);
             this.tabPage9.ResumeLayout(false);
+            this.panel8.ResumeLayout(false);
+            this.panel8.PerformLayout();
+            this.panel5.ResumeLayout(false);
+            this.panel5.PerformLayout();
+            this.panel6.ResumeLayout(false);
+            this.panel6.PerformLayout();
+            this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Ada)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_Obs)).EndInit();
+            this.panel4.ResumeLayout(false);
+            this.panel4.PerformLayout();
+            this.panel9.ResumeLayout(false);
+            this.panel9.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -877,9 +1417,54 @@
         private System.Windows.Forms.Label lbl_pois;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TabPage tabPage9;
-        private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox tb_Obet;
         private System.Windows.Forms.CheckBox chb_Food;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.CheckBox chb_skipVerite;
+        private System.Windows.Forms.CheckBox chb_skipCopper;
+        private System.Windows.Forms.CheckBox chb_skipSilicon;
+        private System.Windows.Forms.CheckBox chb_skipIron;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.CheckBox chb_crystal;
+        private System.Windows.Forms.CheckBox chb_autoRemoveObstacles;
+        private System.Windows.Forms.CheckBox chb_autoStockUp;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.CheckBox chb_dropVerite;
+        private System.Windows.Forms.CheckBox chb_dropCopper;
+        private System.Windows.Forms.CheckBox chb_dropSilicon;
+        private System.Windows.Forms.CheckBox chb_dropIron;
+        private System.Windows.Forms.CheckBox chb_useBank;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.NumericUpDown num_Ada;
+        private System.Windows.Forms.NumericUpDown num_Obs;
+        private System.Windows.Forms.Panel panel8;
+        private System.Windows.Forms.Button btn_setBankPos;
+        private System.Windows.Forms.Button btn_setRunesPos;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Button btn_setDoor;
+        private System.Windows.Forms.Button btn_setGemBox;
+        private System.Windows.Forms.Button btn_setOreBox;
+        private System.Windows.Forms.ListBox lb_mining;
+        private System.Windows.Forms.Panel panel9;
+        private System.Windows.Forms.Label lbl_adamantiumCnt;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label lbl_obsidianCnt;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label lbl_valoriteCount;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label lbl_veriteCnt;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label lbl_siliconCnt;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label lbl_ironCnt;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label lbl_copperCnt;
+        private System.Windows.Forms.Label label17;
     }
 }

@@ -199,6 +199,194 @@ namespace EreborPhoenixExtension
             }
         }
 
+        public bool SkipCopper
+        {
+            get
+            {
+                return Mining.SkipCopper;
+            }
+
+            set
+            {
+                Mining.SkipCopper = value;
+            }
+        }
+
+        public bool SkipIron
+        {
+            get
+            {
+                return Mining.SkipIron;
+            }
+
+            set
+            {
+                Mining.SkipIron = value;
+            }
+        }
+
+        public bool SkipSilicon
+        {
+            get
+            {
+                return Mining.SkipSilicon;
+            }
+
+            set
+            {
+                Mining.SkipSilicon = value;
+            }
+        }
+
+        public bool SkipVerite
+        {
+            get
+            {
+                return Mining.SkipVerite;
+            }
+
+            set
+            {
+                Mining.SkipVerite = value;
+            }
+        }
+
+        public bool DropCopper
+        {
+            get
+            {
+                return Mining.DropCopper;
+            }
+
+            set
+            {
+                Mining.DropCopper = value;
+            }
+        }
+
+        public bool DropIron
+        {
+            get
+            {
+                return Mining.DropIron;
+            }
+
+            set
+            {
+                Mining.DropIron = value;
+            }
+        }
+
+        public bool DropSilicon
+        {
+            get
+            {
+                return Mining.DropSilicon;
+            }
+
+            set
+            {
+                Mining.DropSilicon = value;
+            }
+        }
+
+        public bool DropVerite
+        {
+            get
+            {
+                return Mining.DropVerite;
+            }
+
+            set
+            {
+                Mining.DropVerite = value;
+            }
+        }
+
+        public bool Crystal
+        {
+            get
+            {
+                return Mining.CrystalEnabled;
+            }
+
+            set
+            {
+                Mining.CrystalEnabled = value;
+            }
+        }
+
+        public bool AutoStockUp
+        {
+            get
+            {
+                return Mining.AutoStockUp;
+            }
+
+            set
+            {
+                Mining.AutoStockUp = value;
+            }
+        }
+
+        public bool AutoRemoveObstacles
+        {
+            get
+            {
+                return Mining.RemoveObstacles;
+            }
+
+            set
+            {
+                Mining.RemoveObstacles = value;
+            }
+        }
+
+        public bool UseBank
+        {
+            get
+            {
+                return Mining.UseBank;
+            }
+
+            set
+            {
+                Mining.UseBank = value;
+            }
+        }
+
+        public int MaxObs
+        {
+            get
+            {
+                return Mining.MaxObsidian;
+            }
+
+            set
+            {
+                Mining.MaxObsidian = value;
+            }
+        }
+
+        public int MaxAda
+        {
+            get
+            {
+                return Mining.MaxAdamantium;
+            }
+
+            set
+            {
+                Mining.MaxAdamantium = value;
+            }
+        }
+
+
+
+
+
+        
+
 
         public Settings()
         {
@@ -225,6 +413,7 @@ namespace EreborPhoenixExtension
             RuneTree = new RuneTree();
             AHeal = new AutoHeal();
             Ev = new Handler();
+            Mining = new Mine();
 
             AHeal.PatientHurted += AHeal_PatientHurted;
 
@@ -295,7 +484,7 @@ namespace EreborPhoenixExtension
                 string number = Regex.Match(packet.Text, @"-?\d+").Value;
                 if (!string.IsNullOrEmpty(number))
                 {
-                    exp += Int32.Parse(number);
+                    Main.Instance.Settings.exp += int.Parse(number);
 
                 }
             }
@@ -465,7 +654,7 @@ namespace EreborPhoenixExtension
                 if (packet.Text.Contains(s))
                 {
                     //UO.Wait(100);
-                    BandageDone = true;
+                    Main.Instance.Settings.BandageDone = true;
                 }
             }
             return CallbackResult.Normal;
@@ -484,7 +673,7 @@ namespace EreborPhoenixExtension
         {
             if (prevResult < CallbackResult.Sent)
             {
-                if (data[1] > 22)//max 31-tma
+                if (data[1] > 20)//max 31-tma
                 {
                     byte[] newData = new byte[2];
                     newData[0] = 0x4F;

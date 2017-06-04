@@ -30,11 +30,25 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
                     }
 
                 }
+                if (state == MineFieldState.Obstacle)
+                {
+                    if (DateTime.Now - TimeStamp > TimeSpan.FromMinutes(5))
+                    {
+                        state = MineFieldState.Unknown;
+                        IsExploitable = true;
+                    }
+
+                }
                 return state;
             }
             set
             {
                 if (value == MineFieldState.Empty)
+                {
+                    TimeStamp = DateTime.Now;
+                    IsExploitable = false;
+                }
+                if (value == MineFieldState.Obstacle)
                 {
                     TimeStamp = DateTime.Now;
                     IsExploitable = false;
@@ -100,17 +114,17 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
             }
         }
 
-        public bool IsObstacle
-        {
-            get
-            {
-                return isObstacle;
-            }
-            set
-            {
-                isObstacle = value;
-            }
-        }
+        //public bool IsObstacle
+        //{
+        //    get
+        //    {
+        //        return isObstacle;
+        //    }
+        //    set
+        //    {
+        //        isObstacle = value;
+        //    }
+        //}
 
         private char IsObstacleXML
         {
