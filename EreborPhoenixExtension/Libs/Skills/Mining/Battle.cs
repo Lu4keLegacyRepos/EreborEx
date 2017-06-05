@@ -10,15 +10,17 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
     {
         Action<int,int> MoveTo;
         Action MoveFar;
+        Action<int> Move5;
         UOCharacter ch;
         UOItem Mace;
         List<string> TopMonster = new List<string>() { "golem", "spirit" };
         Graphic[] Humanoid = { 0x0191, 0x0190 };
         Point ActualPositon;
-        public Battle(Action<int,int> moveTo, Action moveFarestField, UOCharacter Ch, UOItem mace)
+        public Battle(Action<int,int> moveTo, Action moveFarestField, Action<int> move5Field, UOCharacter Ch, UOItem mace)
         {
             MoveFar = moveFarestField;
             MoveTo = moveTo;
+            Move5 = move5Field;
             ch = Ch;
             Mace = mace;
             ActualPositon = new Point(World.Player.X, World.Player.Y);
@@ -26,6 +28,8 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
         public void Kill()
         {
             Journal.Clear();
+            if (!Main.Instance.Settings.PrintAnim) Main.Instance.Settings.PrintAnim = true;
+            Main.Instance.Settings.OnStoodUp += Settings_OnStoodUp;
             ch.Click();
             UO.Wait(200);
             foreach (string s in TopMonster)
@@ -55,6 +59,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
                 if(!ch.Exist || ch.Hits<1)
                 {
                     UO.Wait(1000);
+                    MoveTo(ActualPositon.X, ActualPositon.Y);
                     return;
                 }
                 if(ch.Distance>1) MoveTo(ch.X, ch.Y);
@@ -73,6 +78,11 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
                 UO.Wait(100);
             }
             MoveTo(ActualPositon.X, ActualPositon.Y);
+        }
+
+        private void Settings_OnStoodUp(object sender, EventArgs e)
+        {
+            Move5(5);
         }
 
         private void Run(bool recall)

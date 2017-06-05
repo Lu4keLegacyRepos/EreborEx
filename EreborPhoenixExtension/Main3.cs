@@ -42,8 +42,8 @@
 //            catch(Exception ex) { MessageBox.Show(ex.Message); }
 //            Core.LoginComplete += Core_LoginComplete;
 //            Core.Disconnected += Core_Disconnected;
-            
-            
+
+
 //        }
 
 //        private void Core_Disconnected(object sender, EventArgs e)

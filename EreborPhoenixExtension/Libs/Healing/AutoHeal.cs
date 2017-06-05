@@ -26,8 +26,6 @@ namespace EreborPhoenixExtension.Libs.Healing
                 if (value)
                 {
                     Main.Instance.Settings.BandageDone = true;
-                    //Core.UnregisterServerMessageCallback(0X1c, Main.Instance.Settings.onBandageDone);
-                   // Core.RegisterServerMessageCallback(0X1c, Main.Instance.Settings.onBandageDone);
                     checker.Start();
                     GetStatuses();
                     UO.PrintInformation("Heal ON");
@@ -35,7 +33,6 @@ namespace EreborPhoenixExtension.Libs.Healing
                 else
                 {
                     checker.Stop();
-                  //  Core.UnregisterServerMessageCallback(0X1c, Main.Instance.Settings.onBandageDone);
                     UO.PrintInformation("Heal OFF");
                 }
                 onOff = value;
@@ -62,8 +59,8 @@ namespace EreborPhoenixExtension.Libs.Healing
             Serial tmp=Aliases.GetObject("laststatus");
             foreach(Patient p in HealedPlayers)
             {
-                if(p.chara.Hits<1)
-                p.chara.RequestStatus(100);
+                if(p.chara.Hits<1 && p.chara.Distance<11)
+                p.chara.RequestStatus(20);
             }
             Aliases.SetObject("laststatus",tmp);
         }
@@ -71,7 +68,7 @@ namespace EreborPhoenixExtension.Libs.Healing
         {
             List<Patient> tmp = HealedPlayers.Where(pat => pat.chara.Distance < 7 && pat.chara.Hits > 0 && pat.chara.Hits < PatientHPLimit).ToList();
             tmp.Sort((x, y) => (x.chara.Hits.CompareTo(y.chara.Hits)));
-            if (Main.Instance.Settings.arrowSelfProgress || World.Player.Hidden) return;
+            if (Main.Instance.Settings.arrowSelfProgress || World.Player.Hidden || Main.Instance.Settings.RessurectInProgress) return;
             if (World.Player.Hits < Main.Instance.Settings.minHP)
                 PatientHurted?.Invoke(this, new HurtedPatientArgs() { selfHurted = true });
             if (tmp.Count == 0)
@@ -80,7 +77,6 @@ namespace EreborPhoenixExtension.Libs.Healing
                 return;
             }
             if (tmp[0].chara.Hits > 60 && Main.Instance.Settings.musicProgress) return;
-           // PatientHurted?.Invoke(this, new HurtedPatientArgs() { pati = tmp[0] });
            if(PatientHurted!=null)
             {
                 PatientHurted(this, new HurtedPatientArgs() { pati = tmp[0] });
@@ -118,8 +114,32 @@ namespace EreborPhoenixExtension.Libs.Healing
                 }
             }
         }
+        // TODO Res
 
+        public void Res()
+        {
 
+            World.FindDistance = 3;
+            foreach(UOItem corps in World.Ground.Where(x=>x.Graphic==2006))
+            {
+                corps.WaitTarget();
+                if (Main.Instance.Settings.ActualCharacter == Character.EreborClass.Shaman)
+                    UO.UseType(0x0E21);
+                else
+                    UO.UseType(0x0E20);
+                UO.Wait(200);
+                if (Journal.Contains("Jako Priest nemuzes ozivovat")) continue;
+                if (Journal.Contains("Duch neni ve ")) UO.Say(" dej WAR ");
+                if (Journal.Contains("Necht se navrati "))
+                {
+                    UO.Say("Resuju ");
+                    Journal.WaitForText(true, 5000, "Ozivil jsi", "Ozivila jsi");
+                    return;
+                }
+
+            }
+
+        }
 
         public void Add()
         {

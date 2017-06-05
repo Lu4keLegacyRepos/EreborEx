@@ -47,7 +47,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
             }
         }
 
-        public void RemoveNearObstacles(Action<UOItem> RemoveObstacle)
+        public void RemoveNearObstacles(Action<UOItem,int> RemoveObstacle)
         {
             World.FindDistance = 2;
             foreach (UOItem it in World.Ground.Where(x => Obsatcles.Any(a => x.Graphic.Equals(a))))
@@ -55,7 +55,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
                 it.Click();
                 UO.Wait(300);
                 if (it.Name.Contains("dulni zaval"))
-                    RemoveObstacle(it);
+                    RemoveObstacle(it,0);
             }
         }
 

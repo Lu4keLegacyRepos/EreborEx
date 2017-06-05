@@ -5,7 +5,7 @@ using System.Drawing;
 namespace EreborPhoenixExtension.Libs.Skills.Mining
 {
     [Serializable]
-    public class MineField : IEquatable<MineField>
+    public class MineField : IEquatable<MineField>, IComparable<MineField>
     {
         private bool isWalkable = false;
         private bool isExploitable = false;
@@ -153,6 +153,21 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
         {
             if (other == null) return false;
             return Location.Equals(other.Location);
+        }
+
+        public int CompareTo(MineField other)
+        {
+            if (other == null) return 1;
+            if (Distance < other.Distance) return -1;
+            if (Distance > other.Distance) return 1;
+            if (Distance == other.Distance)
+            {
+                if (other.TimeStamp == default(DateTime)) return -1;
+                if (TimeStamp < other.TimeStamp) return 1;
+                if (TimeStamp > other.TimeStamp) return -1;
+                return 0;
+            }
+            return 1;
         }
     }
 }

@@ -3,7 +3,6 @@ using Phoenix.Gui.Pages;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Xml.Serialization;
 
 namespace EreborPhoenixExtension.Libs
 {

@@ -1,15 +1,12 @@
 ﻿using EreborPhoenixExtension.GUI;
-using EreborPhoenixExtension.Libs;
 using EreborPhoenixExtension.Libs.Extensions;
 using EreborPhoenixExtension.Libs.Runes;
 using EreborPhoenixExtension.Libs.Skills.Mining;
 using Phoenix;
 using Phoenix.WorldData;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Timers;
@@ -34,7 +31,7 @@ namespace EreborPhoenixExtension
 
         [DllImport("USER32.DLL")]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
-        [System.Runtime.InteropServices.DllImport("User32.dll")]
+        [DllImport("User32.dll")]
         public static extern bool ShowWindow(IntPtr handle, int nCmdShow);
 
 
@@ -42,13 +39,8 @@ namespace EreborPhoenixExtension
         private static Main instance;
 
         private Main() {
-            //UO.Wait(5000);
-            //XmlSerializeHelper<GameWIndoSize_DATA> gw = new XmlSerializeHelper<GameWIndoSize_DATA>();
             XmlSerializeHelper<GameWIndoSize_DATA>.Load("WindowSize", out GWS_DATA);
-
-            GWS = new GameWindowSize(GWS_DATA); //TODO save proc null ?
-            
-
+            GWS = new GameWindowSize(GWS_DATA); 
             t = new System.Timers.Timer(500);
             t.Elapsed += T_Elapsed;
             t.Start();
@@ -89,7 +81,6 @@ namespace EreborPhoenixExtension
         private void Initialize()
         {
             World.Player.RequestStatus(100);
-           // XmlSerializeHelper<Settings> sett = new XmlSerializeHelper<Settings>();
             new Thread(setEQ).Start();
 
             XmlSerializeHelper<Settings>.Load(World.Player.Name, out Instance.Settings);
@@ -109,7 +100,7 @@ namespace EreborPhoenixExtension
 
 
 
-                #region Init GUI
+          #region Init GUI
             Instance.EreborInstance.Invoke(new MethodInvoker(delegate
             {
                 Instance.EreborInstance.Food = Instance.Settings.Lot.Food;
@@ -170,8 +161,6 @@ namespace EreborPhoenixExtension
 
 
             #endregion
-            //XmlSerializeHelper<Mine> ss = new XmlSerializeHelper<Mine>();
-
             Instance.EreborInstance.Changed += EreborInstance_Changed;
 
         }

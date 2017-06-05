@@ -1,5 +1,4 @@
-﻿using EreborPhoenixExtension;
-using EreborPhoenixExtension.Libs;
+﻿using EreborPhoenixExtension.Libs;
 using EreborPhoenixExtension.Libs.Abilites;
 using EreborPhoenixExtension.Libs.EquipSet;
 using EreborPhoenixExtension.Libs.Events;
@@ -16,9 +15,7 @@ using Phoenix.WorldData;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace EreborPhoenixExtension
@@ -26,6 +23,9 @@ namespace EreborPhoenixExtension
     [Serializable]
     public class Settings
     {
+        public event EventHandler<EventArgs> OnStoodUp; 
+        #region Fields
+
         private string path = Core.Directory + @"\Profiles\XML\";
         private string[] crystalOnCalls = new string[] { "Nyni jsi schopen rychleji lecit bandazemi.", "Nyni jsi schopen lecit lepe.", "Nyni ti muze byt navracena spotrebovana magenergie.", "Nyni jsi schopen kouzlit za mene many." };
         private string[] bandageDoneCalls = new string[] { " byl uspesne osetren", "Leceni se ti nepovedlo.", "prestal krvacet", " neni zranen.", "Nevidis na cil.", "Nevidis cil." };
@@ -38,9 +38,6 @@ namespace EreborPhoenixExtension
         private bool hitBandage;
         private bool hitTrack;
         private bool autoDrink;
-
-
-
         public bool arrowSelfProgress=false, musicProgress=false, crystalState = false, BandageDone = true;
         public string CrystalCmd, HealCmd;
 
@@ -74,7 +71,9 @@ namespace EreborPhoenixExtension
         [XmlIgnore]
         public Mine Mining;
 
+        #endregion
 
+        #region Properties
         public Poisoning Poisoning { get; set; }
         public EquipSet EquipSet { get; set; }
         public Lot Lot { get; set; }
@@ -381,11 +380,13 @@ namespace EreborPhoenixExtension
             }
         }
 
+        public bool RessurectInProgress { get; set; }
 
 
 
 
-        
+
+        #endregion
 
 
         public Settings()
@@ -413,18 +414,12 @@ namespace EreborPhoenixExtension
             RuneTree = new RuneTree();
             AHeal = new AutoHeal();
             Ev = new Handler();
-
             Mining = new Mine();
 
-
-
-
             AHeal.PatientHurted += AHeal_PatientHurted;
-
-
         }
 
-        private void AHeal_PatientHurted(object sender, Libs.Healing.HurtedPatientArgs e)
+        private void AHeal_PatientHurted(object sender, HurtedPatientArgs e)
         {
             AHeal.PatientHurted -= AHeal_PatientHurted;
             if (e.pati != null)
@@ -449,7 +444,6 @@ namespace EreborPhoenixExtension
             }
             AHeal.PatientHurted += AHeal_PatientHurted;
         }
-
 
 
 
@@ -605,8 +599,11 @@ namespace EreborPhoenixExtension
             uint serial = p.ReadUInt32();
             ushort action = p.ReadUInt16();
             if (action == 26 && serial == World.Player.Serial && new UOCharacter(Aliases.GetObject("laststatus")).Distance < 3)
+            {
                 UO.Print(SpeechFont.Bold, 0x0076, "Naprah na " + new UOCharacter(Aliases.GetObject("laststatus")).Name);
-            //UO.PrintWarning("Naprah na " + new UOCharacter(Aliases.GetObject("laststatus")).Name);
+                OnStoodUp?.Invoke(this, new EventArgs());
+            }
+
             return CallbackResult.Normal;
         }
         [ServerMessageHandler(0xa1)]

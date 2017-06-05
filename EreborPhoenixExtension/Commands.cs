@@ -4,9 +4,6 @@ using EreborPhoenixExtension.Libs.Skills.Mining;
 using Phoenix;
 using Phoenix.WorldData;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace EreborPhoenixExtension
 {
@@ -16,6 +13,14 @@ namespace EreborPhoenixExtension
 
 
         #region Commands
+
+        [Command]
+        public void res()
+        {
+            Main.Instance.Settings.RessurectInProgress = true;
+            Main.Instance.Settings.AHeal.Res();
+            Main.Instance.Settings.RessurectInProgress = false;
+        }
 
 
         [Command]

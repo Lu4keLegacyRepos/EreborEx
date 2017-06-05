@@ -4,11 +4,8 @@ using Phoenix.Communication;
 using Phoenix.WorldData;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
@@ -17,15 +14,14 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 	[Serializable]
 	public class Mine
 	{
-		#region Fields & Property
+		#region Fields 
 
-		private string[] calls = { "You put ", "Nevykopala jsi nic ", "Jeste nemuzes pouzit skill",                  // 0-1, 2
-								   " There is no ore", "too far", "Try mining","Tam nedosahnes.",                    // 3-6
-									"afk", "AFK", "kontrola", "GM", "gm", "Je spatne videt." };     // 7-12
+		private string[] calls = { "You put ", "Nevykopala jsi nic ","Odstranila jsi zaval!", "Odstranil jsi zaval!","Nepovedlo se ti odstranit zaval.", "Jeste nemuzes pouzit skill",                  // 0-4, 5
+								   " There is no ore", "too far", "Try mining","Tam nedosahnes.",                    // 6-9
+									"afk", "AFK", "kontrola", "GM", "gm", "Je spatne videt." };     // 10-15
 
 
 		private string path = Core.Directory + @"\Profiles\XML\";
-
 		private string AlarmPath = Core.Directory + @"\afk.wav";// "C:\\afk.wav";
 		private Graphic Ore = 0x19B7;
 		private Dictionary<string, UOColor> Material = new Dictionary<string, UOColor>() { { "Copper", 0x099A }, { "Iron", 0x0763 }, { "Kremicity", 0x0481 }, { "Verite", 0x097F }, { "Valorite", 0x0985 }, { "Obsidian", 0x09BD }, { "Adamantium", 0x0026 } };
@@ -54,7 +50,15 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 		private bool skipSilicon = false;
 		private bool skipVerite = false;
 		private bool useBank;
+		private uint doorLeft = 0x40000963;
+		private uint doorRight = 0x40000962;
+		private ushort doorLeftClosedGraphic = 0x0841;
+		private ushort doorRightClosedGraphic = 0x0843;
+		private Point housePosition = new Point(2729, 3272);
+		private Point runePosition = new Point(2732, 3270);
+		#endregion
 
+		#region Properties
 
 		public bool DropCopper
 		{
@@ -216,19 +220,6 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 				maxAdamantium = value;
 			}
 		}
-		#endregion
-
-
-		public Mine()
-		{
-			mov = new Movement();
-			maps = new List<Map>();
-			searchParams = new SearchParameters(new Point(), new Point(), null);
-			// Defaultne Skalni
-			ActualMapIndex = 1;
-
-		}
-
 
 
 		[XmlArray]
@@ -248,8 +239,6 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 				maps = value;
 			}
 		}
-
-
 
 		public bool UseBank
 		{
@@ -428,15 +417,21 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 			}
 		}
 
-		private uint doorLeft = 0x40000963;
-		private uint doorRight = 0x40000962;
+		#endregion
 
-		private ushort doorLeftClosedGraphic = 0x0841;
-		private ushort doorRightClosedGraphic = 0x0843;
 
-		private Point housePosition = new Point(2729, 3272);
-		private Point runePosition = new Point(2732, 3270);
+		public Mine()
+		{
+			mov = new Movement();
+			maps = new List<Map>();
+			searchParams = new SearchParameters(new Point(), new Point(), null);
+			// Defaultne Skalni
+			ActualMapIndex = 1;
 
+		}
+
+
+		
 		public void AddMap(string Name)
 		{
 			var tmp = new Map();
@@ -445,177 +440,181 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 		}
 
 
-		public void RemoveObstacle(UOItem it)
-		{
-			while (!Journal.Contains(true, "Odstranila jsi zaval!", "Odstranil jsi zaval!"))
-			{
-				Journal.Clear();
-				it.WaitTarget();
-				pickAxe.Use();
-				Journal.WaitForText(true, 4500, "Nepovedlo se ti odstranit zaval."); //TODO pauzy jako kopani predelat!
-
-				UO.Wait(500);
-			}
-		}
 
 		/// <summary>
 		/// Check AFK, Attack, Weight etc..
 		/// </summary>
 		/// <returns>True - MineField is empty</returns>
 		public bool Check()
-		{
-			bool rtrnTmp = false;
-			// Check AFK
-			if (Journal.Contains(true, calls[7], calls[8], calls[9], calls[10], calls[11]))
+		{try
 			{
-				System.Media.SoundPlayer my_wave_file = new System.Media.SoundPlayer(AlarmPath);
-				my_wave_file.PlaySync();
-			}
-			// Check CK/Monster
-			foreach (UOCharacter ch in World.Characters)
-			{
-				if (ch.Notoriety > Notoriety.Criminal)
+				bool rtrnTmp = false;
+				// Check AFK
+				if (Journal.Contains(true, calls[10], calls[11], calls[12], calls[13], calls[14]))
 				{
 					System.Media.SoundPlayer my_wave_file = new System.Media.SoundPlayer(AlarmPath);
-					my_wave_file.Play();
-					Battle b = new Battle(MoveTo, MoveToFarestField, ch, mace);
-					b.Kill();
+					my_wave_file.PlaySync();
 				}
-			}
-
-			// Check Light
-			if (Journal.Contains(true, calls[12]) || World.Player.Layers[Layer.LeftHand].Graphic.Equals(0x0A18))
-			{
-				World.Player.Layers[Layer.LeftHand].Use();
-				UO.Wait(200);
-				if (World.Player.Layers[Layer.LeftHand].Graphic.Equals(0x0A15)) World.Player.Backpack.AllItems.FindType(0x0A18).Use();
-
-			}
-			// Count materials
-			for (int o = 0; o < Material.Count; o++)
-			{
-				int tmp;
-				switch (o)
+				// Check CK/Monster
+				foreach (UOCharacter ch in World.Characters)
 				{
-					case 0:
-						tmp = World.Player.Backpack.Items.FindType(Ore, Material["Copper"]).Amount;
-						MaterialsCount[o] = tmp > 0 ? tmp : 0;
-						break;
-					case 1:
-						tmp = World.Player.Backpack.Items.FindType(Ore, Material["Iron"]).Amount;
-						MaterialsCount[o] = tmp > 0 ? tmp : 0;
-						break;
-					case 2:
-						tmp = World.Player.Backpack.Items.FindType(Ore, Material["Kremicity"]).Amount;
-						MaterialsCount[o] = tmp > 0 ? tmp : 0;
-						break;
-					case 3:
-						tmp = World.Player.Backpack.Items.FindType(Ore, Material["Verite"]).Amount;
-						MaterialsCount[o] = tmp > 0 ? tmp : 0;
-						break;
-					case 4:
-						tmp = World.Player.Backpack.Items.FindType(Ore, Material["Valorite"]).Amount;
-						MaterialsCount[o] = tmp > 0 ? tmp : 0;
-						break;
-					case 5:
-						tmp = World.Player.Backpack.Items.FindType(Ore, Material["Obsidian"]).Amount;
-						MaterialsCount[o] = tmp > 0 ? tmp : 0;
-						break;
-					case 6:
-						tmp = World.Player.Backpack.Items.FindType(Ore, Material["Adamantium"]).Amount;
-						MaterialsCount[o] = tmp > 0 ? tmp : 0;
-						break;
+					if (ch.Notoriety > Notoriety.Criminal)
+					{
+						System.Media.SoundPlayer my_wave_file = new System.Media.SoundPlayer(AlarmPath);
+						my_wave_file.Play();
+						Battle b = new Battle(MoveTo, MoveToFarestField, moveXField, ch, mace);
+						b.Kill();
+					}
+				}
+
+				// Check Light
+				if (Journal.Contains(true, calls[15]) || World.Player.Layers[Layer.LeftHand].Graphic.Equals(0x0A18))
+				{
+					World.Player.Layers[Layer.LeftHand].Use();
+					UO.Wait(200);
+					if (World.Player.Layers[Layer.LeftHand].Graphic.Equals(0x0A15)) World.Player.Backpack.AllItems.FindType(0x0A18).Use();
 
 				}
-			}
-			Main.Instance.EreborInstance.Invoke(new MethodInvoker(delegate
-			{
-				Main.Instance.EreborInstance.CopperCount = MaterialsCount[0].ToString();
-				Main.Instance.EreborInstance.IronCount = MaterialsCount[1].ToString();
-				Main.Instance.EreborInstance.SiliconCount = MaterialsCount[2].ToString();
-				Main.Instance.EreborInstance.VeriteCount = MaterialsCount[3].ToString();
-				Main.Instance.EreborInstance.ValoriteCount = MaterialsCount[4].ToString();
-				Main.Instance.EreborInstance.ObsidianCount = MaterialsCount[5].ToString();
-				Main.Instance.EreborInstance.AdamantiumCount = MaterialsCount[6].ToString();
-			}));
-
-			// No Ore
-			if (Journal.Contains(true, calls[3], calls[4], calls[5], calls[6]))
-				rtrnTmp = true;
-
-			// Skill delay
-			if (Journal.Contains(true, calls[2]))
-			{
-				UO.Wait(5000);
-			}
-
-			// Check Weight
-			if (World.Player.Weight > (World.Player.Strenght * 4 + 15))
-			{
-				Unload();
-				return false;
-			}
-
-			// Incoming Ore  TODO: zjednodusit
-			if (Journal.Contains(true, calls[0], calls[1]))
-			{
-
-				if (DropCopper && Journal.Contains(true, "Copper "))
+				// Count materials
+				for (int o = 0; o < Material.Count; o++)
 				{
-					World.Player.Backpack.AllItems.FindType(Ore, Material["Copper"]).DropHere(ushort.MaxValue);
+					int tmp;
+					switch (o)
+					{
+						case 0:
+							tmp = World.Player.Backpack.Items.FindType(Ore, Material["Copper"]).Amount;
+							MaterialsCount[o] = tmp > 0 ? tmp : 0;
+							break;
+						case 1:
+							tmp = World.Player.Backpack.Items.FindType(Ore, Material["Iron"]).Amount;
+							MaterialsCount[o] = tmp > 0 ? tmp : 0;
+							break;
+						case 2:
+							tmp = World.Player.Backpack.Items.FindType(Ore, Material["Kremicity"]).Amount;
+							MaterialsCount[o] = tmp > 0 ? tmp : 0;
+							break;
+						case 3:
+							tmp = World.Player.Backpack.Items.FindType(Ore, Material["Verite"]).Amount;
+							MaterialsCount[o] = tmp > 0 ? tmp : 0;
+							break;
+						case 4:
+							tmp = World.Player.Backpack.Items.FindType(Ore, Material["Valorite"]).Amount;
+							MaterialsCount[o] = tmp > 0 ? tmp : 0;
+							break;
+						case 5:
+							tmp = World.Player.Backpack.Items.FindType(Ore, Material["Obsidian"]).Amount;
+							MaterialsCount[o] = tmp > 0 ? tmp : 0;
+							break;
+						case 6:
+							tmp = World.Player.Backpack.Items.FindType(Ore, Material["Adamantium"]).Amount;
+							MaterialsCount[o] = tmp > 0 ? tmp : 0;
+							break;
+
+					}
+				}
+				Main.Instance.EreborInstance.Invoke(new MethodInvoker(delegate
+				{
+					Main.Instance.EreborInstance.CopperCount = MaterialsCount[0].ToString();
+					Main.Instance.EreborInstance.IronCount = MaterialsCount[1].ToString();
+					Main.Instance.EreborInstance.SiliconCount = MaterialsCount[2].ToString();
+					Main.Instance.EreborInstance.VeriteCount = MaterialsCount[3].ToString();
+					Main.Instance.EreborInstance.ValoriteCount = MaterialsCount[4].ToString();
+					Main.Instance.EreborInstance.ObsidianCount = MaterialsCount[5].ToString();
+					Main.Instance.EreborInstance.AdamantiumCount = MaterialsCount[6].ToString();
+				}));
+
+				// No Ore
+				if (Journal.Contains(true, calls[6], calls[7], calls[8], calls[9]))
 					rtrnTmp = true;
-				}
-				if (DropIron && Journal.Contains(true, "Iron "))
+
+				// Skill delay
+				if (Journal.Contains(true, calls[5]))
 				{
-					World.Player.Backpack.AllItems.FindType(Ore, Material["Iron"]).DropHere(ushort.MaxValue);
-					rtrnTmp = true;
-				}
-				if (DropSilicon && Journal.Contains(true, "Kremicity "))
-				{
-					World.Player.Backpack.AllItems.FindType(Ore, Material["Kremicity"]).DropHere(ushort.MaxValue);
-					rtrnTmp = true;
-				}
-				if (DropVerite && Journal.Contains(true, "Verite "))
-				{
-					World.Player.Backpack.AllItems.FindType(Ore, Material["Verite"]).DropHere(ushort.MaxValue);
-					rtrnTmp = true;
+					UO.Wait(5000);
 				}
 
-				if (SkipCopper && Journal.Contains(true, "Copper "))
-				{
-					rtrnTmp = true;
-				}
-				if (SkipIron && Journal.Contains(true, "Iron "))
-				{
-					rtrnTmp = true;
-				}
-				if (SkipSilicon && Journal.Contains(true, "Kremicity "))
-				{
-					rtrnTmp = true;
-				}
-				if (SkipVerite && Journal.Contains(true, "Verite "))
-				{
-					rtrnTmp = true;
-				}
-
-
-			}
-			Journal.Clear();
-			if (rtrnTmp)
-			{
-				// Check amount of Best materials
-				if (MaterialsCount[5] >= MaxObsidian)
+				// Check Weight
+				if (World.Player.Weight > (World.Player.Strenght * 4 + 15))
 				{
 					Unload();
+					return false;
 				}
-				else
-				if (MaterialsCount[6] >= MaxAdamantium)
+
+				// Incoming Ore  
+				if (Journal.Contains(true, calls[0], calls[1], calls[2], calls[3], calls[4]))
 				{
-					Unload();
+
+					if (Journal.Contains(true, " zaval!"))
+					{
+						rtrnTmp = true;
+					}
+					if (Journal.Contains(true, "Copper "))
+					{
+						if (SkipCopper || SkipIron || SkipSilicon || SkipVerite)
+							rtrnTmp = true;
+						if (DropCopper)
+						{
+							World.Player.Backpack.AllItems.FindType(Ore, Material["Copper"]).DropHere(ushort.MaxValue);
+							rtrnTmp = true;
+						}
+					}
+					if (Journal.Contains(true, "Iron "))
+					{
+						if (SkipCopper || SkipIron || SkipSilicon || SkipVerite)
+							rtrnTmp = true;
+						if (DropIron)
+						{
+							World.Player.Backpack.AllItems.FindType(Ore, Material["Iron"]).DropHere(ushort.MaxValue);
+							rtrnTmp = true;
+						}
+					}
+					if (Journal.Contains(true, "Kremicity "))
+					{
+						if (SkipCopper || SkipIron || SkipSilicon || SkipVerite)
+							rtrnTmp = true;
+						if (DropSilicon)
+						{
+							World.Player.Backpack.AllItems.FindType(Ore, Material["Kremicity"]).DropHere(ushort.MaxValue);
+							rtrnTmp = true;
+						}
+					}
+					if (Journal.Contains(true, "Verite "))
+					{
+						if (SkipCopper || SkipIron || SkipSilicon || SkipVerite)
+							rtrnTmp = true;
+						if (DropVerite)
+						{
+							World.Player.Backpack.AllItems.FindType(Ore, Material["Verite"]).DropHere(ushort.MaxValue);
+							rtrnTmp = true;
+						}
+					}
+
+
+
 				}
+				Journal.Clear();
+				if (rtrnTmp)
+				{
+					// Check amount of Best materials
+					if (MaterialsCount[5] >= MaxObsidian)
+					{
+						Unload();
+					}
+					else
+					if (MaterialsCount[6] >= MaxAdamantium)
+					{
+						Unload();
+					}
+				}
+				return rtrnTmp;
 			}
-			return rtrnTmp;
+			catch { return true; };
+
+
+
+
 		}
+
 
 		public void Work()
 		{
@@ -626,11 +625,12 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 				if (RemoveObstacles)
 				{
 					while (DateTime.Now - StartMine < TimeSpan.FromMilliseconds(3200)) UO.Wait(100);
-					Maps[ActualMapIndex].RemoveNearObstacles(RemoveObstacle);
+					Maps[ActualMapIndex].RemoveNearObstacles(MineHere);
 				}
 			}
 
 		}
+
 
 		private bool CheckTools()
 		{
@@ -650,8 +650,8 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 			return true;
 		}
 
-		#region Move
 
+	
 		private MineField MoveToClosestExploitable()
 		{
 			Maps[ActualMapIndex].FindObstacles();
@@ -670,6 +670,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 			return tmp;
 		}
 
+
 		public void MoveTo(int X, int Y)
 		{
 			foreach (Point p in GetWay(new Point(World.Player.X, World.Player.Y), new Point(X, Y)))
@@ -677,6 +678,8 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 				mov.moveToPosition(p);
 			}
 		}
+
+
 		public void MoveTo(Point location)
 		{
 			foreach (Point p in GetWay(new Point(World.Player.X, World.Player.Y), location))
@@ -685,12 +688,14 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 			}
 		}
 
+
 		private List<Point> GetWay(Point StartPosition, Point EndPosition)
 		{
 			searchParams = new SearchParameters(StartPosition, EndPosition, Maps[ActualMapIndex]);
 			pathFinder = new PathFinder(searchParams);
 			return pathFinder.FindPath();
 		}
+
 
 		public void MoveToFarestField()
 		{
@@ -708,7 +713,24 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 				UO.PrintError("Nenalezen tezitelbne pole");
 			}
 		}
-		#endregion
+
+		public void moveXField(int distance)
+		{
+			Maps[ActualMapIndex].FindObstacles();
+			Maps[ActualMapIndex].Fields.Sort((a, b) => a.Distance.CompareTo(b.Distance));
+			MineField tmp;
+			try
+			{
+				tmp = Maps[ActualMapIndex].Fields.First(x => x.Distance>=distance);
+				MoveTo(tmp.Location);
+			}
+			catch
+			{
+				tmp = null;
+				UO.PrintError("Nenalezen tezitelbne pole");
+			}
+		}
+
 
 		public void Unload()
 		{
@@ -725,6 +747,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 
 		}
 
+
 		private void Recall(int v)
 		{
 
@@ -739,7 +762,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 						while (World.Player.Mana < 20)
 						{
 							UO.UseSkill(StandardSkill.Meditation);
-							UO.Wait(1500);
+							UO.Wait(2500);
 						}
 						UO.WaitTargetSelf();
 						UO.Say(".recallhome");
@@ -799,6 +822,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 
 		}
 
+
 		private void StockUp()
 		{
 			ActualMapIndex = 0;
@@ -808,6 +832,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 			MoveTo(RunePosition);
 
 		}
+
 
 		private void MoveOre_Feed_GetRecall()
 		{
@@ -866,6 +891,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 
 		}
 
+
 		private void SelfFeed()
 		{
 			World.FindDistance = 4;
@@ -878,6 +904,8 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 			World.Ground.FindType(0x097B).Use();
 			UO.Wait(100);
 		}
+
+
 		private void MineHere(MineField mf, int Try)
 		{
 			if (mf == null)
@@ -891,8 +919,6 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 				if (Check())
 				{
 					mf.State = MineFieldState.Empty;
-
-					//XmlSerializeHelper<Mine> min = new XmlSerializeHelper<Mine>();
 					XmlSerializeHelper<Mine>.Save("Mining", Main.Instance.Settings.Mining);
 					return;
 				}
@@ -921,6 +947,38 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 			}
 		}
 
+		private void MineHere(UOItem item, int Try)
+		{
+			if (item == null)
+			{
+				return;
+			}
+
+			while (DateTime.Now - StartMine < TimeSpan.FromMilliseconds(3200))
+			{
+				UO.Wait(50);
+				if (!RemoveObstacles) return;
+				if (Check())
+				{
+					return;
+				}
+			}
+
+			if (!CheckTools()) return;
+
+			{
+				try
+				{
+					item.WaitTarget();
+					(pickAxe).Use();
+				}
+				catch { }
+				StartMine = DateTime.Now;
+				UO.Wait(100);
+				MineHere(item, Try + 1);
+			}
+		}
+
 
 		public void SelectMap(int index)
 		{
@@ -938,6 +996,8 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 			}
 
 		}
+
+
 		private void openBank(int equip)
 		{
 			Core.UnregisterServerMessageCallback(0xB0, onGumpBank);
@@ -946,6 +1006,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 			UO.Wait(600);
 			Core.UnregisterServerMessageCallback(0xB0, onGumpBank);
 		}
+
 
 		private CallbackResult onGumpBank(byte[] data, CallbackResult prevResult)
 		{

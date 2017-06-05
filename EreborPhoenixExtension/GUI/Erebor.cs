@@ -1,9 +1,5 @@
-﻿using EreborPhoenixExtension.Libs.Runes;
-using Phoenix;
-using Phoenix.WorldData;
+﻿using Phoenix;
 using System;
-using System.Data;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 

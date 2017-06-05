@@ -5,8 +5,6 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Runtime.Remoting.Activation;
-using System.Xml.Serialization;
 
 namespace EreborPhoenixExtension.Libs.Extensions
 {
@@ -14,7 +12,7 @@ namespace EreborPhoenixExtension.Libs.Extensions
     public class GameWindowSize
     {
         private int Width,Height;
-        public GameWindowSize(GameWIndoSize_DATA Data)//TODO: asi neni moc rychly, pustit v jinym threadu? dost mozna by se to mohlo ukladat
+        public GameWindowSize(GameWIndoSize_DATA Data)
         {
             if (Data.Height == default(int) || Data.Width == default(int))
             {
