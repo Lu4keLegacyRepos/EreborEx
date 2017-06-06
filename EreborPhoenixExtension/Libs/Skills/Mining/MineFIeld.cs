@@ -23,7 +23,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
             {
                 if (state == MineFieldState.Empty)
                 {
-                    if (DateTime.Now - TimeStamp > TimeSpan.FromMinutes(17))
+                    if (DateTime.Now - TimeStamp > TimeSpan.FromMinutes(35))
                     {
                         state = MineFieldState.Unknown;
                         IsExploitable = true;
