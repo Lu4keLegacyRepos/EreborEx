@@ -172,8 +172,9 @@ namespace EreborPhoenixExtension.Libs.Healing
             else
                 bandy = World.Player.Backpack.AllItems.FindType(0x0E20);
             World.FindDistance = 3;
-            foreach(UOItem corps in World.Ground.Where(x=>x.Graphic==0x2006))
+            foreach(UOItem corps in World.Ground.Where(x=>x.Graphic==0x2006 && x.Distance<3))
             {
+                corps.Click();
                 corps.WaitTarget();
                 if (bandy == null) return;
                 bandy.Use();

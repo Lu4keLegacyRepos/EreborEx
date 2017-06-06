@@ -62,15 +62,12 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
                 if(!ch.Exist || ch.Hits<1)
                 {
                     UO.Wait(1000);
-                    Main.Instance.Settings.OnStoodUp -= Settings_OnStoodUp;
+                    //Main.Instance.Settings.OnStoodUp -= Settings_OnStoodUp;
                     MoveTo(ActualPositon.X, ActualPositon.Y);
                     return;
                 }
-                if(StoodUp)
-                {
-                    //Move5(5);
-                }
-                else if (ch.Distance > 1) MoveTo(ch.X, ch.Y);
+               
+                if (ch.Distance > 1) MoveTo(ch.X, ch.Y);
 
                 if (Journal.Contains("Vysavas zivoty!"))
                 {
@@ -86,7 +83,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
                 }
                 UO.Wait(100);
             }
-            Main.Instance.Settings.OnStoodUp -= Settings_OnStoodUp;
+           // Main.Instance.Settings.OnStoodUp -= Settings_OnStoodUp;
             MoveTo(ActualPositon.X, ActualPositon.Y);
         }
 
