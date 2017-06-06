@@ -138,7 +138,7 @@ namespace EreborPhoenixExtension.Libs.Extensions.Pathfinding
             //if (px > x + 1 || py > y + 1 || px < x - 1 || py < y - 1)
             if (px != x || py != y)
             {
-                if (DateTime.Now - start > TimeSpan.FromSeconds(5)) return true;
+                if (DateTime.Now - start > TimeSpan.FromSeconds(3)) return true;
                 return false;
             }
             return true;

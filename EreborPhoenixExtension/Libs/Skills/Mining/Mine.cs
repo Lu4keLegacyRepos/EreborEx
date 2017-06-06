@@ -624,7 +624,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 				UO.Wait(200);
 				if (RemoveObstacles)
 				{
-					while (DateTime.Now - StartMine < TimeSpan.FromMilliseconds(3200)) UO.Wait(100);
+					while (DateTime.Now - StartMine < TimeSpan.FromMilliseconds(3300)) UO.Wait(100);
 					Maps[ActualMapIndex].RemoveNearObstacles(MineHere);
 				}
 			}
@@ -800,7 +800,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 						while (World.Player.Mana < 20)
 						{
 							UO.UseSkill(StandardSkill.Meditation);
-							UO.Wait(500);
+							UO.Wait(2500);
 						}
 
 						foreach (Runes.Rune r in Main.Instance.Settings.RuneTree.Runes.Where
@@ -913,7 +913,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 				return;
 			}
 
-			while (DateTime.Now - StartMine < TimeSpan.FromMilliseconds(3200))
+			while (DateTime.Now - StartMine < TimeSpan.FromMilliseconds(3300))
 			{
 				UO.Wait(50);
 				if (Check())

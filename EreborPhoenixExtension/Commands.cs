@@ -17,20 +17,45 @@ namespace EreborPhoenixExtension
         [Command]
         public void res()
         {
-            Main.Instance.Settings.RessurectInProgress = true;
-            Main.Instance.Settings.AHeal.Res();
-            Main.Instance.Settings.RessurectInProgress = false;
+            try
+            {
+                Main.Instance.Settings.RessurectInProgress = true;
+                Main.Instance.Settings.AHeal.Res();
+            }
+            catch { }
+            finally
+            {
+                Main.Instance.Settings.RessurectInProgress = false;
+            }
         }
 
+        [Command]
+        public void setheads(string type)
+        {
+            UO.PrintInformation("Zamer hlavu");
+            Main.Instance.Settings.VooDoo.SetBoost(new UOItem(UIManager.TargetObject()), type);
+        }
+        [Command]
+        public void boost()
+        {
+
+            UO.Print("Zamer bagl  s hlavama");
+            Main.Instance.Settings.VooDoo.ManualBoost(new UOItem(UIManager.TargetObject()));
+        }
+
+        [Command]
+        public void selfboost(string type)
+        {
+            Main.Instance.Settings.VooDoo.selfBoost(type);
+        }
+        
 
         [Command]
         public void Record(string name)
         {
             if (Main.Instance.Settings.Mining == null)
             {
-                //XmlSerializeHelper<Mine> ss = new XmlSerializeHelper<Mine>();
                 XmlSerializeHelper<Mine>.Load("Mining",out Main.Instance.Settings.Mining);
-               // ss.Load("Mining", out Main.Instance.Settings.Mining);
             }
             Main.Instance.Settings.Mining.AddMap(name);
             XmlSerializeHelper<Mine>.Save("Mining", Main.Instance.Settings.Mining);
@@ -41,37 +66,18 @@ namespace EreborPhoenixExtension
         [Command]
         public void mine()
         {
-            //if (Main.Instance.Settings.Mining == null)
-            //{
-            //    XmlSerializeHelper<Mine> ss = new XmlSerializeHelper<Mine>();
-            //    if (!ss.Load("Mining", out Main.Instance.Settings.Mining))
-            //        Main.Instance.Settings.Mining = new Mine();
-            //}
             Main.Instance.Settings.Mining.Work();
         }
 
         [Command]
         public void unload()
         {
-            //if (Main.Instance.Settings.Mining == null)
-            //{
-            //    XmlSerializeHelper<Mine> ss = new XmlSerializeHelper<Mine>();
-            //    if (!ss.Load("Mining", out Main.Instance.Settings.Mining))
-            //        Main.Instance.Settings.Mining = new Mine();
-            //}
             Main.Instance.Settings.Mining.Unload();
         }
 
         [Command]
         public void save()
         {
-            //XmlSerializeHelper<GameWIndoSize_DATA> gws = new XmlSerializeHelper<GameWIndoSize_DATA>();
-            //XmlSerializeHelper<Settings> sett = new XmlSerializeHelper<Settings>();
-            //XmlSerializeHelper<Mine> min = new XmlSerializeHelper<Mine>();
-
-            //gws.Save("WindowSize", Main.Instance.GWS_DATA);
-            //sett.Save(World.Player.Name, Main.Instance.Settings);
-            //if (Main.Instance.Settings.Mining != null) min.Save("Mining",( Main.Instance.Settings.Mining));
             XmlSerializeHelper<GameWIndoSize_DATA>.Save("WindowSize", Main.Instance.GWS_DATA);
             XmlSerializeHelper<Settings>.Save(World.Player.Name, Main.Instance.Settings);
             XmlSerializeHelper<Mine>.Save("Mining", (Main.Instance.Settings.Mining));

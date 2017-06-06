@@ -2,6 +2,7 @@
 using Phoenix.WorldData;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Timers;
 using System.Xml.Serialization;
@@ -49,9 +50,31 @@ namespace EreborPhoenixExtension.Libs.Healing
             
             avaibleEquips = new List<int>();
             HealedPlayers = new List<Patient>();
+            //BackgroundWorker bw = new BackgroundWorker();
+           // bw.DoWork += Bw_DoWork;
+           // bw.RunWorkerAsync(300);
             checker = new Timer(300);
             checker.Elapsed += Checker_Elapsed;
 
+        }
+
+        private void Bw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            List<Patient> tmp = HealedPlayers.Where(pat => pat.chara.Distance < 7 && pat.chara.Hits > 0 && pat.chara.Hits < PatientHPLimit).ToList();
+            tmp.Sort((x, y) => (x.chara.Hits.CompareTo(y.chara.Hits)));
+            if (Main.Instance.Settings.arrowSelfProgress || World.Player.Hidden || Main.Instance.Settings.RessurectInProgress) return;
+            if (World.Player.Hits < Main.Instance.Settings.minHP)
+                PatientHurted?.Invoke(this, new HurtedPatientArgs() { selfHurted = true });
+            if (tmp.Count == 0)
+            {
+                PatientHurted?.Invoke(this, new HurtedPatientArgs() { crystalOff = true });
+                return;
+            }
+            if (tmp[0].chara.Hits > 60 && Main.Instance.Settings.musicProgress) return;
+            if (PatientHurted != null)
+            {
+                PatientHurted(this, new HurtedPatientArgs() { pati = tmp[0] });
+            }
         }
 
         public void GetStatuses()
@@ -59,8 +82,9 @@ namespace EreborPhoenixExtension.Libs.Healing
             Serial tmp=Aliases.GetObject("laststatus");
             foreach(Patient p in HealedPlayers)
             {
-                if(p.chara.Hits<1 && p.chara.Distance<11)
-                p.chara.RequestStatus(20);
+                if (p.chara.Hits < 1 && p.chara.Distance < 10)
+                    p.chara.RequestStatus(20);
+                UO.Wait(10);
             }
             Aliases.SetObject("laststatus",tmp);
         }
@@ -68,7 +92,7 @@ namespace EreborPhoenixExtension.Libs.Healing
         {
             List<Patient> tmp = HealedPlayers.Where(pat => pat.chara.Distance < 7 && pat.chara.Hits > 0 && pat.chara.Hits < PatientHPLimit).ToList();
             tmp.Sort((x, y) => (x.chara.Hits.CompareTo(y.chara.Hits)));
-            if (Main.Instance.Settings.arrowSelfProgress || World.Player.Hidden || Main.Instance.Settings.RessurectInProgress) return;
+            if (Main.Instance.Settings.arrowSelfProgress || World.Player.Hidden) return;// || Main.Instance.Settings.RessurectInProgress) return;
             if (World.Player.Hits < Main.Instance.Settings.minHP)
                 PatientHurted?.Invoke(this, new HurtedPatientArgs() { selfHurted = true });
             if (tmp.Count == 0)
@@ -120,7 +144,7 @@ namespace EreborPhoenixExtension.Libs.Healing
         {
 
             World.FindDistance = 3;
-            foreach(UOItem corps in World.Ground.Where(x=>x.Graphic==2006))
+            foreach(UOItem corps in World.Ground.Where(x=>x.Graphic==0x2006))
             {
                 corps.WaitTarget();
                 if (Main.Instance.Settings.ActualCharacter == Character.EreborClass.Shaman)

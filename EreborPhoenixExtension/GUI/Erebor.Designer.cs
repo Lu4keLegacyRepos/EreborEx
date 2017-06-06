@@ -88,6 +88,21 @@
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.lb_TrackIgnore = new System.Windows.Forms.ListBox();
             this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.panel9 = new System.Windows.Forms.Panel();
+            this.lbl_adamantiumCnt = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.lbl_obsidianCnt = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.lbl_valoriteCount = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.lbl_veriteCnt = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.lbl_siliconCnt = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.lbl_ironCnt = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.lbl_copperCnt = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
             this.lb_mining = new System.Windows.Forms.ListBox();
             this.panel8 = new System.Windows.Forms.Panel();
             this.btn_setGemBox = new System.Windows.Forms.Button();
@@ -124,21 +139,6 @@
             this.btn_2 = new System.Windows.Forms.Button();
             this.btn_1 = new System.Windows.Forms.Button();
             this.btn_0 = new System.Windows.Forms.Button();
-            this.panel9 = new System.Windows.Forms.Panel();
-            this.label17 = new System.Windows.Forms.Label();
-            this.lbl_copperCnt = new System.Windows.Forms.Label();
-            this.lbl_ironCnt = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.lbl_veriteCnt = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.lbl_siliconCnt = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.lbl_obsidianCnt = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
-            this.lbl_valoriteCount = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
-            this.lbl_adamantiumCnt = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -153,6 +153,7 @@
             this.tabPage3.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.tabPage9.SuspendLayout();
+            this.panel9.SuspendLayout();
             this.panel8.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -160,7 +161,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Ada)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_Obs)).BeginInit();
             this.panel4.SuspendLayout();
-            this.panel9.SuspendLayout();
             this.SuspendLayout();
             // 
             // chb_Automorf
@@ -788,6 +788,154 @@
             this.tabPage9.TabIndex = 5;
             this.tabPage9.Text = "Mining";
             // 
+            // panel9
+            // 
+            this.panel9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel9.Controls.Add(this.lbl_adamantiumCnt);
+            this.panel9.Controls.Add(this.label29);
+            this.panel9.Controls.Add(this.lbl_obsidianCnt);
+            this.panel9.Controls.Add(this.label25);
+            this.panel9.Controls.Add(this.lbl_valoriteCount);
+            this.panel9.Controls.Add(this.label27);
+            this.panel9.Controls.Add(this.lbl_veriteCnt);
+            this.panel9.Controls.Add(this.label21);
+            this.panel9.Controls.Add(this.lbl_siliconCnt);
+            this.panel9.Controls.Add(this.label23);
+            this.panel9.Controls.Add(this.lbl_ironCnt);
+            this.panel9.Controls.Add(this.label19);
+            this.panel9.Controls.Add(this.lbl_copperCnt);
+            this.panel9.Controls.Add(this.label17);
+            this.panel9.Location = new System.Drawing.Point(3, 236);
+            this.panel9.Name = "panel9";
+            this.panel9.Size = new System.Drawing.Size(434, 48);
+            this.panel9.TabIndex = 32;
+            // 
+            // lbl_adamantiumCnt
+            // 
+            this.lbl_adamantiumCnt.AutoSize = true;
+            this.lbl_adamantiumCnt.Location = new System.Drawing.Point(397, 22);
+            this.lbl_adamantiumCnt.Name = "lbl_adamantiumCnt";
+            this.lbl_adamantiumCnt.Size = new System.Drawing.Size(16, 17);
+            this.lbl_adamantiumCnt.TabIndex = 17;
+            this.lbl_adamantiumCnt.Text = "0";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(306, 22);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(90, 17);
+            this.label29.TabIndex = 16;
+            this.label29.Text = "Adamantium:";
+            // 
+            // lbl_obsidianCnt
+            // 
+            this.lbl_obsidianCnt.AutoSize = true;
+            this.lbl_obsidianCnt.Location = new System.Drawing.Point(397, 2);
+            this.lbl_obsidianCnt.Name = "lbl_obsidianCnt";
+            this.lbl_obsidianCnt.Size = new System.Drawing.Size(16, 17);
+            this.lbl_obsidianCnt.TabIndex = 15;
+            this.lbl_obsidianCnt.Text = "0";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(306, 3);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(72, 17);
+            this.label25.TabIndex = 14;
+            this.label25.Text = "Obsidian: ";
+            // 
+            // lbl_valoriteCount
+            // 
+            this.lbl_valoriteCount.AutoSize = true;
+            this.lbl_valoriteCount.Location = new System.Drawing.Point(240, 3);
+            this.lbl_valoriteCount.Name = "lbl_valoriteCount";
+            this.lbl_valoriteCount.Size = new System.Drawing.Size(16, 17);
+            this.lbl_valoriteCount.TabIndex = 13;
+            this.lbl_valoriteCount.Text = "0";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(185, 3);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(64, 17);
+            this.label27.TabIndex = 12;
+            this.label27.Text = "Valorite: ";
+            // 
+            // lbl_veriteCnt
+            // 
+            this.lbl_veriteCnt.AutoSize = true;
+            this.lbl_veriteCnt.Location = new System.Drawing.Point(150, 22);
+            this.lbl_veriteCnt.Name = "lbl_veriteCnt";
+            this.lbl_veriteCnt.Size = new System.Drawing.Size(16, 17);
+            this.lbl_veriteCnt.TabIndex = 11;
+            this.lbl_veriteCnt.Text = "0";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(95, 22);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(49, 17);
+            this.label21.TabIndex = 10;
+            this.label21.Text = "Verite:";
+            // 
+            // lbl_siliconCnt
+            // 
+            this.lbl_siliconCnt.AutoSize = true;
+            this.lbl_siliconCnt.Location = new System.Drawing.Point(150, 3);
+            this.lbl_siliconCnt.Name = "lbl_siliconCnt";
+            this.lbl_siliconCnt.Size = new System.Drawing.Size(16, 17);
+            this.lbl_siliconCnt.TabIndex = 9;
+            this.lbl_siliconCnt.Text = "0";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(95, 3);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(53, 17);
+            this.label23.TabIndex = 8;
+            this.label23.Text = "Silicon:";
+            // 
+            // lbl_ironCnt
+            // 
+            this.lbl_ironCnt.AutoSize = true;
+            this.lbl_ironCnt.Location = new System.Drawing.Point(57, 22);
+            this.lbl_ironCnt.Name = "lbl_ironCnt";
+            this.lbl_ironCnt.Size = new System.Drawing.Size(16, 17);
+            this.lbl_ironCnt.TabIndex = 7;
+            this.lbl_ironCnt.Text = "0";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(2, 22);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(32, 17);
+            this.label19.TabIndex = 6;
+            this.label19.Text = "Iron";
+            // 
+            // lbl_copperCnt
+            // 
+            this.lbl_copperCnt.AutoSize = true;
+            this.lbl_copperCnt.Location = new System.Drawing.Point(57, 3);
+            this.lbl_copperCnt.Name = "lbl_copperCnt";
+            this.lbl_copperCnt.Size = new System.Drawing.Size(16, 17);
+            this.lbl_copperCnt.TabIndex = 5;
+            this.lbl_copperCnt.Text = "0";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(2, 3);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(62, 17);
+            this.label17.TabIndex = 4;
+            this.label17.Text = "Copper: ";
+            // 
             // lb_mining
             // 
             this.lb_mining.FormattingEnabled = true;
@@ -1153,154 +1301,6 @@
             this.btn_0.Text = "Recall-Scroll";
             this.btn_0.UseVisualStyleBackColor = true;
             // 
-            // panel9
-            // 
-            this.panel9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel9.Controls.Add(this.lbl_adamantiumCnt);
-            this.panel9.Controls.Add(this.label29);
-            this.panel9.Controls.Add(this.lbl_obsidianCnt);
-            this.panel9.Controls.Add(this.label25);
-            this.panel9.Controls.Add(this.lbl_valoriteCount);
-            this.panel9.Controls.Add(this.label27);
-            this.panel9.Controls.Add(this.lbl_veriteCnt);
-            this.panel9.Controls.Add(this.label21);
-            this.panel9.Controls.Add(this.lbl_siliconCnt);
-            this.panel9.Controls.Add(this.label23);
-            this.panel9.Controls.Add(this.lbl_ironCnt);
-            this.panel9.Controls.Add(this.label19);
-            this.panel9.Controls.Add(this.lbl_copperCnt);
-            this.panel9.Controls.Add(this.label17);
-            this.panel9.Location = new System.Drawing.Point(3, 236);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(434, 48);
-            this.panel9.TabIndex = 32;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(2, 3);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(62, 17);
-            this.label17.TabIndex = 4;
-            this.label17.Text = "Copper: ";
-            // 
-            // lbl_copperCnt
-            // 
-            this.lbl_copperCnt.AutoSize = true;
-            this.lbl_copperCnt.Location = new System.Drawing.Point(57, 3);
-            this.lbl_copperCnt.Name = "lbl_copperCnt";
-            this.lbl_copperCnt.Size = new System.Drawing.Size(16, 17);
-            this.lbl_copperCnt.TabIndex = 5;
-            this.lbl_copperCnt.Text = "0";
-            // 
-            // lbl_ironCnt
-            // 
-            this.lbl_ironCnt.AutoSize = true;
-            this.lbl_ironCnt.Location = new System.Drawing.Point(57, 22);
-            this.lbl_ironCnt.Name = "lbl_ironCnt";
-            this.lbl_ironCnt.Size = new System.Drawing.Size(16, 17);
-            this.lbl_ironCnt.TabIndex = 7;
-            this.lbl_ironCnt.Text = "0";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(2, 22);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(32, 17);
-            this.label19.TabIndex = 6;
-            this.label19.Text = "Iron";
-            // 
-            // lbl_veriteCnt
-            // 
-            this.lbl_veriteCnt.AutoSize = true;
-            this.lbl_veriteCnt.Location = new System.Drawing.Point(150, 22);
-            this.lbl_veriteCnt.Name = "lbl_veriteCnt";
-            this.lbl_veriteCnt.Size = new System.Drawing.Size(16, 17);
-            this.lbl_veriteCnt.TabIndex = 11;
-            this.lbl_veriteCnt.Text = "0";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(95, 22);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(49, 17);
-            this.label21.TabIndex = 10;
-            this.label21.Text = "Verite:";
-            // 
-            // lbl_siliconCnt
-            // 
-            this.lbl_siliconCnt.AutoSize = true;
-            this.lbl_siliconCnt.Location = new System.Drawing.Point(150, 3);
-            this.lbl_siliconCnt.Name = "lbl_siliconCnt";
-            this.lbl_siliconCnt.Size = new System.Drawing.Size(16, 17);
-            this.lbl_siliconCnt.TabIndex = 9;
-            this.lbl_siliconCnt.Text = "0";
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(95, 3);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(53, 17);
-            this.label23.TabIndex = 8;
-            this.label23.Text = "Silicon:";
-            // 
-            // lbl_obsidianCnt
-            // 
-            this.lbl_obsidianCnt.AutoSize = true;
-            this.lbl_obsidianCnt.Location = new System.Drawing.Point(397, 2);
-            this.lbl_obsidianCnt.Name = "lbl_obsidianCnt";
-            this.lbl_obsidianCnt.Size = new System.Drawing.Size(16, 17);
-            this.lbl_obsidianCnt.TabIndex = 15;
-            this.lbl_obsidianCnt.Text = "0";
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(306, 3);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(72, 17);
-            this.label25.TabIndex = 14;
-            this.label25.Text = "Obsidian: ";
-            // 
-            // lbl_valoriteCount
-            // 
-            this.lbl_valoriteCount.AutoSize = true;
-            this.lbl_valoriteCount.Location = new System.Drawing.Point(240, 3);
-            this.lbl_valoriteCount.Name = "lbl_valoriteCount";
-            this.lbl_valoriteCount.Size = new System.Drawing.Size(16, 17);
-            this.lbl_valoriteCount.TabIndex = 13;
-            this.lbl_valoriteCount.Text = "0";
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(185, 3);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(64, 17);
-            this.label27.TabIndex = 12;
-            this.label27.Text = "Valorite: ";
-            // 
-            // lbl_adamantiumCnt
-            // 
-            this.lbl_adamantiumCnt.AutoSize = true;
-            this.lbl_adamantiumCnt.Location = new System.Drawing.Point(397, 22);
-            this.lbl_adamantiumCnt.Name = "lbl_adamantiumCnt";
-            this.lbl_adamantiumCnt.Size = new System.Drawing.Size(16, 17);
-            this.lbl_adamantiumCnt.TabIndex = 17;
-            this.lbl_adamantiumCnt.Text = "0";
-            // 
-            // label29
-            // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(306, 22);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(90, 17);
-            this.label29.TabIndex = 16;
-            this.label29.Text = "Adamantium:";
-            // 
             // Erebor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1336,6 +1336,8 @@
             this.tabPage3.ResumeLayout(false);
             this.tabPage7.ResumeLayout(false);
             this.tabPage9.ResumeLayout(false);
+            this.panel9.ResumeLayout(false);
+            this.panel9.PerformLayout();
             this.panel8.ResumeLayout(false);
             this.panel8.PerformLayout();
             this.panel5.ResumeLayout(false);
@@ -1348,8 +1350,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_Obs)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
-            this.panel9.ResumeLayout(false);
-            this.panel9.PerformLayout();
             this.ResumeLayout(false);
 
         }

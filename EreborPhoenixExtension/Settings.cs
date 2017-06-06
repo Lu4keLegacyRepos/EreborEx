@@ -598,7 +598,7 @@ namespace EreborPhoenixExtension
             p.Skip(1);
             uint serial = p.ReadUInt32();
             ushort action = p.ReadUInt16();
-            if (action == 26 && serial == World.Player.Serial && new UOCharacter(Aliases.GetObject("laststatus")).Distance < 3)
+            if ((action == 26 || action == 11) && serial == World.Player.Serial && new UOCharacter(Aliases.GetObject("laststatus")).Distance < 3)
             {
                 UO.Print(SpeechFont.Bold, 0x0076, "Naprah na " + new UOCharacter(Aliases.GetObject("laststatus")).Name);
                 OnStoodUp?.Invoke(this, new EventArgs());

@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace EreborPhoenixExtension
 {
-
+    public delegate void setEQ();
     public class Main
     {
         System.Timers.Timer t;
@@ -56,7 +56,7 @@ namespace EreborPhoenixExtension
             if(World.Player.Name!=null)
             {
                 
-                t.Stop();
+                Main.Instance.t.Stop();
                 Initialize();
             }
         }
@@ -81,8 +81,8 @@ namespace EreborPhoenixExtension
         private void Initialize()
         {
             World.Player.RequestStatus(100);
-            new Thread(setEQ).Start();
-
+            setEQ s = new setEQ(Main.Instance.setEQ);
+            s.BeginInvoke(null, null);
             XmlSerializeHelper<Settings>.Load(World.Player.Name, out Instance.Settings);
             if (Instance.Settings == default(Settings))
                 Instance.Settings = new Settings();

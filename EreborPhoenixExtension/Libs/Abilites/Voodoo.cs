@@ -13,6 +13,7 @@ namespace EreborPhoenixExtension.Libs.Abilites
         string[] boostCalls = {"str","dex","int" };
         Dictionary<string, UOItem> boostBottles;
         QueueEx que;
+        Dictionary<uint, string> que_Boost;
         private bool boosting;
         private bool vodo;
         DateTime timee;
@@ -33,6 +34,7 @@ namespace EreborPhoenixExtension.Libs.Abilites
             Heads = new Dictionary<string, UOItem>();
             boostBottles = new Dictionary<string, UOItem>();
             que = new QueueEx();
+            que_Boost = new Dictionary<uint,string>();
             
         }
 
@@ -228,11 +230,164 @@ namespace EreborPhoenixExtension.Libs.Abilites
 
 
 
+        public void SetBoost(UOItem head, string type)
+        {
+            switch(type)
+            {
+                case "str":
+                    head.Click();
+                    UO.Wait(200);
+                    if (que_Boost.ContainsKey(head.Serial))
+                        que_Boost.Remove(head.Serial);
+                    que_Boost.Add(head.Serial, "str");
+
+                    break;
+                case "dex":
+                    head.Click();
+                    UO.Wait(200);
+                    if (que_Boost.ContainsKey(head.Serial))
+                        que_Boost.Remove(head.Serial);
+                    que_Boost.Add(head.Serial, "dex");
+
+                    break;
+                case "int":
+                    head.Click();
+                    UO.Wait(200);
+                    if (que_Boost.ContainsKey(head.Serial))
+                        que_Boost.Remove(head.Serial);
+                    que_Boost.Add(head.Serial, "int");
+
+                    break;
+                case "def":
+                    head.Click();
+                    UO.Wait(200);
+                    if (que_Boost.ContainsKey(head.Serial))
+                        que_Boost.Remove(head.Serial);
+                    que_Boost.Add(head.Serial, "def");
+
+                    break;
+            }
+        }
+
+        public void ManualBoost(UOItem bagl)
+        {
+            ushort x, y;
+            try
+            {
+                boostBottles.Clear();
+                boostBottles.Add("str", new UOItem(World.Player.Backpack.AllItems.FindType(0x0F0E, 0x0835)));
+                boostBottles.Add("dex", new UOItem(World.Player.Backpack.AllItems.FindType(0x0F0E, 0x0006)));
+                boostBottles.Add("int", new UOItem(World.Player.Backpack.AllItems.FindType(0x0F0E, 0x06C2)));
+                boostBottles.Add("def", new UOItem(World.Player.Backpack.AllItems.FindType(0x0F0E, 0x0999)));
+                Core.RegisterServerMessageCallback(0x1C, onVoodoo,CallbackPriority.High);
+                bagl.Use();
+                foreach (UOItem it in bagl.Items)
+                {
+                    x = it.X;
+                    y = it.Y;
+                    if (it.Graphic == 0x1CE1 && que_Boost.ContainsKey(it.Serial))
+                    {
+                        done = VoodooState.Fail;
+                        it.Move(1, World.Player.Backpack);
+                        UO.Wait(100);
+                        while (done != VoodooState.Wait)
+                        {
+                            boostBottles[que_Boost[it.Serial]].WaitTarget();
+                            it.Use();
+                            UO.Wait(500);
+                        }
+                        if (que_Boost[it.Serial] == "def")
+                        {
+                            UO.Wait(100);
+                            it.Move(1, bagl, x, y);
+                            continue;
+                        }
+                        UO.Wait(4000);
+                        done = VoodooState.Redo;
+                        while (done != VoodooState.Wait)
+                        {
+
+                            boostBottles["def"].WaitTarget();
+                            it.Use();
+                            UO.Wait(500);
+                        }
+                        while (done != VoodooState.Success) UO.Wait(100);
+                        UO.Wait(100);
+                        it.Move(1, bagl,x,y);
+
+                    }
+                }
+            }
+            catch(Exception ex) { UO.PrintError(ex.Message); }
+            finally
+            {
+                Core.UnregisterServerMessageCallback(0x1C, onVoodoo);
+            }
+
+        }
+
+        public void selfBoost(string type)
+        {
+            try
+            {
+                boostBottles.Clear();
+                boostBottles.Add("str", new UOItem(World.Player.Backpack.AllItems.FindType(0x0F0E, 0x0835)));
+                boostBottles.Add("dex", new UOItem(World.Player.Backpack.AllItems.FindType(0x0F0E, 0x0006)));
+                boostBottles.Add("int", new UOItem(World.Player.Backpack.AllItems.FindType(0x0F0E, 0x06C2)));
+                boostBottles.Add("def", new UOItem(World.Player.Backpack.AllItems.FindType(0x0F0E, 0x0999)));
+                Core.RegisterServerMessageCallback(0x1C, onVoodoo, CallbackPriority.High);
+                UOItem it = null;
+                foreach (UOItem i in World.Player.Backpack.AllItems)
+                {
+                    if (i.Graphic == 0x1CE1 )
+                    {
+                        i.Click();
+                        UO.Wait(150);
+                        if(i.Name == World.Player.Name) it = i;
+                    }
+                }
+                if (it == null)
+                {
+                    UO.Print("Nemas svou hlavu");
+                    if (type == "int")
+                    {
+                        UO.Cast(StandardSpell.Cunning, World.Player);
+                    }
+                }
+                done = VoodooState.Fail;
+                while (done != VoodooState.Wait)
+                {
+                    boostBottles[type].WaitTarget();
+                    it.Use();
+                    UO.Wait(500);
+                }
+                UO.Wait(4000);
+                done = VoodooState.Redo;
+                while (done != VoodooState.Wait)
+                {
+
+                    boostBottles["def"].WaitTarget();
+                    it.Use();
+                    UO.Wait(500);
+                }
+                while (done != VoodooState.Success) UO.Wait(100);
+                UO.Wait(100);
+            }
+            catch (Exception ex) { UO.PrintError(ex.Message); }
+            finally
+            {
+                Core.UnregisterServerMessageCallback(0x1C, onVoodoo);
+            }
+
+        }
+            
+        
+
         CallbackResult onVoodoo(byte[] data , CallbackResult prev)//0x1C
         {
             AsciiSpeech ass = new AsciiSpeech(data);
             if (ass.Text.Contains("Nepovedlo se")) done = VoodooState.Fail;
-            if (ass.Text.Contains("Cil podlehl voodoo!")) done = VoodooState.Success;
+            if (ass.Text.Contains("Cil podlehl ")) done = VoodooState.Success;
             if (ass.Text.Contains("Jeste nelze pouzit.")) done = VoodooState.Redo;
             if (ass.Text.Contains("prokleti voodoo seslano uspesne")) done = VoodooState.Wait;
             return CallbackResult.Normal;

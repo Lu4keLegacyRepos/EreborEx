@@ -16,6 +16,8 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
         List<string> TopMonster = new List<string>() { "golem", "spirit" };
         Graphic[] Humanoid = { 0x0191, 0x0190 };
         Point ActualPositon;
+        private bool StoodUp;
+
         public Battle(Action<int,int> moveTo, Action moveFarestField, Action<int> move5Field, UOCharacter Ch, UOItem mace)
         {
             MoveFar = moveFarestField;
@@ -54,15 +56,22 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
             }
             UO.Attack(ch);
             Mace.Equip();
+            if (ch.Distance > 1) MoveTo(ch.X, ch.Y);
             while (!Journal.Contains(true, "Ziskala jsi ", "Ziskal jsi ", "gogo"))
             {
                 if(!ch.Exist || ch.Hits<1)
                 {
                     UO.Wait(1000);
+                    Main.Instance.Settings.OnStoodUp -= Settings_OnStoodUp;
                     MoveTo(ActualPositon.X, ActualPositon.Y);
                     return;
                 }
-                if(ch.Distance>1) MoveTo(ch.X, ch.Y);
+                if(StoodUp)
+                {
+                    //Move5(5);
+                }
+                else if (ch.Distance > 1) MoveTo(ch.X, ch.Y);
+
                 if (Journal.Contains("Vysavas zivoty!"))
                 {
                     Journal.SetLineText(Journal.Find("Vysavas zivoty!"), " ");
@@ -77,19 +86,25 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
                 }
                 UO.Wait(100);
             }
+            Main.Instance.Settings.OnStoodUp -= Settings_OnStoodUp;
             MoveTo(ActualPositon.X, ActualPositon.Y);
         }
 
         private void Settings_OnStoodUp(object sender, EventArgs e)
         {
-            Move5(5);
+            StoodUp = true;
         }
 
         private void Run(bool recall)
         {
-            if (recall) UO.Say(".recallhome");
+            bool first = true;
             while (ch.Distance < 19)
             {
+                if(first)
+                {
+                    if (recall) UO.Say(".recallhome");
+                    first = false;
+                }
                 if (World.Player.Dead) UO.TerminateAll();
                 MoveFar();
             }
