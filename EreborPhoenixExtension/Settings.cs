@@ -38,9 +38,11 @@ namespace EreborPhoenixExtension
         private bool hitBandage;
         private bool hitTrack;
         private bool autoDrink;
-        public bool arrowSelfProgress=false, musicProgress=false, crystalState = false, BandageDone = true;
+        private bool arrowSelfProgress=false, musicProgress=false, crystalState = false, bandageDone = true;
+        private bool ressurectInProgress;
         public string CrystalCmd, HealCmd;
-
+        private uint minHp;
+        private object Lock = new object();
         [XmlIgnore]
         public Character.EreborClass ActualCharacter= Character.EreborClass.Null;
         [XmlIgnore]
@@ -80,7 +82,20 @@ namespace EreborPhoenixExtension
         public AutoHeal AHeal { get; set; }
         public RuneTree RuneTree { get; set; }
         public WeaponsHandle Weapons { get; set; }
-        public uint minHP { get; set; }
+        public uint MinHP { get
+            {
+                lock (Lock)
+                {
+                    return minHp;
+                }
+            }
+            set {
+                lock (Lock)
+                {
+                    minHp = value; 
+                }
+            }
+        }
         public uint VoodooManaLimit { get; set; }
         public uint hidDelay { get; set; }
         public bool HitBandage
@@ -380,7 +395,85 @@ namespace EreborPhoenixExtension
             }
         }
 
-        public bool RessurectInProgress { get; set; }
+        public bool ArrowSelfProgress
+        {
+            get
+            {
+                lock (Lock)
+                {
+                    return arrowSelfProgress;
+                }
+            }
+
+            set
+            {
+                lock (Lock)
+                {
+                    arrowSelfProgress = value;
+                }
+            }
+        }
+
+        public bool MusicProgress
+        {
+            get
+            {
+                lock (Lock)
+                {
+                    return musicProgress;
+                }
+            }
+
+            set
+            {
+                lock (Lock)
+                {
+                    musicProgress = value;
+                }
+                
+            }
+        }
+
+        public bool CrystalState
+        {
+            get
+            {
+                return crystalState;
+            }
+
+            set
+            {
+                crystalState = value;
+            }
+        }
+
+        public bool BandageDone
+        {
+            get
+            {
+                return bandageDone;
+            }
+
+            set
+            {
+                bandageDone = value;
+            }
+        }
+
+        public bool RessurectInProgress
+        {
+            get
+            {
+                return ressurectInProgress;
+            }
+
+            set
+            {
+                ressurectInProgress = value;
+            }
+        }
+
+
 
 
 
@@ -399,7 +492,7 @@ namespace EreborPhoenixExtension
             Casting = new Casting();
             wallCnt = new WallCounter();
             VooDoo = new Voodoo();
-            Spells = new Spells(this);
+            Spells = new Spells();
             Amorf = new AutoMorf();
             Weapons = new WeaponsHandle();
             Hiding = new Hiding(this);
@@ -433,7 +526,7 @@ namespace EreborPhoenixExtension
             if (e.crystalOff)
             {
                 CrystallCnt++;
-                if (CrystallCnt >= 5 && crystalState)
+                if (CrystallCnt >= 6 && CrystalState)
                 {
 
                    CrystallCnt = 0;
@@ -455,7 +548,7 @@ namespace EreborPhoenixExtension
 
             if (packet.Text.Contains("Jsi zpatky v normalnim stavu."))
             {
-                Main.Instance.Settings.crystalState = false;
+                Main.Instance.Settings.CrystalState = false;
 
                 return CallbackResult.Normal;
             }
@@ -463,7 +556,7 @@ namespace EreborPhoenixExtension
             {
                 if (packet.Text.Contains(s))
                 {
-                    Main.Instance.Settings.crystalState = true;
+                    Main.Instance.Settings.CrystalState = true;
                     return CallbackResult.Normal;
                 }
             }
@@ -558,11 +651,9 @@ namespace EreborPhoenixExtension
                 if (packet.Text.Contains(s) && World.Player.Hits < World.Player.MaxHits - 10 && !World.Player.Hidden)
                 {
                     Core.UnregisterServerMessageCallback(0x1C, OnHitBandage);
-                    bandage asBanage = new bandage(AHeal.bandage);
+                    bandage asBanage = new bandage(Main.Instance.Settings.AHeal.bandage);
                     asBanage.BeginInvoke(null, null);
                     Main.Instance.Settings.Weapons.ActualWeapon.Equip();
-                    //Equip eq = new Equip(Weapons.ActualWeapon.Equip);
-                    //eq.BeginInvoke(null, null);
                     UO.Wait(100);
                     Core.RegisterServerMessageCallback(0x1C, OnHitBandage);
                     return CallbackResult.Normal;
@@ -655,8 +746,7 @@ namespace EreborPhoenixExtension
             {
                 if (packet.Text.Contains(s))
                 {
-                    //UO.Wait(100);
-                    Main.Instance.Settings.BandageDone = true;
+                   Main.Instance.Settings.BandageDone = true;
                 }
             }
             return CallbackResult.Normal;
@@ -675,11 +765,11 @@ namespace EreborPhoenixExtension
         {
             if (prevResult < CallbackResult.Sent)
             {
-                if (data[1] > 20)//max 31-tma
+                if (data[1] > 18)//max 31-tma
                 {
                     byte[] newData = new byte[2];
                     newData[0] = 0x4F;
-                    newData[1] = (byte)19;
+                    newData[1] = (byte)17;
                     Core.SendToClient(newData);
 
                     // UO.Print(0x015C, "Light level fixed.");

@@ -13,9 +13,9 @@ namespace EreborPhoenixExtension.Libs.Magic
         private readonly string[] onParaCalls = new string[] { "Nohama ti projela silna bolest, citis, ze se nemuzes hybat.", " crying awfully." };
         private bool autoArrow;
         private Settings ch;
-        public Spells(Settings cha)
+        public Spells()
         {
-            ch = cha;
+            ch = Main.Instance.Settings;
         }
         public void ReactiveArmor( UOCharacter target)
         {
@@ -82,7 +82,7 @@ namespace EreborPhoenixExtension.Libs.Magic
 
         public void arrowSelf(bool attacklast)
         {
-            ch.arrowSelfProgress = true;
+            ch.ArrowSelfProgress = true;
             UO.Warmode(false);
             UO.Cast(StandardSpell.Harm, World.Player.Serial);
             UO.Wait(1600);
@@ -91,7 +91,7 @@ namespace EreborPhoenixExtension.Libs.Magic
                 UO.Warmode(true);
                 UO.Attack(Aliases.GetObject("laststatus").IsValid ? Aliases.GetObject("laststatus") : 0x00);
             }
-            ch.arrowSelfProgress = false;
+            ch.ArrowSelfProgress = false;
         }
         public bool AutoArrow { get
             {

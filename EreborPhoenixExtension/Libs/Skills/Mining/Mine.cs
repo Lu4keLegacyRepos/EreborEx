@@ -446,7 +446,8 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 		/// </summary>
 		/// <returns>True - MineField is empty</returns>
 		public bool Check()
-		{try
+		{
+			try
 			{
 				bool rtrnTmp = false;
 				// Check AFK
@@ -475,6 +476,16 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 					if (World.Player.Layers[Layer.LeftHand].Graphic.Equals(0x0A15)) World.Player.Backpack.AllItems.FindType(0x0A18).Use();
 
 				}
+				// Check stamina
+				if(World.Player.Stamina<10)
+				{
+					while(World.Player.Stamina<50)
+					{
+						Check();
+						UO.Wait(200);
+					}
+				}
+
 				// Count materials
 				for (int o = 0; o < Material.Count; o++)
 				{
@@ -744,6 +755,7 @@ namespace EreborPhoenixExtension.Libs.Skills.Mining
 			StockUp();
 			ActualMapIndex = tmpMapIndex;
 			Recall(1);
+			MoveTo(ActualPosition);
 
 		}
 

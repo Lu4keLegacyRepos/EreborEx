@@ -19,6 +19,7 @@ namespace EreborPhoenixExtension.Libs.Abilites
         DateTime timee;
         private VoodooState done;
         private int HeadsCount;
+        List<Graphic> Hlavy = new List<Graphic>() { 0x1DAE, 0x1DA0, 0x1CE9, 0x1CE1 };
 
         enum VoodooState
         {
@@ -133,6 +134,14 @@ namespace EreborPhoenixExtension.Libs.Abilites
             boostBottles.Add("int", new UOItem(head.Items.FindType(0x0F0E, 0x06C2)));
             boostBottles.Add("def", new UOItem(head.Items.FindType(0x0F0E, 0x0999)));
         }
+
+        private void getBottles(bool something)
+        {
+            boostBottles.Add("str", new UOItem(bagl.Items.FindType(0x0F0E, 0x0835)));
+            boostBottles.Add("dex", new UOItem(bagl.Items.FindType(0x0F0E, 0x0006)));
+            boostBottles.Add("int", new UOItem(bagl.Items.FindType(0x0F0E, 0x06C2)));
+            boostBottles.Add("def", new UOItem(bagl.Items.FindType(0x0F0E, 0x0999)));
+        }
         private void getHeads()
         {
             HeadsCount = bagl.Items.CountItems();
@@ -182,7 +191,7 @@ namespace EreborPhoenixExtension.Libs.Abilites
         }
         private void boost(string[] args)
         {
-
+            ushort tmpX, tmpY;
             done = VoodooState.Fail;
             boosting = true;
             bagl.Use();
@@ -190,14 +199,29 @@ namespace EreborPhoenixExtension.Libs.Abilites
             if (bagl.Items.CountItems() != HeadsCount)
             {
                 UO.Say("Prepocitavam");
+                Journal.EntryAdded -= Journal_EntryAdded;
+                que.added -= Que_added;
+                boostBottles.Clear();
+                Heads.Clear();
+                que.que.Clear();
+                UO.Print("OFF");
+                getBottles(true);
                 getHeads();
+                Journal.EntryAdded += Journal_EntryAdded;
+                que.added += Que_added;
+                Journal.ClearAll();
+                timee = DateTime.Now;
+                UO.Print("ON");
+
             }
             boosting = false;
             Core.RegisterServerMessageCallback(0x1C, onVoodoo);
-            foreach (string it in Heads.Keys)//.Where(x => x.Graphic != 0x0F0E && x.Name==args[0]).ToList())
+            foreach (string it in Heads.Keys)
             {
                 if(it==args[0])
                 {
+                    tmpX = Heads[it].X;
+                    tmpY = Heads[it].Y;
                     Heads[it].Move(1, World.Player.Backpack);
                     UO.Wait(200);
                     while (done != VoodooState.Wait)
@@ -217,7 +241,7 @@ namespace EreborPhoenixExtension.Libs.Abilites
                     while (done != VoodooState.Success) UO.Wait(500);
 
                     UO.Wait(500);
-                    Heads[it].Move(1, bagl);
+                    Heads[it].Move(1, bagl, tmpX, tmpY);
                     UO.Wait(300);
                     boosting = false;
                     Core.UnregisterServerMessageCallback(0x1C, onVoodoo);
@@ -232,6 +256,7 @@ namespace EreborPhoenixExtension.Libs.Abilites
 
         public void SetBoost(UOItem head, string type)
         {
+            if (head == null || head == 0) return;
             switch(type)
             {
                 case "str":
@@ -274,6 +299,7 @@ namespace EreborPhoenixExtension.Libs.Abilites
             ushort x, y;
             try
             {
+
                 boostBottles.Clear();
                 boostBottles.Add("str", new UOItem(World.Player.Backpack.AllItems.FindType(0x0F0E, 0x0835)));
                 boostBottles.Add("dex", new UOItem(World.Player.Backpack.AllItems.FindType(0x0F0E, 0x0006)));
@@ -285,7 +311,7 @@ namespace EreborPhoenixExtension.Libs.Abilites
                 {
                     x = it.X;
                     y = it.Y;
-                    if (it.Graphic == 0x1CE1 && que_Boost.ContainsKey(it.Serial))
+                    if (Hlavy.Contains(it.Graphic) && que_Boost.ContainsKey(it.Serial))
                     {
                         done = VoodooState.Fail;
                         it.Move(1, World.Player.Backpack);
@@ -390,6 +416,7 @@ namespace EreborPhoenixExtension.Libs.Abilites
             if (ass.Text.Contains("Cil podlehl ")) done = VoodooState.Success;
             if (ass.Text.Contains("Jeste nelze pouzit.")) done = VoodooState.Redo;
             if (ass.Text.Contains("prokleti voodoo seslano uspesne")) done = VoodooState.Wait;
+            if (ass.Text.Contains("prokleti nenalezlo cil.")) done = VoodooState.Wait;
             return CallbackResult.Normal;
         }
     }

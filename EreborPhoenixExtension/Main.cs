@@ -56,7 +56,7 @@ namespace EreborPhoenixExtension
             if(World.Player.Name!=null)
             {
                 
-                Main.Instance.t.Stop();
+                Instance.t.Stop();
                 Initialize();
             }
         }
@@ -81,7 +81,7 @@ namespace EreborPhoenixExtension
         private void Initialize()
         {
             World.Player.RequestStatus(100);
-            setEQ s = new setEQ(Main.Instance.setEQ);
+            setEQ s = new setEQ(Instance.setEQ);
             s.BeginInvoke(null, null);
             XmlSerializeHelper<Settings>.Load(World.Player.Name, out Instance.Settings);
             if (Instance.Settings == default(Settings))
@@ -94,10 +94,6 @@ namespace EreborPhoenixExtension
             Instance.Settings.Ev.hiddenChange += Ev_hiddenChange;
             Instance.Settings.Ev.hitsChanged += Ev_hitsChanged;
             Instance.Settings.AHeal.PatientHurted += AHeal_PatientHurted;
-
-
-
-
 
 
           #region Init GUI
@@ -129,7 +125,7 @@ namespace EreborPhoenixExtension
                 Instance.EreborInstance.GwHeight = Instance.GWS_DATA.Height.ToString();
                 Instance.EreborInstance.HidDelay = Instance.Settings.hidDelay.ToString();
                 Instance.EreborInstance.Hits2Pot = Instance.Settings.criticalHits.ToString();
-                Instance.EreborInstance.MinHp = Instance.Settings.minHP.ToString();
+                Instance.EreborInstance.MinHp = Instance.Settings.MinHP.ToString();
                 Instance.EreborInstance.VoodooObet = Instance.Settings.VoodooManaLimit.ToString();
 
 
@@ -458,7 +454,7 @@ namespace EreborPhoenixExtension
                     case "tb_MinHpBandage":
                         tmps = Instance.EreborInstance.MinHp ?? "80";
                          tmps = Regex.Match(tmps, @"\d+").Value;
-                        Instance.Settings.minHP = ushort.Parse(tmps);
+                        Instance.Settings.MinHP = ushort.Parse(tmps);
                         break;
                     case "tb_Obet":
                         tmps = Instance.EreborInstance.VoodooObet ?? "40";
@@ -505,8 +501,8 @@ namespace EreborPhoenixExtension
                     Instance.Settings.hidDelay = ushort.Parse(Instance.EreborInstance.HidDelay);
                 if (Instance.EreborInstance.Hits2Pot != Instance.Settings.criticalHits.ToString())
                     Instance.Settings.criticalHits = ushort.Parse(Instance.EreborInstance.Hits2Pot);
-                if (Instance.EreborInstance.MinHp != Instance.Settings.minHP.ToString())
-                    Instance.Settings.minHP = ushort.Parse(Instance.EreborInstance.MinHp);
+                if (Instance.EreborInstance.MinHp != Instance.Settings.MinHP.ToString())
+                    Instance.Settings.MinHP = ushort.Parse(Instance.EreborInstance.MinHp);
                 if (Instance.EreborInstance.VoodooObet != Instance.Settings.VoodooManaLimit.ToString())
                     Instance.Settings.VoodooManaLimit = ushort.Parse(Instance.EreborInstance.VoodooObet);
 
@@ -564,7 +560,7 @@ namespace EreborPhoenixExtension
             if (e.crystalOff)
             {
                 Instance.Settings.CrystallCnt++;
-                if (Instance.Settings.CrystallCnt >= 5 && Instance.Settings.crystalState)
+                if (Instance.Settings.CrystallCnt >= 5 && Instance.Settings.CrystalState)
                 {
 
                     Instance.Settings.CrystallCnt = 0;

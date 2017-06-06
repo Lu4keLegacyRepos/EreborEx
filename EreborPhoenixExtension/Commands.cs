@@ -14,7 +14,7 @@ namespace EreborPhoenixExtension
 
         #region Commands
 
-        [Command]
+        [Command, BlockMultipleExecutions]
         public void res()
         {
             try
@@ -22,20 +22,20 @@ namespace EreborPhoenixExtension
                 Main.Instance.Settings.RessurectInProgress = true;
                 Main.Instance.Settings.AHeal.Res();
             }
-            catch { }
+            catch(Exception ex) { UO.PrintError(ex.Message); }
             finally
             {
                 Main.Instance.Settings.RessurectInProgress = false;
             }
         }
 
-        [Command]
+        [Command, BlockMultipleExecutions]
         public void setheads(string type)
         {
             UO.PrintInformation("Zamer hlavu");
             Main.Instance.Settings.VooDoo.SetBoost(new UOItem(UIManager.TargetObject()), type);
         }
-        [Command]
+        [Command, BlockMultipleExecutions]
         public void boost()
         {
 
@@ -43,14 +43,14 @@ namespace EreborPhoenixExtension
             Main.Instance.Settings.VooDoo.ManualBoost(new UOItem(UIManager.TargetObject()));
         }
 
-        [Command]
+        [Command, BlockMultipleExecutions]
         public void selfboost(string type)
         {
             Main.Instance.Settings.VooDoo.selfBoost(type);
         }
         
 
-        [Command]
+        [Command,BlockMultipleExecutions]
         public void Record(string name)
         {
             if (Main.Instance.Settings.Mining == null)
@@ -63,19 +63,19 @@ namespace EreborPhoenixExtension
 
 
         }
-        [Command]
+        [Command,BlockMultipleExecutions]
         public void mine()
         {
             Main.Instance.Settings.Mining.Work();
         }
 
-        [Command]
+        [Command,BlockMultipleExecutions]
         public void unload()
         {
             Main.Instance.Settings.Mining.Unload();
         }
 
-        [Command]
+        [Command,BlockMultipleExecutions]
         public void save()
         {
             XmlSerializeHelper<GameWIndoSize_DATA>.Save("WindowSize", Main.Instance.GWS_DATA);
@@ -290,7 +290,7 @@ namespace EreborPhoenixExtension
         [Command]
         public void nhcast(string s, Serial t)
         {
-            if (Main.Instance.Settings.arrowSelfProgress) return;
+            if (Main.Instance.Settings.ArrowSelfProgress) return;
             bool tmp = false;
             if (Main.Instance.Settings.AHeal.OnOff)
             {
@@ -306,13 +306,13 @@ namespace EreborPhoenixExtension
         [Command]
         public void ccast(string s)
         {
-            if (Main.Instance.Settings.arrowSelfProgress) return;
+            if (Main.Instance.Settings.ArrowSelfProgress) return;
             Main.Instance.Settings.Casting.ccast(s, Main.Instance.Settings.AHeal.bandage, this.obet);
         }
         [Command]
         public void ccast(string s, Serial t)
         {
-            if (Main.Instance.Settings.arrowSelfProgress) return;
+            if (Main.Instance.Settings.ArrowSelfProgress) return;
             if (Aliases.LastAttack != t) UO.Attack(t);
             Main.Instance.Settings.Casting.ccast(s, t, Main.Instance.Settings.AHeal.bandage, this.obet);
         }

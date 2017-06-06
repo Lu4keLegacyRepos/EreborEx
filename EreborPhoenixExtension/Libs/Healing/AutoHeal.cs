@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Timers;
 using System.Xml.Serialization;
 
@@ -13,7 +14,8 @@ namespace EreborPhoenixExtension.Libs.Healing
     [Serializable]
     public class AutoHeal
     {
-        private Timer checker;
+        private System.Timers.Timer checker;
+        private Thread t;
         [XmlIgnore]
         public DateTime startBandage;
         public event EventHandler<HurtedPatientArgs> PatientHurted;
@@ -27,13 +29,17 @@ namespace EreborPhoenixExtension.Libs.Healing
                 if (value)
                 {
                     Main.Instance.Settings.BandageDone = true;
-                    checker.Start();
+                    //checker.Start();
+                    t = new Thread(ThreadChecker);
+                    t.Start();
+
                     GetStatuses();
                     UO.PrintInformation("Heal ON");
                 }
                 else
                 {
-                    checker.Stop();
+                    // checker.Stop();
+                    t.Abort();
                     UO.PrintInformation("Heal OFF");
                 }
                 onOff = value;
@@ -41,8 +47,24 @@ namespace EreborPhoenixExtension.Libs.Healing
         }
         [XmlArray]
         public List<int> avaibleEquips { get; set; }
-        [XmlArray]
-        public List<Patient> HealedPlayers { get; set; }
+
+        private object Lock= new object();
+        private List<Patient> healedPlayers;
+        [XmlArray] // TODO upraveno na thread safe
+        public List<Patient> HealedPlayers { get
+            {
+                lock(Lock)
+                {
+                    return healedPlayers;
+                }
+            }
+            set
+            {
+                lock (Lock)
+                {
+                    healedPlayers = value;
+                }
+            } }
         public ushort PatientHPLimit { get; set; }
 
         public AutoHeal()
@@ -50,39 +72,18 @@ namespace EreborPhoenixExtension.Libs.Healing
             
             avaibleEquips = new List<int>();
             HealedPlayers = new List<Patient>();
-            //BackgroundWorker bw = new BackgroundWorker();
-           // bw.DoWork += Bw_DoWork;
-           // bw.RunWorkerAsync(300);
-            checker = new Timer(300);
+            checker = new System.Timers.Timer(300);
             checker.Elapsed += Checker_Elapsed;
 
         }
 
-        private void Bw_DoWork(object sender, DoWorkEventArgs e)
-        {
-            List<Patient> tmp = HealedPlayers.Where(pat => pat.chara.Distance < 7 && pat.chara.Hits > 0 && pat.chara.Hits < PatientHPLimit).ToList();
-            tmp.Sort((x, y) => (x.chara.Hits.CompareTo(y.chara.Hits)));
-            if (Main.Instance.Settings.arrowSelfProgress || World.Player.Hidden || Main.Instance.Settings.RessurectInProgress) return;
-            if (World.Player.Hits < Main.Instance.Settings.minHP)
-                PatientHurted?.Invoke(this, new HurtedPatientArgs() { selfHurted = true });
-            if (tmp.Count == 0)
-            {
-                PatientHurted?.Invoke(this, new HurtedPatientArgs() { crystalOff = true });
-                return;
-            }
-            if (tmp[0].chara.Hits > 60 && Main.Instance.Settings.musicProgress) return;
-            if (PatientHurted != null)
-            {
-                PatientHurted(this, new HurtedPatientArgs() { pati = tmp[0] });
-            }
-        }
 
         public void GetStatuses()
         {
             Serial tmp=Aliases.GetObject("laststatus");
             foreach(Patient p in HealedPlayers)
             {
-                if (p.chara.Hits < 1 && p.chara.Distance < 10)
+                if (p.chara.Hits < 1 && p.chara.Distance < 15)
                     p.chara.RequestStatus(20);
                 UO.Wait(10);
             }
@@ -92,20 +93,43 @@ namespace EreborPhoenixExtension.Libs.Healing
         {
             List<Patient> tmp = HealedPlayers.Where(pat => pat.chara.Distance < 7 && pat.chara.Hits > 0 && pat.chara.Hits < PatientHPLimit).ToList();
             tmp.Sort((x, y) => (x.chara.Hits.CompareTo(y.chara.Hits)));
-            if (Main.Instance.Settings.arrowSelfProgress || World.Player.Hidden) return;// || Main.Instance.Settings.RessurectInProgress) return;
-            if (World.Player.Hits < Main.Instance.Settings.minHP)
+            if (Main.Instance.Settings.ArrowSelfProgress || World.Player.Hidden) return;// || Main.Instance.Settings.RessurectInProgress) return;
+            if (World.Player.Hits < Main.Instance.Settings.MinHP)
                 PatientHurted?.Invoke(this, new HurtedPatientArgs() { selfHurted = true });
             if (tmp.Count == 0)
             {
                 PatientHurted?.Invoke(this, new HurtedPatientArgs() { crystalOff = true });
                 return;
             }
-            if (tmp[0].chara.Hits > 60 && Main.Instance.Settings.musicProgress) return;
+            if (tmp[0].chara.Hits > 60 && Main.Instance.Settings.MusicProgress) return;
            if(PatientHurted!=null)
             {
                 PatientHurted(this, new HurtedPatientArgs() { pati = tmp[0] });
             }
         }
+
+
+        private void ThreadChecker()
+        {
+
+            List<Patient> tmp = HealedPlayers.Where(pat => pat.chara.Distance < 7 && pat.chara.Hits > 0 && pat.chara.Hits < PatientHPLimit).ToList();
+            tmp.Sort((x, y) => (x.chara.Hits.CompareTo(y.chara.Hits)));
+            if (Main.Instance.Settings.ArrowSelfProgress || World.Player.Hidden) return;// || Main.Instance.Settings.RessurectInProgress) return;
+            if (World.Player.Hits < Main.Instance.Settings.MinHP)
+                PatientHurted?.BeginInvoke(null, new HurtedPatientArgs() { selfHurted = true },null,null);
+            if (tmp.Count == 0)
+            {
+                PatientHurted?.BeginInvoke(null, new HurtedPatientArgs() { crystalOff = true },null,null);
+                return;
+            }
+            if (tmp[0].chara.Hits > 60 && Main.Instance.Settings.MusicProgress) return;
+            PatientHurted?.BeginInvoke(null, new HurtedPatientArgs() { pati = tmp[0] }, null, null);
+
+            Thread.Sleep(200);
+
+        }
+
+
 
         public void bandage()
         {
@@ -127,12 +151,12 @@ namespace EreborPhoenixExtension.Libs.Healing
             if (!Main.Instance.Settings.BandageDone) return;
             startBandage = DateTime.Now;
             Main.Instance.Settings.BandageDone = false;
-            if (!Main.Instance.Settings.crystalState) UO.Say(Main.Instance.Settings.CrystalCmd);
+            if (!Main.Instance.Settings.CrystalState) UO.Say(Main.Instance.Settings.CrystalCmd);
             UO.Say(Main.Instance.Settings.HealCmd + p.equip);
             UO.Wait(100);
             if (Main.Instance.Settings.ActualCharacter == Character.EreborClass.Shaman)
             {
-                if (Main.Instance.Settings.crystalState)
+                if (Main.Instance.Settings.CrystalState)
                 {
                     UO.Say(Main.Instance.Settings.CrystalCmd);
                 }
@@ -142,15 +166,17 @@ namespace EreborPhoenixExtension.Libs.Healing
 
         public void Res()
         {
-
+            UOItem bandy = null;
+            if (Main.Instance.Settings.ActualCharacter == Character.EreborClass.Shaman)
+                bandy = World.Player.Backpack.AllItems.FindType(0x0E21);
+            else
+                bandy = World.Player.Backpack.AllItems.FindType(0x0E20);
             World.FindDistance = 3;
             foreach(UOItem corps in World.Ground.Where(x=>x.Graphic==0x2006))
             {
                 corps.WaitTarget();
-                if (Main.Instance.Settings.ActualCharacter == Character.EreborClass.Shaman)
-                    UO.UseType(0x0E21);
-                else
-                    UO.UseType(0x0E20);
+                if (bandy == null) return;
+                bandy.Use();
                 UO.Wait(200);
                 if (Journal.Contains("Jako Priest nemuzes ozivovat")) continue;
                 if (Journal.Contains("Duch neni ve ")) UO.Say(" dej WAR ");

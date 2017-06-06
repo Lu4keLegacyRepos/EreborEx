@@ -20,11 +20,11 @@ namespace EreborPhoenixExtension.Libs.Skills
         {
             UO.Warmode(false);
             UOCharacter target = new UOCharacter(Aliases.GetObject("laststatus"));
-            if (target.Distance < 18 && !ch.musicProgress)
+            if (target.Distance < 18 && !ch.MusicProgress)
             {
 
                 Core.RegisterServerMessageCallback(0x1C, onMusicDone);
-                ch.musicProgress = true;
+                ch.MusicProgress = true;
                 target.WaitTarget();
                 if (peaceEntic)
                 {
@@ -40,16 +40,16 @@ namespace EreborPhoenixExtension.Libs.Skills
             else
             {
                 Core.UnregisterServerMessageCallback(0x1C, onMusicDone);
-                ch.musicProgress = false;
+                ch.MusicProgress = false;
                 return;
             }
             DateTime startTime = DateTime.Now;
-            while (ch.musicProgress)
+            while (ch.MusicProgress)
             {
                 UO.Wait(50);
                 if (DateTime.Now - startTime > TimeSpan.FromSeconds(5))
                 {
-                    ch.musicProgress = false;
+                    ch.MusicProgress = false;
                     break;
                 }
             }
@@ -66,7 +66,7 @@ namespace EreborPhoenixExtension.Libs.Skills
             {
                 if (packet.Text.Contains(s))
                 {
-                    ch.musicProgress = false;
+                    ch.MusicProgress = false;
                     return CallbackResult.Normal;
                 }
             }

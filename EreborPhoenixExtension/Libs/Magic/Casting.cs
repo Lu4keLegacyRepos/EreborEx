@@ -21,6 +21,7 @@ namespace EreborPhoenixExtension.Libs.Magic
         {
             if (World.Player.Hits < World.Player.MaxHits - 7) bandage();
             if (autoSacrafire && World.Player.Mana < World.Player.MaxMana - Main.Instance.Settings.VoodooManaLimit) Sacrafire();
+            UO.Attack(target);
             if (spellname == "necrobolt" || spellname == "frostbolt")
             {
                 lastTarget = target;
@@ -65,7 +66,7 @@ namespace EreborPhoenixExtension.Libs.Magic
             if (!acast)
             {
                 acast = true;
-                lastTarget = Aliases.GetObject("laststatus");
+                lastTarget = Aliases.LastAttack;
                 if (charged)
                 {
                     UO.Print("Autocast charged ON");
